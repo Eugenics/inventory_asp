@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace inventory_dot_core.Models
 {
@@ -34,17 +35,21 @@ namespace inventory_dot_core.Models
         public virtual DbSet<WealthSoftware> WealthSoftware { get; set; }
         public virtual DbSet<WealthTypes> WealthTypes { get; set; }
 
+        #region added manualy
+        public IConfiguration Configuration { get; }
+        #endregion
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Host=192.168.86.128;Database=inventory;Username=eugenics;Password=Tdutybrf");
+            {                
+                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("inventoryDataBase_test"));
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity<AccountingBatteries>(entity =>
@@ -143,6 +148,7 @@ namespace inventory_dot_core.Models
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("accounting_phones_wealth_hardware_fk");
             });
+            */
 
             modelBuilder.Entity<AccountingTires>(entity =>
             {
@@ -173,7 +179,7 @@ namespace inventory_dot_core.Models
                     .HasColumnName("at_name")
                     .HasMaxLength(255);
             });
-
+            /*
             modelBuilder.Entity<Accounts>(entity =>
             {
                 entity.HasKey(e => e.AccountId)
@@ -345,7 +351,7 @@ namespace inventory_dot_core.Models
                     .HasName("fki_Houses_Region_id");
 
                 entity.Property(e => e.HousesId)
-                    .HasColumnName("houses_id")
+                    .HasColumnName("houses_id")                    
                     .HasDefaultValueSql("nextval('inventory.house_id_seq'::regclass)");
 
                 entity.Property(e => e.HousesName)
@@ -810,6 +816,7 @@ namespace inventory_dot_core.Models
             modelBuilder.HasSequence("wsoft_id_seq");
 
             modelBuilder.HasSequence("wtype_id_seq");
+            */
         }
     }
 }

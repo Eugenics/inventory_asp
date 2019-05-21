@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using inventory_dot_core.Models;
+using SmartBreadcrumbs.Attributes;
 
 namespace inventory_dot_core.Controllers
 {
     public class HomeController : Controller
     {
+        [DefaultBreadcrumb("Домашняя")]
         public IActionResult Index()
         {
             return View();

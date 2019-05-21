@@ -13,6 +13,7 @@ using inventory_dot_core.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Newtonsoft.Json.Serialization;
+using SmartBreadcrumbs.Extensions;
 
 namespace inventory_dot_core
 {
@@ -35,6 +36,16 @@ namespace inventory_dot_core
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // manual added services
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+            {
+                options.TagName = "nav";
+                options.TagClasses = "";
+                options.OlClasses = "breadcrumb";
+                options.LiClasses = "breadcrumb-item";
+                options.ActiveLiClasses = "breadcrumb-item active";
+                options.SeparatorElement = "<li class=\"separator\">/</li>";
+            });
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

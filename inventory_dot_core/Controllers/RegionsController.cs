@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using inventory_dot_core.Models;
+using SmartBreadcrumbs.Attributes;
 
 namespace inventory_dot_core.Controllers
 {
@@ -19,6 +20,7 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: Regions
+        [Breadcrumb("Регионы")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Region.ToListAsync());
