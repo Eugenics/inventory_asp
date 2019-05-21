@@ -1,0 +1,47 @@
+﻿@model IEnumerable<inventory_dot_core.Models.Houses>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HousesName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HousesRem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HousesRegion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HousesName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HousesRem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HousesRegion.RegionName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.HousesId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.HousesId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.HousesId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
