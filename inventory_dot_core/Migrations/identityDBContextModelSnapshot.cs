@@ -8,13 +8,14 @@ using inventory_dot_core.Models;
 
 namespace inventory_dot_core.Migrations
 {
-    [DbContext(typeof(identityDBContext))]
-    partial class identityDBContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(IdentityDBContext))]
+    partial class IdentityDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("identity")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);

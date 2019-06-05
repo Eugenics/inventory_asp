@@ -32,11 +32,19 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
+                Response.Cookies.Delete(".AspNetCore.Identity.Application");
                 return LocalRedirect(returnUrl);
             }
             else
             {
-                return Page();
+
+                //foreach (var cookie in Request.Cookies.Keys)
+                //{
+                //    Response.Cookies.Delete(".AspNetCore.Identity.Application");
+                //}
+                //Response.Cookies.Delete(".AspNetCore.Identity.Application");
+                //return Page();
+                return RedirectToPage();
             }
         }
     }

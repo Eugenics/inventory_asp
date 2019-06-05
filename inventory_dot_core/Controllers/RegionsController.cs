@@ -7,23 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using inventory_dot_core.Models;
 using SmartBreadcrumbs.Attributes;
+using inventory_dot_core.Classes.Paging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inventory_dot_core.Controllers
 {
+    [Authorize]
     public class RegionsController : Controller
     {
-        private readonly inventoryContext _context;
+        private readonly InventoryContext _context;
 
-        public RegionsController(inventoryContext context)
+        public RegionsController(InventoryContext context)
         {
             _context = context;
         }
 
         // GET: Regions
         [Breadcrumb("Регионы")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int page = 1)
         {
-            return View(await _context.Region.ToListAsync());
+
+            var regionsQueryable = _context.Region.AsNoTracking().OrderBy(p => p.RegionId);
+            int pageSize = 5;
+            var model = PagingList.Create(regionsQueryable, pageSize, page);
+
+            return View(model);
         }
 
         // GET: Regions/Details/5

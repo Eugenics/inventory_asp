@@ -1,25 +1,26 @@
 ﻿using System;
+using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace inventory_dot_core.Models
 {
-    public partial class inventoryContext : DbContext
+    public partial class InventoryContext : DbContext
     {
-        public inventoryContext()
+        public InventoryContext()
         {
         }
 
-        public inventoryContext(DbContextOptions<inventoryContext> options)
+        public InventoryContext(DbContextOptions<InventoryContext> options)
             : base(options)
         {
         }
-
+        
         public virtual DbSet<AccountingBatteries> AccountingBatteries { get; set; }
         public virtual DbSet<AccountingCartridges> AccountingCartridges { get; set; }
-        public virtual DbSet<AccountingPhones> AccountingPhones { get; set; }
-        public virtual DbSet<AccountingTires> AccountingTires { get; set; }
+        public virtual DbSet<AccountingPhones> AccountingPhones { get; set; }        
+        public virtual DbSet<AccountingTires> AccountingTires { get; set; }        
         public virtual DbSet<Accounts> Accounts { get; set; }
         public virtual DbSet<Departments> Departments { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
@@ -34,7 +35,7 @@ namespace inventory_dot_core.Models
         public virtual DbSet<WealthHardware> WealthHardware { get; set; }
         public virtual DbSet<WealthSoftware> WealthSoftware { get; set; }
         public virtual DbSet<WealthTypes> WealthTypes { get; set; }
-
+        
         #region added manualy
         public IConfiguration Configuration { get; }
         #endregion
@@ -49,7 +50,6 @@ namespace inventory_dot_core.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity<AccountingBatteries>(entity =>
@@ -148,8 +148,7 @@ namespace inventory_dot_core.Models
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("accounting_phones_wealth_hardware_fk");
             });
-            */
-
+            
             modelBuilder.Entity<AccountingTires>(entity =>
             {
                 entity.HasKey(e => e.AtId)
@@ -179,7 +178,7 @@ namespace inventory_dot_core.Models
                     .HasColumnName("at_name")
                     .HasMaxLength(255);
             });
-            /*
+            
             modelBuilder.Entity<Accounts>(entity =>
             {
                 entity.HasKey(e => e.AccountId)
@@ -815,8 +814,7 @@ namespace inventory_dot_core.Models
 
             modelBuilder.HasSequence("wsoft_id_seq");
 
-            modelBuilder.HasSequence("wtype_id_seq");
-            */
+            modelBuilder.HasSequence("wtype_id_seq");            
         }
     }
 }

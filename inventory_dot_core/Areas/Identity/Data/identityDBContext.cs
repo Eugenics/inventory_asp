@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inventory_dot_core.Models
 {
-    public class identityDBContext : IdentityDbContext<IdentityUser>
+    public class IdentityDBContext : IdentityDbContext<IdentityUser>
     {
-        public identityDBContext(DbContextOptions<identityDBContext> options)
+        public IdentityDBContext(DbContextOptions<IdentityDBContext> options)
             : base(options)
         {
         }
@@ -18,6 +18,8 @@ namespace inventory_dot_core.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            //builder.HasDefaultSchema("identity");
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);

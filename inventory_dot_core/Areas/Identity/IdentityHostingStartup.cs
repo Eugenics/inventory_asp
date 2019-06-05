@@ -15,12 +15,14 @@ namespace inventory_dot_core.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<identityDBContext>(options =>
+                services.AddDbContext<IdentityDBContext>(options =>
                     options.UseNpgsql(context.Configuration.GetConnectionString("inventoryDataBase_test"))
                     );
-
-                services.AddDefaultIdentity<IdentityUser>()
-                    .AddEntityFrameworkStores<identityDBContext>();
+                
+                services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<IdentityDBContext>()
+                    .AddDefaultUI(UIFramework.Bootstrap4)
+                    .AddDefaultTokenProviders();
             });
         }
     }
