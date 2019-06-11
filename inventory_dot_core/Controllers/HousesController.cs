@@ -9,6 +9,7 @@ using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Authorization;
 using SmartBreadcrumbs.Attributes;
 using inventory_dot_core.Classes.Paging;
+using Microsoft.AspNetCore.Routing;
 // ReSharper disable All
 
 namespace inventory_dot_core.Controllers
@@ -25,17 +26,39 @@ namespace inventory_dot_core.Controllers
 
         // GET: Houses
         [Breadcrumb("Строения")]
-        public IActionResult Index(int page = 1 )
+        //public IActionResult Index(int page = 1 )
+        //{
+        //    var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsNoTracking().OrderBy(p=>p.HousesId);
+        //    int pageSize = 5;
+        //    var model = PagingList.Create(housesesQueryable, pageSize, page);
+
+
+        //    //return View(await inventoryContext.ToListAsync());
+        //    //return View(await PaginatedList<Houses>.CreateAsync(houseses.AsNoTracking(), pageNumber ?? 1, pageSize));
+        //    return View(model);
+        //}
+
+        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "HousesId")
         {
-            var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsNoTracking().OrderBy(p=>p.HousesId);
+            var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsQueryable();
             int pageSize = 5;
-            var model = PagingList.Create(housesesQueryable, pageSize, page);
 
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                filter = filter.ToUpper();
+                housesesQueryable = housesesQueryable.Where(h => EF.Functions.Like(h.HousesName.ToUpper(), "%" + filter + "%") 
+                || EF.Functions.Like(h.HousesRegion.RegionName.ToUpper(), "%" + filter + "%"));
+            }
 
-            //return View(await inventoryContext.ToListAsync());
-            //return View(await PaginatedList<Houses>.CreateAsync(houseses.AsNoTracking(), pageNumber ?? 1, pageSize));
+            var model = await PagingList.CreateAsync(housesesQueryable, pageSize, page, sortExpression, "HousesId");
+
+            model.RouteValue = new RouteValueDictionary {
+                { "filter", filter}
+            };
+
             return View(model);
         }
+
 
         // GET: Houses/Details/5
         [Breadcrumb("Строения детали")]

@@ -5,12 +5,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace inventory_dot_core.Models
 {
-    [NotMapped]
-    public partial class Positions
+     public partial class Positions
     {
         public Positions()
         {
-            Employees = new HashSet<Employees>();
+            Employees = new HashSet<Employees>();            
         }
 
         [Display(Name = "Код")]

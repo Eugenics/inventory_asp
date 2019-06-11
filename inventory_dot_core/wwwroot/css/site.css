@@ -55,3 +55,13 @@ body {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
 }
+
+.checkbox-1x {
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+}
+
+.ChkBoxClass input {
+    width: 25px;
+    height: 25px;
+}

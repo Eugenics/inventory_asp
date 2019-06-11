@@ -31,17 +31,29 @@ namespace inventory_dot_core.Classes.Paging
             return SortableHeaderFor(html, expression, sortColumn);
         }
 
-        public static IHtmlContent SortableHeaderFor<TModel, TValue>(this IHtmlHelper<PagingList<TModel>> html, Expression<Func<TModel, TValue>> expression, string sortColumn) where TModel : class
+        public static IHtmlContent SortableHeaderFor<TModel, TValue>(
+            this IHtmlHelper<PagingList<TModel>> html,
+            Expression<Func<TModel, TValue>> expression,
+            string sortColumn) where TModel : class
         {
-            var bldr = new HtmlContentBuilder();
-            bldr.AppendHtml(html.ActionLink(html.DisplayNameForInnerType(expression), html.ViewData.Model.Action, html.ViewData.Model.GetRouteValueForSort(sortColumn)));
-            IPagingList pagingList = html.ViewData.Model;
+            var htmlContent = new HtmlContentBuilder();
+            htmlContent.AppendHtml(
+                    html.ActionLink(
+                        html.DisplayNameForInnerType(expression),
+                        html.ViewData.Model.Action,
+                        html.ViewData.Model.GetRouteValueForSort(sortColumn))
+                    );
 
-            if (pagingList.SortExpression == sortColumn || "-" + pagingList.SortExpression == sortColumn || pagingList.SortExpression == "-" + sortColumn)
+            IPagingList pagingList = html.ViewData.Model;
+            if (pagingList.SortExpression == sortColumn 
+                || "-" + pagingList.SortExpression == sortColumn 
+                || pagingList.SortExpression == "-" + sortColumn)
             {
-                bldr.AppendHtml(pagingList.SortExpression.StartsWith("-") ? PagingOptions.Current.HtmlIndicatorUp : PagingOptions.Current.HtmlIndicatorDown);
+                htmlContent.AppendHtml(
+                    pagingList.SortExpression.StartsWith("-") 
+                    ? PagingOptions.Current.HtmlIndicatorUp : PagingOptions.Current.HtmlIndicatorDown);
             }
-            return bldr;
+            return htmlContent;
         }
 
         public static IHtmlContent SortableHeaderFor<TModel, TValue>(this IHtmlHelper<PagingList<TModel>> html, Expression<Func<TModel, TValue>> expression) where TModel : class

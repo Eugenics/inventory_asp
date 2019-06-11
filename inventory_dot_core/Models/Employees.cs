@@ -18,13 +18,13 @@ namespace inventory_dot_core.Models
         [Display(Name = "Код")]
         public int EmployeeId { get; set; }
 
-        [Display(Name = "Имя")]
+        [Display(Name = "Имя"),Required(AllowEmptyStrings =false,ErrorMessage ="Не указано имя!")]
         public string EmployeeFirstname { get; set; }
 
-        [Display(Name = "Фамилия")]
+        [Display(Name = "Фамилия"), Required(AllowEmptyStrings = false, ErrorMessage = "Не указано фамилия!")]
         public string EmployeeLastname { get; set; }
 
-        [Display(Name = "Отчество")]
+        [Display(Name = "Отчество"), Required(AllowEmptyStrings = false, ErrorMessage = "Не указано отчество!")]
         public string EmployeeMiddlename { get; set; }
 
         [Display(Name = "Домашний телефон")]
@@ -33,10 +33,10 @@ namespace inventory_dot_core.Models
         [Display(Name = "email")]
         public string EmployeeEmail { get; set; }
 
-        [Display(Name = "Код должности")]
+        [Display(Name = "Должность"), Required(AllowEmptyStrings = false, ErrorMessage = "Не указана должность!")]
         public int EmployeePositionId { get; set; }
 
-        [Display(Name = "Код оффиса")]
+        [Display(Name = "Офис"), Required(AllowEmptyStrings = false, ErrorMessage = "Не указан офис!")]
         public int EmployeeOfficeId { get; set; }
 
         [Display(Name = "Телефон")]
@@ -49,16 +49,17 @@ namespace inventory_dot_core.Models
         public string EmployeeFullFio { get; set; }
 
         [Display(Name = "Руководитель")]
-        public int? EmployeeIsChief { get; set; }
+        public int? EmployeeIsChief {get; set;}
 
         [Display(Name = "Ответственный")]
         public int? EmployeeIsRespons { get; set; }
+
         public int? UserId { get; set; }
 
         [Display(Name = "МОЛ")]
         public int? EmployeeIsMol { get; set; }
 
-        [Display(Name = "Код региона")]
+        [Display(Name = "Регион")]
         public int EmployeeRegionId { get; set; }
 
         [Display(Name = "Офис")]
@@ -69,6 +70,7 @@ namespace inventory_dot_core.Models
 
         [Display(Name = "Регион")]
         public virtual Region EmployeeRegion { get; set; }
+
         public virtual ICollection<AccountingPhones> AccountingPhones { get; set; }
         public virtual ICollection<RelHardwareEmployee> RelHardwareEmployee { get; set; }
         public virtual ICollection<RelOfficeResponsEmployee> RelOfficeResponsEmployee { get; set; }

@@ -4,6 +4,10 @@
     ViewData["Title"] = "Регоны";
 }
 
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <partial name="_FilterPartial" />
+    </nav>
+
 <h1>Регионы</h1>
 
 <p>
@@ -13,7 +17,7 @@
     <thead>
         <tr>
             <th>
-                Наменование
+                @Html.SortableHeaderFor(model => model.RegionName,"RegionName")
             </th>
             <th></th>
         </tr>

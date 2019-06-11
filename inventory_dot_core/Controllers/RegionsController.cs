@@ -9,10 +9,11 @@ using inventory_dot_core.Models;
 using SmartBreadcrumbs.Attributes;
 using inventory_dot_core.Classes.Paging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Routing;
 
 namespace inventory_dot_core.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "RefEditorsRole")]
     public class RegionsController : Controller
     {
         private readonly InventoryContext _context;
@@ -24,12 +25,32 @@ namespace inventory_dot_core.Controllers
 
         // GET: Regions
         [Breadcrumb("Регионы")]
-        public IActionResult Index(int page = 1)
-        {
+        //public IActionResult Index(int page = 1)
+        //{
 
-            var regionsQueryable = _context.Region.AsNoTracking().OrderBy(p => p.RegionId);
+        //    var regionsQueryable = _context.Region.AsNoTracking().OrderBy(p => p.RegionId);
+        //    int pageSize = 5;
+        //    var model = PagingList.Create(regionsQueryable, pageSize, page);
+
+        //    return View(model);
+        //}
+
+        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "RegionId")
+        {
+            var regionsQueryable = _context.Region.AsQueryable();
             int pageSize = 5;
-            var model = PagingList.Create(regionsQueryable, pageSize, page);
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                filter = filter.ToUpper();
+                regionsQueryable = regionsQueryable.Where(r => EF.Functions.Like(r.RegionName.ToUpper(), "%" + filter + "%"));
+            }
+
+            var model = await PagingList.CreateAsync(regionsQueryable, pageSize, page, sortExpression, "RegionId");
+
+            model.RouteValue = new RouteValueDictionary {
+                { "filter", filter}
+            };
 
             return View(model);
         }
