@@ -65,5 +65,24 @@ namespace inventory_dot_core.Classes
             }
             return retList;
         }
+
+        public List<SelectListItem> GetHousesByRegion(int regionId)
+        {
+            if (regionId == 17 || regionId == 19) regionId = 24;
+            if (regionId == 4) regionId = 22;
+
+            var _offices = _context.Houses.Where(o => o.HousesRegionId == regionId)
+                .Include(h => h.HousesRegion);
+
+            var retList = new List<SelectListItem>();
+
+            foreach (var o in _offices)
+            {
+                if (o.HousesRegion != null)
+                    retList.Add(new SelectListItem(o.HousesRegion.RegionName + " | " + o.HousesName,
+                            o.HousesId.ToString(), false, false));
+            }
+            return retList;
+        }
     }
 }

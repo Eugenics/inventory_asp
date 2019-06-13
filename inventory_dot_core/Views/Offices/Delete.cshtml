@@ -1,0 +1,50 @@
+﻿@using inventory_dot_core.Classes
+@model inventory_dot_core.Models.Offices
+
+@{
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Delete"]} помещение {Model.OfficeName}";
+}
+
+<h1>@Dictionary.frasesDictionary["Delete"]</h1>
+
+<h3>@Dictionary.frasesDictionary["DeleteConfirm"]</h3>
+<div>
+    <h4>Помещение: @Model.OfficeName</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OfficeName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OfficeName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OfficeNotes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OfficeNotes)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OfficeIsStore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OfficeIsStore)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OfficeHouses)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OfficeHouses.HousesId)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="OfficeId" />
+        <input type="submit" value="Удалить" class="btn btn-outline-danger" formmethod="post"
+               asp-route-filter="@ViewBag.Filter"
+               asp-route-sortExpression="@ViewBag.SortExpression"
+               asp-route-page="@ViewBag.Page" /> | <partial name="_BackButton" />
+    </form>
+
+    
+</div>

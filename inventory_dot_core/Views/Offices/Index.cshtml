@@ -1,0 +1,81 @@
+﻿@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.Offices>
+
+@{
+    ViewData["Title"] = "Помещения";
+}
+
+
+
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <partial name="_FilterPartial" />
+</nav>
+
+<h1>Помещения</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary"
+       asp-route-page="@Model.PageIndex"
+       asp-route-filter="@ViewBag.Filter"
+       asp-route-sortExpression="@ViewBag.SortExpression">Создать
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeNotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeHouses)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeHouses.HousesRegion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeIsStore)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeHouses.HousesName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeHouses.HousesRegion.RegionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeIsStore)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-outline-primary btn-sm"
+                   asp-route-id="@item.OfficeId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression">Редактировать</a> |
+                <a asp-action="Delete" class="btn btn-outline-primary btn-sm"
+                   asp-route-id="@item.OfficeId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression">Удалить</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <partial name="_PagerPartial" />
+</nav>

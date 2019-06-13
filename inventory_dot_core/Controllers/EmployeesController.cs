@@ -92,9 +92,12 @@ namespace inventory_dot_core.Views
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
-            ViewData["EmployeeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName");
-            ViewData["EmployeePositionId"] = new SelectList(_context.Positions, "PositionId", "PositionName");
-            ViewData["EmployeeRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName");                        
+            ViewData["EmployeeRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName");
+
+            var _Region = _context.Region.FirstOrDefault();
+
+            ViewData["EmployeePositionId"] = _ControleItems.GetPositionsByRegion(_Region.RegionId);
+            ViewData["EmployeeOfficeId"] = _ControleItems.GetOfficesByRegion(_Region.RegionId);
 
             return View();
         }
@@ -110,7 +113,8 @@ namespace inventory_dot_core.Views
             "EmployeeEmail,EmployeePositionId,EmployeeOfficeId,EmployeePhoneWork," +
             "EmployeeNote,EmployeeFullFio,EmployeeIsRespons,EmployeeIsMol,EmployeeRegionId")] Employees employees,
             bool EmployeeIsRespons = false,
-            bool EmployeeIsMol = false)
+            bool EmployeeIsMol = false,
+            string filter = "", int page = 1, string sortExpression = "EmployeeId")
         {
             employees.EmployeeIsRespons = EmployeeIsRespons ? 1 : 0;
             employees.EmployeeIsMol = EmployeeIsMol ? 1 : 0;
@@ -123,7 +127,13 @@ namespace inventory_dot_core.Views
             {
                 _context.Add(employees);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),
+                    new
+                    {
+                        filter = filter,
+                        page = page,
+                        sortExpression = sortExpression
+                    });
             }
             ViewData["EmployeeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", employees.EmployeeOfficeId);
             ViewData["EmployeePositionId"] = new SelectList(_context.Positions, "PositionId", "PositionName", employees.EmployeePositionId);
@@ -169,7 +179,8 @@ namespace inventory_dot_core.Views
                 "EmployeeEmail,EmployeePositionId,EmployeeOfficeId,EmployeePhoneWork," +
                 "EmployeeNote,EmployeeFullFio,EmployeeIsRespons,EmployeeIsMol,EmployeeRegionId")] Employees employees,
             bool EmployeeIsRespons = false,
-            bool EmployeeIsMol = false)
+            bool EmployeeIsMol = false,
+            string filter = "", int page = 1, string sortExpression = "EmployeeId")
         {
             if (id != employees.EmployeeId)
             {
@@ -201,7 +212,13 @@ namespace inventory_dot_core.Views
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),
+                    new
+                    {
+                        filter = filter,
+                        page = page,
+                        sortExpression = sortExpression
+                    });
             }
             ViewData["EmployeeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", employees.EmployeeOfficeId);
             ViewData["EmployeePositionId"] = new SelectList(_context.Positions, "PositionId", "PositionName", employees.EmployeePositionId);
