@@ -13,6 +13,7 @@ namespace inventory_dot_core.Classes
             {"Cancel","Отмена"},
             {"Delete","Удалить"},
             {"Edit","Редактировать"},
+            {"Create","Создать"},
             {"DeleteConfirm","Вы действительно хотите удалить запись?"}
         };
     }

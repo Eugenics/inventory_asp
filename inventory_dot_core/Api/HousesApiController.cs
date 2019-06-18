@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using inventory_dot_core.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inventory_dot_core.Api
 {
+    [Authorize(Policy = "RefEditorsRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class HousesApiController : ControllerBase

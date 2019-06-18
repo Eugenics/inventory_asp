@@ -1,40 +1,46 @@
 ﻿@model inventory_dot_core.Models.Positions
+@using inventory_dot_core.Classes
 
 @{
-    ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Delete"]} помещение {Model.PositionName}";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h1>@Dictionary.frasesDictionary["Delete"]</h1>
+
+<h3>@Dictionary.frasesDictionary["DeleteConfirm"]</h3>
 <div>
-    <h4>Positions</h4>
+    <h4>Должность</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PositionName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PositionName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PositionNotes)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PositionNotes)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PositionDepartment)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositionDepartment.DepartmentId)
-        </dd class>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PositionDepartment.DepartmentName)
+        </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="PositionId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Удалить" class="btn btn-outline-danger"
+               formmethod="post"
+               asp-route-filter="@ViewBag.Filter"
+               asp-route-sortExpression="@ViewBag.SortExpression"
+               asp-route-page="@ViewBag.Page" /> |
+        <partial name="_BackButton" />
     </form>
 </div>
+

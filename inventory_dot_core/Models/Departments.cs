@@ -22,10 +22,10 @@ namespace inventory_dot_core.Models
         [Display(Name = "Примечание")]
         public string DepartmentNotes { get; set; }
 
-        [Display(Name = "Код региона")]
+        [Display(Name = "Регион")]
         public int DepartmentRegionId { get; set; }
 
-        [Display(Name = "Код головного подразделения")]
+        [Display(Name = "Головное подразделение")]
         public int? DepartmentParentId { get; set; }
 
         [Display(Name = "Головное подразделение")]

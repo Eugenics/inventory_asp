@@ -12,20 +12,20 @@ namespace inventory_dot_core.Api
     [Authorize(Policy = "RefEditorsRole")]
     [Route("api/[controller]")]
     [ApiController]
-    public class OfficesApiController : ControllerBase
+    public class DepartmentApiController : ControllerBase
     {
         private readonly InventoryContext _context;
 
-        public OfficesApiController(InventoryContext context)
+        public DepartmentApiController(InventoryContext context)
         {
             _context = context;
             //_ControleItems = new Classes.ControlesItems(new InventoryContext());
         }
 
         [HttpGet("{regionId}")]
-        public ActionResult GetJSONOffices(int regionId)
+        public ActionResult GetJSONDepartments(int regionId)
         {
-            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByRegion(regionId).OrderBy(x => x.Text));
+            return new JsonResult(new Classes.ControlesItems(_context).GetDepartmentsByRegion(regionId).OrderBy(x => x.Text));
         }
     }
 }

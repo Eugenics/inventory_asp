@@ -1,0 +1,8 @@
+﻿@using inventory_dot_core.Classes
+
+<a asp-action="Create" class="btn btn-outline-primary"
+   asp-route-page="@Model.PageIndex"
+   asp-route-filter="@ViewBag.Filter"
+   asp-route-sortExpression="@ViewBag.SortExpression">
+   @Dictionary.frasesDictionary["Create"]
+</a>
