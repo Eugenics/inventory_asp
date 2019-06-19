@@ -65,3 +65,8 @@ body {
     width: 25px;
     height: 25px;
 }
+
+th{
+    align-content: center;
+    text-align: center;
+}

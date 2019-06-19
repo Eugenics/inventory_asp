@@ -105,5 +105,43 @@ namespace inventory_dot_core.Classes
 
 
         }
+
+        public List<SelectListItem> GetEmployeesByRegion(int regionId)
+        {
+            if (regionId == 17 || regionId == 19) regionId = 24;
+            if (regionId == 4) regionId = 22;
+
+            var _employees = _context.Employees.Where(e => e.EmployeeRegionId == regionId)
+                .Include(d => d.EmployeePosition.PositionDepartment);
+            var retList = new List<SelectListItem>();
+
+            foreach (var e in _employees)
+            {
+                if (e.EmployeePosition.PositionDepartment != null)
+                    retList.Add(new SelectListItem(e.EmployeePosition.PositionDepartment.DepartmentName + " | " + e.EmployeeFullFio,
+                        e.EmployeeId.ToString(), false, false));
+            }
+
+            return retList;
+        }
+
+        public List<SelectListItem> GetMOLEmployeesByRegion(int regionId)
+        {
+            if (regionId == 17 || regionId == 19) regionId = 24;
+            if (regionId == 4) regionId = 22;
+
+            var _employees = _context.Employees.Where(e => e.EmployeeRegionId == regionId && e.EmployeeIsMol == 1)
+                .Include(d => d.EmployeePosition.PositionDepartment);
+            var retList = new List<SelectListItem>();
+
+            foreach (var e in _employees)
+            {
+                if (e.EmployeePosition.PositionDepartment != null)
+                    retList.Add(new SelectListItem(e.EmployeePosition.PositionDepartment.DepartmentName + " | " + e.EmployeeFullFio,
+                        e.EmployeeId.ToString(), false, false));
+            }
+
+            return retList;
+        }
     }
 }

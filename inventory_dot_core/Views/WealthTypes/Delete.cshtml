@@ -1,40 +1,33 @@
-﻿@model inventory_dot_core.Models.Positions
+﻿@model inventory_dot_core.Models.WealthTypes
 @using inventory_dot_core.Classes
 
 @{
-    ViewData["Title"] = $"{Dictionary.frasesDictionary["Delete"]} должность {Model.PositionName}";
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Delete"]} тип МЦ: {Model.WtypeName}";
 }
-
 
 <h1>@Dictionary.frasesDictionary["Delete"]</h1>
 
 <h3>@Dictionary.frasesDictionary["DeleteConfirm"]</h3>
 <div>
-    <h4>Должность</h4>
+    <h4>Тип МЦ</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PositionName)
+            @Html.DisplayNameFor(model => model.WtypeName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PositionName)
+            @Html.DisplayFor(model => model.WtypeName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PositionNotes)
+            @Html.DisplayNameFor(model => model.WtypeNotes)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PositionNotes)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PositionDepartment)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PositionDepartment.DepartmentName)
+            @Html.DisplayFor(model => model.WtypeNotes)
         </dd>
     </dl>
 
     <form asp-action="Delete">
-        <input type="hidden" asp-for="PositionId" />
+        <input type="hidden" asp-for="WtypeId" />
         <input type="submit" value="Удалить" class="btn btn-outline-danger"
                formmethod="post"
                asp-route-filter="@ViewBag.Filter"
@@ -43,4 +36,3 @@
         <partial name="_BackButton" />
     </form>
 </div>
-

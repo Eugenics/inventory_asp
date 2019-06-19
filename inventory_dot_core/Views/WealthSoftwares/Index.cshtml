@@ -1,0 +1,94 @@
+﻿@using inventory_dot_core.Classes
+@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.WealthSoftware>
+
+@{
+    ViewData["Title"] = "Программное обеспечение";
+}
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <partial name="_FilterPartial" />
+    </nav>
+
+<h1>Программное обеспечение</h1>
+
+<p>
+    <partial name="_CreateButton" />
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftRegion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftInumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftDateOfAdoption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftResidualValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftNote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftArchiv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftCnt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftRegion.RegionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftInumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftDateOfAdoption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftResidualValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftNote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftArchiv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WsoftCnt)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-outline-primary btn-sm"
+                   asp-route-id="@item.WsoftId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Edit"]</a> |
+                <a asp-action="Delete" class="btn btn-outline-primary btn-sm"
+                   asp-route-id="@item.WsoftId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Delete"]</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <partial name="_PagerPartial" />
+</nav>

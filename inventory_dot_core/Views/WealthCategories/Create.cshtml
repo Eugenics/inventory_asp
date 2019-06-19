@@ -1,0 +1,40 @@
+﻿@model inventory_dot_core.Models.WealthCategories
+@using inventory_dot_core.Classes
+
+@{
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Create"]} категория МЦ";
+}
+
+    <h1>@Dictionary.frasesDictionary["Create"]</h1>
+
+<h4>Категория МЦ</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="WcatId" class="control-label"></label>
+                <input asp-for="WcatId" class="form-control" />
+                <span asp-validation-for="WcatId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Wcatname" class="control-label"></label>
+                <input asp-for="Wcatname" class="form-control" />
+                <span asp-validation-for="Wcatname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Wcatnotes" class="control-label"></label>
+                <input asp-for="Wcatnotes" class="form-control" />
+                <span asp-validation-for="Wcatnotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <partial name="_SaveButton" /> | <partial name="_BackButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -27,10 +27,10 @@ namespace inventory_dot_core.Models
         [Display(Name = "Заводской номер")]
         public string WhardFnumber { get; set; }
 
-        [Display(Name = "Код категории ТМЦ")]
+        [Display(Name = "Категории ТМЦ")]
         public int WhardWcatId { get; set; }
 
-        [Display(Name = "Код типа ТМЦ")]
+        [Display(Name = "Типа ТМЦ")]
         public int WhardWtypeId { get; set; }
 
         [Display(Name = "Наименование")]
@@ -39,13 +39,17 @@ namespace inventory_dot_core.Models
         [Display(Name = "Дата постановки на учет")]
         public DateTime? WhardDateOfAdoption { get; set; }
 
-        [Display(Name = "Начальная стоимость")]
+        [Range(typeof(decimal), "0", "9999999999999999.99", ErrorMessage = "Максимальное значение не должно превышать 9999999999999999,99!")]
+        [DisplayFormat(DataFormatString ="{N.00}")]
+        [Display(Name = "Начальная стоимость")]     
         public decimal? WhardInitialCost { get; set; }
 
+        [Range(typeof(decimal), "0", "9999999999999999.99", ErrorMessage = "Максимальное значение не должно превышать 9999999999999999,99!")]
+        [DisplayFormat(DataFormatString = "{N.000}")]
         [Display(Name = "Остаточная стоимость")]
         public decimal? WhardResidualValue { get; set; }
 
-        [Display(Name = "Код офиса")]
+        [Display(Name = "Офис")]
         public int WhardOfficeId { get; set; }
 
         [Display(Name = "Примечание")]
@@ -57,10 +61,10 @@ namespace inventory_dot_core.Models
         [Display(Name = "Дата создания")]
         public DateTime? WhardCreateDate { get; set; }
 
-        [Display(Name = "Код сотрудника МОЛ")]
+        [Display(Name = "Сотрудник МОЛ")]
         public int? WhardMolEmployeeId { get; set; }
 
-        [Display(Name = "Код региона")]
+        [Display(Name = "Регион")]
         public int? WhardRegionId { get; set; }
 
         [Display(Name = "Возможна установка Software")]

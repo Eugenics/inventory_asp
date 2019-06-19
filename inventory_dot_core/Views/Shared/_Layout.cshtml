@@ -24,8 +24,21 @@
                 </button>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href=# id="navSources" data-toggle="dropdown">
+                                Объекты учета
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navSources">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthHardwares" asp-action="Index">Оборудование</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthSoftwares" asp-action="Index">Програмное обеспечение</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Ответственные</a>
+                                </li>                                
+                            </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href=# id="navSources" data-toggle="dropdown">
@@ -49,6 +62,12 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Сотрудники</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthCategories" asp-action="Index">Категории ТМЦ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthTypes" asp-action="Index">Типы ТМЦ</a>
                                 </li>
                             </ul>
                         </li>

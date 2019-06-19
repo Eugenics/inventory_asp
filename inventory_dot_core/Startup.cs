@@ -20,6 +20,8 @@ using Newtonsoft.Json.Serialization;
 using SmartBreadcrumbs.Extensions;
 using inventory_dot_core.Classes;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace inventory_dot_core
 {
@@ -112,6 +114,21 @@ namespace inventory_dot_core
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("en")
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                //Formatting numbers, dates, etc.
+                SupportedCultures = supportedCultures,
+                //UI strings that we have localized.
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

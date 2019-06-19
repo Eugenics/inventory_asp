@@ -1,0 +1,145 @@
+﻿@model inventory_dot_core.Models.WealthHardware
+@using inventory_dot_core.Classes;
+
+@{
+    ViewData["Title"] = $"Редактироваие оборудования {Model.WhardName}";
+}
+
+
+<h1>@Dictionary.frasesDictionary["Edit"]</h1>
+
+<h4>Оборудование: @Model.WhardName</h4>
+<hr />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="WhardId" />
+    <table class="table-borderless">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tr>
+            <td> <label asp-for="WhardRegionId" class="control-label"></label></td>
+            <td>
+                <select asp-for="WhardRegionId" class="form-control" asp-items="ViewBag.WhardRegionId"></select>
+                <span asp-validation-for="WhardRegionId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td> <label asp-for="WhardWcatId" class="control-label"></label></td>
+            <td>
+                <select asp-for="WhardWcatId" class="form-control" asp-items="ViewBag.WhardWcatId"></select>
+                <span asp-validation-for="WhardWcatId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="WhardWtypeId" class="control-label"></label></td>
+            <td>
+                <select asp-for="WhardWtypeId" class="form-control" asp-items="ViewBag.WhardWtypeId"></select>
+                <span asp-validation-for="WhardWtypeId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="WhardOfficeId" class="control-label"></label></td>
+            <td>
+                <select asp-for="WhardOfficeId" class="form-control" asp-items="ViewBag.WhardOfficeId"></select>
+                <span asp-validation-for="WhardOfficeId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td> <label asp-for="WhardFnumber" class="control-label"></label></td>
+            <td>
+                <input asp-for="WhardFnumber" class="form-control" />
+                <span asp-validation-for="WhardFnumber" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="WhardInumber" class="control-label"></label></td>
+            <td>
+                <input asp-for="WhardInumber" class="form-control" />
+                <span asp-validation-for="WhardInumber" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="WhardName" class="control-label"></label></td>
+            <td>
+                <input asp-for="WhardName" class="form-control" />
+                <span asp-validation-for="WhardName" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="WhardCreateDate" class="control-label"></label></td>
+            <td>
+                <input asp-for="WhardCreateDate" class="form-control" type="date" />
+                <span asp-validation-for="WhardCreateDate" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td> <label asp-for="WhardDateOfAdoption" class="control-label"></label></td>
+            <td>
+                <input asp-for="WhardDateOfAdoption" class="form-control" type="date"/>
+                <span asp-validation-for="WhardDateOfAdoption" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td> <label asp-for="WhardInitialCost" class="control-label"></label></td>
+            <td>
+                <input type="text" asp-for="WhardInitialCost" class="form-control" onkeypress="return isNumberKey(event)" />
+                <span asp-validation-for="WhardInitialCost" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td> <label asp-for="WhardResidualValue" class="control-label"></label></td>
+            <td>
+                <input type="text" asp-for="WhardResidualValue" class="form-control" onkeypress="return isNumberKey(event)" />
+                <span asp-validation-for="WhardResidualValue" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td> <label asp-for="WhardNote" class="control-label"></label></td>
+            <td>
+                <input asp-for="WhardNote" class="form-control" />
+                <span asp-validation-for="WhardNote" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="WhardMolEmployeeId" class="control-label"></label></td>
+            <td>
+                <select asp-for="WhardMolEmployeeId" class="form-control" asp-items="ViewBag.WhardMolEmployeeId"></select>
+                <span asp-validation-for="WhardMolEmployeeId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td> <label asp-for="IsSoftDeployed" class="control-label"></label></td>
+            <td>
+                @Html.CheckBox("IsSoftDeployed", Convert.ToBoolean(Model.IsSoftDeployed))
+                <span asp-validation-for="IsSoftDeployed" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="WhardArchiv" class="control-label"></label></td>
+            <td>
+                @Html.CheckBox("WhardArchiv", Convert.ToBoolean(Model.WhardArchiv))
+                <span asp-validation-for="WhardArchiv" class="text-danger"></span>
+            </td>
+        </tr>
+    </table>
+    <p>
+        <div class="form-group">
+            <partial name="_SaveButton" /> | <partial name="_BackButton" />
+        </div>
+    </p>
+</form>
+
+<hr />
+
+
+
+<script src="~/js/scripts/decimalValid.js"></script>
+<script src="~/js/scripts/whard.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
