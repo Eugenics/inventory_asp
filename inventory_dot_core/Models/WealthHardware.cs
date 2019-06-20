@@ -56,6 +56,7 @@ namespace inventory_dot_core.Models
         public string WhardNote { get; set; }
 
         [Display(Name = "В архиве")]
+        [UIHint("_YesNoTemplate")]
         public int? WhardArchiv { get; set; }
 
         [Display(Name = "Дата создания")]
@@ -68,6 +69,7 @@ namespace inventory_dot_core.Models
         public int? WhardRegionId { get; set; }
 
         [Display(Name = "Возможна установка Software")]
+        [UIHint("_YesNoTemplate")]
         public int IsSoftDeployed { get; set; }
 
         [Display(Name = "МОЛ сотрудник")]

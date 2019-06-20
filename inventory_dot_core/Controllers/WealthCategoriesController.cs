@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inventory_dot_core.Views
 {
+    [Authorize(Policy = "RefEditorsRole")]
     public class WealthCategoriesController : Controller
     {
         private readonly InventoryContext _context;

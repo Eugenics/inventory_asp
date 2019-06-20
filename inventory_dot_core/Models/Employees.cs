@@ -49,14 +49,17 @@ namespace inventory_dot_core.Models
         public string EmployeeFullFio { get; set; }
 
         [Display(Name = "Руководитель")]
+        [UIHint("_YesNoTemplate")]
         public int? EmployeeIsChief {get; set;}
 
         [Display(Name = "Ответственный")]
+        [UIHint("_YesNoTemplate")]
         public int? EmployeeIsRespons { get; set; }
 
         public int? UserId { get; set; }
 
         [Display(Name = "МОЛ")]
+        [UIHint("_YesNoTemplate")]
         public int? EmployeeIsMol { get; set; }
 
         [Display(Name = "Регион")]

@@ -79,14 +79,23 @@
             <td>
                 <a asp-action="Edit" class="btn btn-outline-primary btn-sm"
                    asp-route-id="@item.EmployeeId"
-                   asp-route-page ="@Model.PageIndex"
+                   asp-route-page="@Model.PageIndex"
                    asp-route-filter="@ViewBag.Filter"
                    asp-route-sortExpression="@ViewBag.SortExpression">Редактировать</a> |
                 <a asp-action="Delete" class="btn btn-outline-primary btn-sm"
-                   asp-route-id="@item.EmployeeId"                                      
-                   asp-route-page ="@Model.PageIndex"
+                   asp-route-id="@item.EmployeeId"
+                   asp-route-page="@Model.PageIndex"
                    asp-route-filter="@ViewBag.Filter"
-                   asp-route-sortExpression="@ViewBag.SortExpression">Удалить</a>
+                   asp-route-sortExpression="@ViewBag.SortExpression">Удалить</a> |
+                <a asp-controller="RelHardwareEmployees"
+                   asp-action="Index" class="btn btn-outline-primary btn-sm"
+                   asp-route-employee_id="@item.EmployeeId"
+                   asp-route-emp_page="@Model.PageIndex"
+                   asp-route-emp_filter="@ViewBag.Filter"
+                   asp-route-emp_sortExpression=""
+                   asp-route-page="1"
+                   asp-route-filter=""
+                   asp-route-sortExpression="">РМ</a>
             </td>
         </tr>
         }

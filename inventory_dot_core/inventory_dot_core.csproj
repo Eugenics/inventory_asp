@@ -14,4 +14,9 @@
     <PackageReference Include="SmartBreadcrumbs" Version="2.1.0" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\mdb\" />
+  </ItemGroup>
+
 </Project>

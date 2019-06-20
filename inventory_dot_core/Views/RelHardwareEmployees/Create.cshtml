@@ -1,0 +1,50 @@
+﻿@model inventory_dot_core.Models.RelHardwareEmployee
+
+@{
+    ViewData["Title"] = $"Добавление оборудавания на РМ сотрудника: {ViewBag.EmployeeName}";
+}
+
+<h1>Добавление оборудования</h1>
+
+<h4>На РМ сотрудника: @ViewBag.EmployeeName</h4>
+<hr />
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-contact">
+    Add contact
+</button>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RelheWhardId" class="control-label"></label>
+                <select asp-for="RelheWhardId" class="form-control" asp-items="ViewBag.RelheWhardId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit"
+                       value="Сохранить"
+                       class="btn btn-outline-primary"
+                       method="post"
+                       asp-route-employee_id="@ViewBag.EmployeeId"
+                       asp-route-filter="@ViewBag.Filter"
+                       asp-route-sortExpression="@ViewBag.SortExpression"
+                       asp-route-page="@ViewBag.Page" /> |
+                <a class="btn btn-outline-primary" asp-action="Index"
+                   asp-route-employee_id="@ViewBag.EmployeeId"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"
+                   asp-route-page="@ViewBag.Page">
+                    Назад
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<partial name="_hardWareModalFrm" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
