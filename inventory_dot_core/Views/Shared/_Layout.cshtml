@@ -11,12 +11,17 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/mdb/css/mdb.css" />"
     <link href="~/fontawesome/css/all.css" rel="stylesheet" />
-    <script src="~/js/jquery-3.3.1.js"></script>
-    <script src="~/css/mdb/js/jquery-3.4.1.min.js"></script>
+    <link href="~/css/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+
+    <script src="~/lib/jquery/dist/jquery-3.4.1.js"></script>
     <script src="~/jsTree/jstree.min.js"></script>
     <script src="~/js/jquery.unobtrusive-ajax.js"></script>
     <script src="~/mdb/js/mdb.js"></script>
     <script src="~/fontawesome/js/all.js"></script>
+    <script src="~/js/jquery-ui.js"></script>    
+  
 
 </head>
 <body>
@@ -99,13 +104,13 @@
 
     <footer class="border-top footer text-muted fixed-bottom p-lg-3 bg-mdb">
         <div class="container">
-            &copy; 2019 - <a asp-area="" asp-controller="Home" asp-action="Index">Учет ТМЦ</a>
+            &copy; @System.DateTime.Now.Year - <a asp-area="" asp-controller="Home" asp-action="Index">Учет ТМЦ</a>
         </div>
     </footer>
 
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery/dist/jquery-3.4.1.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
     <environment exclude="Development">
@@ -123,7 +128,7 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

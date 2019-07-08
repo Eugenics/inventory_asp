@@ -48,7 +48,7 @@ namespace inventory_dot_core.Controllers
                 inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WhardFnumber.ToUpper(), "%" + filter + "%")
                     || EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filter + "%")
                     || EF.Functions.Like(e.WhardName.ToUpper(), "%" + filter + "%")
-                    || EF.Functions.Like(e.WhardOffice.OfficeName, "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardOffice.OfficeName.ToUpper(), "%" + filter + "%")
                     || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filter + "%")
                 );
             }

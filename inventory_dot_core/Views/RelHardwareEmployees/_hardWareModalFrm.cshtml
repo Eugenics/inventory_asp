@@ -1,4 +1,4 @@
-﻿@model IEnumerable<inventory_dot_core.Models.WealthHardware>
+﻿@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.WealthHardware>
 
 @using (Html.BeginForm("Contact", "RelHardwareEmployees"))
 {
@@ -9,11 +9,48 @@
                     <h5 class="modal-title" id="addContactLabel">Add contact</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
-                    </button>
+                    </button>                    
                 </div>
+                <hr />
                 <div class="modal-body">
-                    <h1>Hello World!</h1>
+                    <nav class="navbar navbar-expand-md navbar-light bg-light">
+                        <partial name="_FilterPartial" />
+                    </nav>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.WhardName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.WhardInumber)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WhardName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WhardInumber)
+                                </td>
+                                <td></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <!--
+    <nav>
+        <partial name="_PagerPartial" />
+    </nav>
+    -->
+
                 </div>
+                <hr />
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save</button>
@@ -21,6 +58,5 @@
             </div>
         </div>
     </div>
-
     <script src="~/js/scripts/modal.js"></script>
 }

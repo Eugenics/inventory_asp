@@ -1,6 +1,6 @@
 ﻿$(function () {
     var placeholderElement = $('#modal-placeholder');
-    $('button[data-toggle="modal"]').click(function (event) {
+    $('#modal_btn').click(function (event) {
         var url = $(this).data('url');
         $.get(url).done(function (data) {
             placeholderElement.html(data);

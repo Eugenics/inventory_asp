@@ -115,7 +115,8 @@ namespace inventory_dot_core.Controllers
 
             ViewData["RelheEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname")
                 .Where(e => e.Value == employee_id.ToString());
-            ViewData["RelheWhardId"] = new SelectList(this.GetNotUseHardList(0,_employee.EmployeeRegionId), "WhardId", "WhardName");
+            ViewData["RelheWhardId"] = new SelectList(this.GetNotUseHardList(0,_employee.EmployeeRegionId,_employee.EmployeeOfficeId)
+                , "WhardId", "WhardName");
             return View();
         }
 
@@ -159,7 +160,9 @@ namespace inventory_dot_core.Controllers
            
             ViewData["RelheEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFullFio")
                 .Where(e => e.Value == employee_id.ToString());
-            ViewData["RelheWhardId"] = new SelectList(this.GetNotUseHardList(0,relHardwareEmployee.RelheEmployee.EmployeeRegionId), "WhardId", "WhardName");
+            ViewData["RelheWhardId"] = new SelectList(
+                this.GetNotUseHardList(0,relHardwareEmployee.RelheEmployee.EmployeeRegionId,relHardwareEmployee.RelheEmployee.EmployeeOfficeId),
+                "WhardId", "WhardName");
 
             return View(relHardwareEmployee);
         }
@@ -283,7 +286,7 @@ namespace inventory_dot_core.Controllers
             return _context.RelHardwareEmployee.Any(e => e.RelheId == id);
         }
 
-        private IQueryable GetNotUseHardList(int curWhardId = 0, int regionId = 0)
+        private IQueryable GetNotUseHardList(int curWhardId = 0, int regionId = 0, int officeId = 0)
         {
             // Создаем список используемого оборудования
             var _hardwareInUse = _context.RelHardwareEmployee.Select(h => h.RelheWhardId).ToArray();
@@ -297,17 +300,56 @@ namespace inventory_dot_core.Controllers
             // Получаем список не используемого оборудования
             var _hardwareNotInUse = _context.WealthHardware
                 .Where(h => !_hardwareInUse.Contains(h.WhardId)
-                && h.WhardRegionId == regionId);
+                && h.WhardRegionId == regionId
+                && h.WhardOfficeId == officeId
+                );
 
             return _hardwareNotInUse;
         }
 
-        [Route("Contact")]
-        public async Task<IActionResult> Contact()
+       /*
+        public async Task<IActionResult> Contact(string filter = "", int page = 1, string sortExpression = "WhardId")
         {
-            //var model = _context.WealthHardware.AsQueryable();
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
 
-            return PartialView("_hardWareModalFrm", await _context.WealthHardware.ToListAsync());
+            var inventoryContext = _context.WealthHardware
+                .Include(w => w.WhardMolEmployee)
+                .Include(w => w.WhardOffice)
+                .Include(w => w.WhardRegion)
+                .Include(w => w.WhardWcat)
+                .Include(w => w.WhardWtype)
+                .AsQueryable();
+
+            int pageSize = 5;
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                filter = filter.ToUpper();
+                inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WhardFnumber.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardName.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardOffice.OfficeName, "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filter + "%")
+                );
+            }
+            var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
+                (
+                   inventoryContext, pageSize, page, sortExpression, "WhardId"
+                   );
+            
+            
+            model.RouteValue = new RouteValueDictionary {
+                { "filter", filter}
+            };
+            
+
+
+            //return View(model);
+
+            return PartialView("_hardWareModalFrm", model);
         }
+        */
     }
 }
