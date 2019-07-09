@@ -27,12 +27,13 @@ namespace inventory_dot_core
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        private readonly IHostingEnvironment hostingEnvironment;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+            Configuration = configuration;           
+        }       
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -97,7 +98,7 @@ namespace inventory_dot_core
             // DB data context registration
             services.AddDbContext<InventoryContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("inventoryDataBase_test"),
+                options.UseNpgsql(Configuration.GetConnectionString("inventoryDataBase"),
                     npgsqlOptionsAction: sqlOptions => { sqlOptions.EnableRetryOnFailure(); });
             });
         }
@@ -172,7 +173,7 @@ namespace inventory_dot_core
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(480);         // 8 hours
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";

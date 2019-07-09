@@ -5,9 +5,9 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
+<h1 hidden>@ViewData["Title"]</h1>
+<div class="row" hidden>
+    <div class="col-md-4" hidden>
         <section>
             <form id="account" method="post">
                 <h4>Use a local account to log in.</h4>
@@ -77,7 +77,7 @@
     </div>
 </div>
 
-
+<!-- Modal form for login -->
 <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -128,15 +128,16 @@
     </div>
 </div>
 
+
+
 <div class="text-center">
     <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">
-        Launch
-        Modal Login Form
+        ВХОД
     </a>
 </div>
 
 <script type="text/javascript">
-    $(window).on('load',function(){
+    $(window).on('load', function () {
         $('#modalLoginForm').modal('show');
     });
 </script>
