@@ -1,0 +1,36 @@
+﻿@using inventory_dot_core.Classes
+@model inventory_dot_core.Models.RelOfficeResponsEmployee
+
+@{
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Delete"]} ответственного {Model.RoeEmployee.EmployeeFullFio}";
+}
+
+<h1>@Dictionary.frasesDictionary["Delete"]</h1>
+
+<h3>@Dictionary.frasesDictionary["DeleteConfirm"]</h3>
+<div>
+    <h4>Ответственный: @Model.RoeEmployee.EmployeeFullFio</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoeEmployee)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoeEmployee.EmployeeFullFio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoeOffice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoeOffice.OfficeName)
+        </dd>
+    </dl>   
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="RoeId" />
+        <input type="submit" value="Удалить" class="btn btn-danger btn-sm" formmethod="post"
+               asp-route-filter="@ViewBag.Filter"
+               asp-route-sortExpression="@ViewBag.SortExpression"
+               asp-route-page="@ViewBag.Page" /> | <partial name="_BackButton" />
+    </form>
+</div>

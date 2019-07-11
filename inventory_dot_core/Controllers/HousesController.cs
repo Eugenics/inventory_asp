@@ -6,26 +6,62 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using inventory_dot_core.Models;
+using Microsoft.AspNetCore.Authorization;
+using SmartBreadcrumbs.Attributes;
+using inventory_dot_core.Classes.Paging;
+using Microsoft.AspNetCore.Routing;
+// ReSharper disable All
 
 namespace inventory_dot_core.Controllers
 {
+    [Authorize(Policy = "RefEditorsRole")]
     public class HousesController : Controller
     {
-        private readonly inventoryContext _context;
+        private readonly InventoryContext _context;
 
-        public HousesController(inventoryContext context)
+        public HousesController(InventoryContext context)
         {
             _context = context;
         }
 
         // GET: Houses
-        public async Task<IActionResult> Index()
+        [Breadcrumb("Строения")]
+        //public IActionResult Index(int page = 1 )
+        //{
+        //    var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsNoTracking().OrderBy(p=>p.HousesId);
+        //    int pageSize = 5;
+        //    var model = PagingList.Create(housesesQueryable, pageSize, page);
+
+
+        //    //return View(await inventoryContext.ToListAsync());
+        //    //return View(await PaginatedList<Houses>.CreateAsync(houseses.AsNoTracking(), pageNumber ?? 1, pageSize));
+        //    return View(model);
+        //}
+
+        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "HousesId")
         {
-            var inventoryContext = _context.Houses.Include(h => h.HousesRegion);
-            return View(await inventoryContext.ToListAsync());
+            var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsQueryable();
+            int pageSize = 5;
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                filter = filter.ToUpper();
+                housesesQueryable = housesesQueryable.Where(h => EF.Functions.Like(h.HousesName.ToUpper(), "%" + filter + "%") 
+                || EF.Functions.Like(h.HousesRegion.RegionName.ToUpper(), "%" + filter + "%"));
+            }
+
+            var model = await PagingList.CreateAsync(housesesQueryable, pageSize, page, sortExpression, "HousesId");
+
+            model.RouteValue = new RouteValueDictionary {
+                { "filter", filter}
+            };
+
+            return View(model);
         }
 
+
         // GET: Houses/Details/5
+        [Breadcrumb("Строения детали")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,6 +81,7 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: Houses/Create
+        [Breadcrumb("Строения создать")]
         public IActionResult Create()
         {
             ViewData["HousesRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName");
@@ -69,6 +106,7 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: Houses/Edit/5
+        [Breadcrumb("Строения редактировать")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -122,6 +160,7 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: Houses/Delete/5
+        [Breadcrumb("Строения удалить")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

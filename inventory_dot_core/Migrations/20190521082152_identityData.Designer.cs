@@ -9,7 +9,7 @@ using inventory_dot_core.Models;
 
 namespace inventory_dot_core.Migrations
 {
-    [DbContext(typeof(identityDBContext))]
+    [DbContext(typeof(IdentityDBContext))]
     [Migration("20190521082152_identityData")]
     partial class identityData
     {

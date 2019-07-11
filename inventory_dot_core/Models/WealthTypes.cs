@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace inventory_dot_core.Models
-{
-    [NotMapped]
+{ 
     public partial class WealthTypes
     {
         public WealthTypes()
@@ -13,8 +13,14 @@ namespace inventory_dot_core.Models
             WealthSoftware = new HashSet<WealthSoftware>();
         }
 
+        [Display(Name ="Код")]
+
         public int WtypeId { get; set; }
+
+        [Display(Name = "Наименование")]
         public string WtypeName { get; set; }
+
+        [Display(Name = "Примечание")]
         public string WtypeNotes { get; set; }
 
         public virtual ICollection<WealthHardware> WealthHardware { get; set; }

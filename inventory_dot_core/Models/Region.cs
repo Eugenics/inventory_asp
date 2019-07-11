@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
 
 namespace inventory_dot_core.Models
 {
-    [NotMapped]
     public partial class Region
     {
         public Region()
@@ -16,7 +17,10 @@ namespace inventory_dot_core.Models
             WealthSoftware = new HashSet<WealthSoftware>();
         }
 
+        [Display(Name = "Код")]
         public int RegionId { get; set; }
+
+        [Display(Name = "Наименование")]
         public string RegionName { get; set; }
 
         public virtual ICollection<Departments> Departments { get; set; }

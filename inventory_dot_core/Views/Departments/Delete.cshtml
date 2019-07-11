@@ -1,0 +1,50 @@
+﻿@model inventory_dot_core.Models.Departments
+@using inventory_dot_core.Classes
+
+@{
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Delete"]} помещение {Model.DepartmentName}";
+}
+
+<h1>@Dictionary.frasesDictionary["Delete"]</h1>
+
+<h3>@Dictionary.frasesDictionary["DeleteConfirm"]</h3>
+<div>
+    <h4>Подразделения</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentNotes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentNotes)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentParent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentParent.DepartmentName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentRegion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentRegion.RegionName)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="DepartmentId" />
+        <input type="submit" value="Удалить" class="btn btn-outline-danger"
+               formmethod="post"
+               asp-route-filter="@ViewBag.Filter"
+               asp-route-sortExpression="@ViewBag.SortExpression"
+               asp-route-page="@ViewBag.Page" /> |
+        <partial name="_BackButton" />
+    </form>
+</div>

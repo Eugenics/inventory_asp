@@ -1,31 +1,34 @@
-﻿@model IEnumerable<inventory_dot_core.Models.Houses>
+﻿@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.Houses>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Строения";
 }
 
-<h1>Index</h1>
+<partial name="_FilterPartial" />
 
+
+<h1>Строения</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <partial name="_CreateButton" />
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.HousesName)
+                @Html.SortableHeaderFor(model => model.HousesName, "HousesName")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.HousesRem)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HousesRegion)
+                @Html.SortableHeaderFor(model => model.HousesRegion, "HousesRegion,HousesName")
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.HousesName)
@@ -37,11 +40,22 @@
                 @Html.DisplayFor(modelItem => item.HousesRegion.RegionName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.HousesId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.HousesId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.HousesId">Delete</a>
+                <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.HousesId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.HousesId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+
+<nav>
+    <partial name="_PagerPartial" />
+</nav>
