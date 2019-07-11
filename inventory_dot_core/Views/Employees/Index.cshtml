@@ -4,18 +4,16 @@
     ViewData["Title"] = "Сотрудники";
 }
 
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-    <partial name="_FilterPartial" />
-</nav>
+
+<partial name="_FilterPartial" />
+
 
 <h1>Сотрудники</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-primary"
-       asp-route-page ="@Model.PageIndex"
-       asp-route-filter="@ViewBag.Filter"
-       asp-route-sortExpression="@ViewBag.SortExpression">Создать</a>
+    <partial name="_CreateButton" />
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -25,7 +23,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeEmail)
             </th>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.EmployeePhoneWork)
             </th>
             <th>
@@ -56,7 +54,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EmployeeEmail)
             </td>
-            <td>
+            <td hidden>
                 @Html.DisplayFor(modelItem => item.EmployeePhoneWork)
             </td>
             <td>
@@ -75,27 +73,27 @@
             <td align="center">
                 @{ string isMol = item.EmployeeIsMol == 1 ? "Да" : "Нет";}
                 @isMol
-            </td>
+            </td>           
             <td>
-                <a asp-action="Edit" class="btn btn-outline-primary btn-sm"
+                <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
                    asp-route-id="@item.EmployeeId"
                    asp-route-page="@Model.PageIndex"
                    asp-route-filter="@ViewBag.Filter"
-                   asp-route-sortExpression="@ViewBag.SortExpression">Редактировать</a> |
-                <a asp-action="Delete" class="btn btn-outline-primary btn-sm"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
                    asp-route-id="@item.EmployeeId"
                    asp-route-page="@Model.PageIndex"
                    asp-route-filter="@ViewBag.Filter"
-                   asp-route-sortExpression="@ViewBag.SortExpression">Удалить</a> |
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a> |
                 <a asp-controller="RelHardwareEmployees"
-                   asp-action="Index" class="btn btn-outline-primary btn-sm"
+                   asp-action="Index" class="btn btn-mdb-color btn-sm"
                    asp-route-employee_id="@item.EmployeeId"
                    asp-route-emp_page="@Model.PageIndex"
                    asp-route-emp_filter="@ViewBag.Filter"
                    asp-route-emp_sortExpression=""
                    asp-route-page="1"
                    asp-route-filter=""
-                   asp-route-sortExpression="">РМ</a>
+                   asp-route-sortExpression=""><i class="fas fa-desktop fa-lg"></i></a>
             </td>
         </tr>
         }

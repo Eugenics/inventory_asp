@@ -56,6 +56,8 @@ namespace inventory_dot_core.Classes
 
             var retList = new List<SelectListItem>();
 
+            retList.Add(new SelectListItem("Выберите значение", "0", false, false));
+
             foreach (var o in _offices)
             {
                 if (o.OfficeHouses != null)
@@ -66,6 +68,35 @@ namespace inventory_dot_core.Classes
             return retList;
         }
 
+        /// <summary>
+        /// Get offices by house code for list controles
+        /// </summary>
+        /// <param name="houseId"></param>
+        /// <returns></returns>
+        public List<SelectListItem> GetOfficesByHouse(int houseId)
+        {
+            var _offices = _context.Offices.Where(o => o.OfficeHousesId == houseId)
+                .Include(h => h.OfficeHouses);
+
+            var retList = new List<SelectListItem>();
+
+            retList.Add(new SelectListItem("Выберите значение", "0", false, false));
+
+            foreach (var o in _offices)
+            {
+                if (o.OfficeHouses != null)
+                    if (_context.Houses.Where(h => h.HousesId == o.OfficeHousesId).AsNoTracking().Count() > 0)
+                        retList.Add(new SelectListItem(o.OfficeHouses.HousesName + " | " + o.OfficeName,
+                            o.OfficeId.ToString(), false, false));
+            }
+            return retList;
+        }
+
+        /// <summary>
+        /// Get houses by region code for list controles
+        /// </summary>
+        /// <param name="regionId"></param>
+        /// <returns></returns>
         public List<SelectListItem> GetHousesByRegion(int regionId)
         {
             if (regionId == 17 || regionId == 19) regionId = 24;
@@ -76,6 +107,8 @@ namespace inventory_dot_core.Classes
 
             var retList = new List<SelectListItem>();
 
+            retList.Add(new SelectListItem("Выберите значение", "0", false, false));
+
             foreach (var o in _offices)
             {
                 if (o.HousesRegion != null)
@@ -85,6 +118,11 @@ namespace inventory_dot_core.Classes
             return retList;
         }
 
+        /// <summary>
+        /// Get departments by region code for list controles
+        /// </summary>
+        /// <param name="regionId"></param>
+        /// <returns></returns>
         public List<SelectListItem> GetDepartmentsByRegion(int regionId)
         {
             if(regionId == 17 || regionId == 19) regionId = 24;
@@ -106,6 +144,12 @@ namespace inventory_dot_core.Classes
 
         }
 
+
+        /// <summary>
+        /// Get employees by region code for list controles
+        /// </summary>
+        /// <param name="regionId"></param>
+        /// <returns></returns>
         public List<SelectListItem> GetEmployeesByRegion(int regionId)
         {
             if (regionId == 17 || regionId == 19) regionId = 24;
@@ -125,6 +169,12 @@ namespace inventory_dot_core.Classes
             return retList;
         }
 
+
+        /// <summary>
+        /// Get mol employees by region code for list controles
+        /// </summary>
+        /// <param name="regionId"></param>
+        /// <returns></returns>
         public List<SelectListItem> GetMOLEmployeesByRegion(int regionId)
         {
             if (regionId == 17 || regionId == 19) regionId = 24;

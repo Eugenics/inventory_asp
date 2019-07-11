@@ -91,7 +91,7 @@ namespace inventory_dot_core
                 options.AddPolicy("AdministratorRole",
                     policy => policy.RequireRole("root"));
                 options.AddPolicy("RefEditorsRole",
-                    policy => policy.RequireRole("root","refs_editor"));
+                    policy => policy.RequireRole("root", "ref_editor"));
             });
             #endregion
 
@@ -100,7 +100,9 @@ namespace inventory_dot_core
             {
                 options.UseNpgsql(Configuration.GetConnectionString("inventoryDataBase"),
                     npgsqlOptionsAction: sqlOptions => { sqlOptions.EnableRetryOnFailure(); });
-            });
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

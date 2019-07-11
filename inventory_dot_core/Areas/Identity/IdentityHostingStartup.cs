@@ -13,17 +13,22 @@ namespace inventory_dot_core.Areas.Identity
     public class IdentityHostingStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
-        {        
-            builder.ConfigureServices((context, services) => {
+        {
+            builder.ConfigureServices((context, services) =>
+            {
                 services
-                .AddDbContext<IdentityDBContext>(options => 
+                .AddDbContext<IdentityDBContext>(options =>
                     options.UseNpgsql(context.Configuration.GetConnectionString("inventoryDataBase")));
-                
-                services.AddIdentity<IdentityUser, IdentityRole>()
+
+                services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                {
+                    options.User.AllowedUserNameCharacters = null;
+                    options.User.RequireUniqueEmail = false;
+                })
                     .AddEntityFrameworkStores<IdentityDBContext>()
                     .AddDefaultUI(UIFramework.Bootstrap4)
                     .AddDefaultTokenProviders();
-            });            
+            });
         }
     }
 }

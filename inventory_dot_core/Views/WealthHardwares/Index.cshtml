@@ -5,9 +5,9 @@
     ViewData["Title"] = "Оборудование";
 }
 
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <partial name="_FilterPartial" />
-    </nav>
+
+<partial name="_FilterPartial" />
+
 
 <h1>Оборудование</h1>
 
@@ -19,7 +19,7 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.WhardInumber)
-            </th>           
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.WhardName)
             </th>
@@ -41,38 +41,38 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardInumber)
-                </td>                
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardName)
-                </td>               
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardOffice.OfficeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardRegion.RegionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardWcat.Wcatname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardWtype.WtypeName)
-                </td>
-                <td>
-                    <a asp-action="Edit" class="btn btn-outline-primary btn-sm"
-                       asp-route-id="@item.WhardId"
-                       asp-route-page="@Model.PageIndex"
-                       asp-route-filter="@ViewBag.Filter"
-                       asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Edit"]</a> |
-                    <a asp-action="Delete" class="btn btn-outline-primary btn-sm"
-                       asp-route-id="@item.WhardId"
-                       asp-route-page="@Model.PageIndex"
-                       asp-route-filter="@ViewBag.Filter"
-                       asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Delete"]</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhardInumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhardName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhardOffice.OfficeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhardRegion.RegionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhardWcat.Wcatname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhardWtype.WtypeName)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.WhardId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.WhardId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

@@ -4,9 +4,9 @@
 @{
     ViewData["Title"] = "Типы МЦ";
 }
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-    <partial name="_FilterPartial" />
-</nav>
+
+<partial name="_FilterPartial" />
+
 
 <h1>Типы МЦ</h1>
 
@@ -18,7 +18,7 @@
     <thead>
         <tr>
             <th>
-                @Html.SortableHeaderFor(model => model.WtypeName,"WtypeName")
+                @Html.SortableHeaderFor(model => model.WtypeName, "WtypeName")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.WtypeNotes)
@@ -29,26 +29,26 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WtypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WtypeNotes)
-                </td>
-                <td>
-                    <a asp-action="Edit" class="btn btn-outline-primary btn-sm"
-                       asp-route-id="@item.WtypeId"
-                       asp-route-page="@Model.PageIndex"
-                       asp-route-filter="@ViewBag.Filter"
-                       asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Edit"]</a> |
-                    <a asp-action="Delete" class="btn btn-outline-primary btn-sm"
-                       asp-route-id="@item.WtypeId"
-                       asp-route-page="@Model.PageIndex"
-                       asp-route-filter="@ViewBag.Filter"
-                       asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Delete"]</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WtypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WtypeNotes)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.WtypeId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.WtypeId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

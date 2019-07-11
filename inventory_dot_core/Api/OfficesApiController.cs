@@ -23,9 +23,16 @@ namespace inventory_dot_core.Api
         }
 
         [HttpGet("{regionId}")]
-        public ActionResult GetJSONOffices(int regionId)
+        public ActionResult GetJSONOfficesByRegion(int regionId)
         {
-            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByRegion(regionId).OrderBy(x => x.Text));
+            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByRegion(regionId).OrderBy(x => x.Value));
+        }
+
+        [HttpGet]
+        [Route("[action]/{houseId}")]
+        public ActionResult GetJSONOfficesByHouse(int houseId)
+        {
+            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByHouse(houseId).OrderBy(x => x.Value));
         }
     }
 }

@@ -77,8 +77,18 @@ namespace inventory_dot_core.Controllers
         // GET: RelOfficeResponsEmployees/Create
         public IActionResult Create(string filter = "", int page = 1, string sortExpression = "RoeId")
         {
-            ViewData["RoeEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname");
-            ViewData["RoeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName");
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
+            var _Region = _context.Region.FirstOrDefault();
+            var _House = _context.Houses.Where(h => h.HousesRegionId == _Region.RegionId).FirstOrDefault();
+
+            ViewData["OfficeRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName");
+            ViewData["OfficeHousesId"] = _ControleItems.GetHousesByRegion(_Region.RegionId);
+            ViewData["RoeEmployeeId"] = _ControleItems.GetEmployeesByRegion(_Region.RegionId);
+            ViewData["RoeOfficeId"] = _ControleItems.GetOfficesByHouse(_House == null ? 0 : _House.HousesId);
+
             return View();
         }
 
@@ -90,20 +100,40 @@ namespace inventory_dot_core.Controllers
         public async Task<IActionResult> Create([Bind("RoeId,RoeOfficeId,RoeEmployeeId")] RelOfficeResponsEmployee relOfficeResponsEmployee,
             string filter = "", int page = 1, string sortExpression = "RoeId")
         {
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
             if (ModelState.IsValid)
             {
                 _context.Add(relOfficeResponsEmployee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),
+                    new
+                    {
+                        page = page,
+                        filter = filter,
+                        sortExpression = sortExpression
+                    });
             }
-            ViewData["RoeEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname", relOfficeResponsEmployee.RoeEmployeeId);
-            ViewData["RoeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", relOfficeResponsEmployee.RoeOfficeId);
+            ViewData["OfficeRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName"
+                ,relOfficeResponsEmployee.RoeOffice.OfficeHouses.HousesRegionId);
+            ViewData["OfficeHousesId"] = new SelectList(_context.Houses, "HouseId", "HouseName"
+                ,relOfficeResponsEmployee.RoeOffice.OfficeHousesId);
+            ViewData["RoeEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFullFio"
+                ,relOfficeResponsEmployee.RoeEmployeeId);
+            ViewData["RoeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName"
+                ,relOfficeResponsEmployee.RoeOfficeId);
             return View(relOfficeResponsEmployee);
         }
 
         // GET: RelOfficeResponsEmployees/Edit/5
         public async Task<IActionResult> Edit(int? id, string filter = "", int page = 1, string sortExpression = "RoeId")
         {
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
             if (id == null)
             {
                 return NotFound();
@@ -114,8 +144,40 @@ namespace inventory_dot_core.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoeEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname", relOfficeResponsEmployee.RoeEmployeeId);
-            ViewData["RoeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", relOfficeResponsEmployee.RoeOfficeId);
+
+            
+            var _relOR = _context.RelOfficeResponsEmployee
+                .Include(h => h.RoeOffice.OfficeHouses)
+                .Include(e => e.RoeEmployee)                
+                .Include(o => o.RoeOffice)
+                .AsNoTracking();
+
+            _relOR = _relOR.Where(e => e.RoeId == id);
+
+            var _region_id = _relOR.First().RoeOffice.OfficeHouses.HousesRegionId;
+
+            var _offices = _context.Offices
+                .Include(h => h.OfficeHouses)
+                .AsNoTracking();
+            _offices = _offices.Where(o => o.OfficeHousesId == _relOR.First().RoeOffice.OfficeHousesId);
+
+            var _houses = _context.Houses
+                .Include(h => h.HousesRegion)
+                .AsNoTracking();
+            _houses = _houses.Where(h => h.HousesRegionId == _region_id);
+
+            var _employees = _context.Employees
+                .Include(e => e.EmployeeRegion)
+                .AsNoTracking();
+            _employees = _employees.Where(e => e.EmployeeRegionId == _region_id);
+
+            ViewData["OfficeRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", _region_id);
+            ViewData["OfficeHousesId"] = new SelectList(_houses, "HousesId", "HousesName", _relOR.First().RoeOffice.OfficeHousesId);
+            ViewData["RoeEmployeeId"] = new SelectList(_employees, "EmployeeId", "EmployeeFullFio"
+                , relOfficeResponsEmployee.RoeEmployeeId);
+            ViewData["RoeOfficeId"] = new SelectList(_offices, "OfficeId", "OfficeName"
+                , relOfficeResponsEmployee.RoeOfficeId);
+
             return View(relOfficeResponsEmployee);
         }
 
@@ -127,6 +189,10 @@ namespace inventory_dot_core.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("RoeId,RoeOfficeId,RoeEmployeeId")] RelOfficeResponsEmployee relOfficeResponsEmployee,
             string filter = "", int page = 1, string sortExpression = "RoeId")
         {
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
             if (id != relOfficeResponsEmployee.RoeId)
             {
                 return NotFound();
@@ -150,16 +216,49 @@ namespace inventory_dot_core.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),
+                    new
+                    {
+                        page = page,
+                        filter = filter,
+                        sortExpression = sortExpression
+                    });
             }
-            ViewData["RoeEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname", relOfficeResponsEmployee.RoeEmployeeId);
-            ViewData["RoeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName", relOfficeResponsEmployee.RoeOfficeId);
+
+            var _offices = _context.Offices
+                .Include(h => h.OfficeHouses)
+                .AsNoTracking();
+            _offices = _offices.Where(o => o.OfficeId == relOfficeResponsEmployee.RoeOfficeId);
+
+            var _houses = _context.Houses
+                .Include(h => h.HousesRegion)
+                .AsNoTracking();
+            _houses = _houses.Where(h => h.HousesRegionId == relOfficeResponsEmployee.RoeOffice.OfficeHouses.HousesRegionId);
+
+            var _employees = _context.Employees
+                .Include(e => e.EmployeeRegion)
+                .AsNoTracking();
+            _employees = _employees.Where(e => e.EmployeeRegionId == relOfficeResponsEmployee.RoeOffice.OfficeHouses.HousesRegionId);
+
+            ViewData["OfficeRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName"
+                , relOfficeResponsEmployee.RoeOffice.OfficeHouses.HousesRegionId);
+            ViewData["OfficeHousesId"] = new SelectList(_houses, "HouseId", "HouseName"
+                , relOfficeResponsEmployee.RoeOffice.OfficeHousesId);
+
+            ViewData["RoeEmployeeId"] = new SelectList(_employees, "EmployeeId", "EmployeeFullFio"
+                , relOfficeResponsEmployee.RoeEmployeeId);
+            ViewData["RoeOfficeId"] = new SelectList(_offices, "OfficeId", "OfficeName"
+                , relOfficeResponsEmployee.RoeOfficeId);
             return View(relOfficeResponsEmployee);
         }
 
         // GET: RelOfficeResponsEmployees/Delete/5
         public async Task<IActionResult> Delete(int? id, string filter = "", int page = 1, string sortExpression = "RoeId")
         {
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
             if (id == null)
             {
                 return NotFound();
@@ -182,10 +281,20 @@ namespace inventory_dot_core.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, string filter = "", int page = 1, string sortExpression = "RoeId")
         {
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
             var relOfficeResponsEmployee = await _context.RelOfficeResponsEmployee.FindAsync(id);
             _context.RelOfficeResponsEmployee.Remove(relOfficeResponsEmployee);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index),
+                new
+                {
+                    page = page,
+                    filter = filter,
+                    sortExpression = sortExpression
+                });
         }
 
         private bool RelOfficeResponsEmployeeExists(int id)

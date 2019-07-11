@@ -40,6 +40,10 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
+            [Required]
             [EmailAddress]
             public string Email { get; set; }
 
@@ -64,6 +68,7 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                UserName = userName,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -81,6 +86,19 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
             }
 
             var user = await _userManager.GetUserAsync(User);
+
+            var userName = _userManager.GetUserName(User);
+            if(userName != Input.UserName)
+            {
+                var setUserName = await _userManager.SetUserNameAsync(user, Input.UserName);
+                if(!setUserName.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting User Name for user with ID '{userId}'.");
+                }
+            }
+
+            
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

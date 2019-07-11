@@ -10,7 +10,10 @@
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-            <button id="logout" type="submit" class="btn btn-outline-info">Выход</button>
+            <button id="logout" type="submit" class="btn btn-elegant btn-sm">
+                <i class="fas fa-power-off mr-1"></i>
+                Выход
+            </button>
         </form>
     </li>
 }

@@ -20,13 +20,13 @@
     <script src="~/js/jquery.unobtrusive-ajax.js"></script>
     <script src="~/mdb/js/mdb.js"></script>
     <script src="~/fontawesome/js/all.js"></script>
-    <script src="~/js/jquery-ui.js"></script>    
-  
+    <script src="~/js/jquery-ui.js"></script>
+
 
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark bg-mdb fixed-top shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-dark mdb-color fixed-top shadow-sm scrolling-navbar">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ТМЦ</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -39,50 +39,28 @@
                             <a class="nav-link dropdown-toggle" href=# id="navSources" data-toggle="dropdown">
                                 Объекты учета
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navSources">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthHardwares" asp-action="Index">Оборудование</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthSoftwares" asp-action="Index">Програмное обеспечение</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="RelOfficeResponsEmployees" asp-action="Index">Ответственные</a>
-                                </li>
-                            </ul>
+                            <div class="dropdown-menu" aria-labelledby="navSources">
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="WealthHardwares" asp-action="Index">Оборудование</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="WealthSoftwares" asp-action="Index">Програмное обеспечение</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="RelOfficeResponsEmployees" asp-action="Index">Ответственные</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href=# id="navSources" data-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle" href=# id="navSources" data-toggle="dropdown" role="button">
                                 Справочники
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navSources">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Regions" asp-action="Index">Регионы</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Houses" asp-action="Index">Строения</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Offices" asp-action="Index">Помещения</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Departments" asp-action="Index">Подразделения</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Positions" asp-action="Index">Должности</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Сотрудники</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthCategories" asp-action="Index">Категории ТМЦ</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="WealthTypes" asp-action="Index">Типы ТМЦ</a>
-                                </li>                                
-                            </ul>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="Regions" asp-action="Index">Регионы</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="Houses" asp-action="Index">Строения</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="Offices" asp-action="Index">Помещения</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="Departments" asp-action="Index">Подразделения</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="Positions" asp-action="Index">Должности</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="Employees" asp-action="Index">Сотрудники</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="WealthCategories" asp-action="Index">Категории ТМЦ</a>
+                                <a class="dropdown-item waves-effect" asp-area="" asp-controller="WealthTypes" asp-action="Index">Типы ТМЦ</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" hidden>
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
@@ -90,20 +68,53 @@
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>
-            </div>            
+            </div>
         </nav>
     </header>
+
     <!--<breadcrumb></breadcrumb>-->
-    <main role="main" class="container-fluid">
-        <partial name="_CookieConsentPartial" />
-        @RenderBody()
+    <main role="main">
+        <div class="row">
+            @if (User.Identity.IsAuthenticated)
+            {
+            <div class="col-sm-2">
+                <div class="sidebar-fixed position-fixed">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item waves-effect">
+                            <i class="fas fa-chart-pie mr-3"></i>Dashboard
+                        </a>
+
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="list-group-item list-group-item-action waves-effect">
+                            <i class="fas fa-user mr-3"></i>Профиль
+                        </a>
+
+                        <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
+                            <i class="fas fa-table mr-3"></i>Tables
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
+                            <i class="fas fa-map mr-3"></i>Maps
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
+                            <i class="fas fa-money-bill-alt mr-3"></i>Orders
+                        </a>
+                    </div>
+                </div>
+            </div>
+            }
+                <div class="col-sm">
+                    <div class="container-fluid">
+                        <partial name="_CookieConsentPartial" />
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
     </main>
 
-       
 
 
-    <footer class="border-top footer text-muted fixed-bottom p-lg-3 bg-mdb">
-        <div class="container">
+
+    <footer class="page-footer fixed-bottom mdb-color">
+        <div class="container-fluid text-center text-md-left">
             &copy; @System.DateTime.Now.Year - <a asp-area="" asp-controller="Home" asp-action="Index">Учет ТМЦ</a>
         </div>
     </footer>
@@ -128,7 +139,7 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
