@@ -28,7 +28,7 @@ namespace inventory_dot_core
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        private readonly IHostingEnvironment hostingEnvironment;
+        //private readonly IHostingEnvironment hostingEnvironment;
 
         public Startup(IConfiguration configuration)
         {
@@ -148,12 +148,14 @@ namespace inventory_dot_core
             });
             */
 
+            /*
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "identity",
                     template: "Identity/{controller=Account}/{action=Register}/{id?}");
             });
+            */
 
             app.UseMvc(routes =>
             {
