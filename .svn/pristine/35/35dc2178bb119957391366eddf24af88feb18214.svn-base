@@ -1,0 +1,97 @@
+﻿@model inventory_dot_core.Models.WealthSoftware
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>WealthSoftware</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftInumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftInumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftFnumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftFnumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftDateOfAdoption)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftDateOfAdoption)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftInitialCost)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftInitialCost)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftResidualValue)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftResidualValue)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftNote)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftNote)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftArchiv)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftArchiv)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftCreateDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftCreateDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftCnt)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftCnt)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftRegion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftRegion.RegionName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftWcat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftWcat.Wcatname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WsoftWtype)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WsoftWtype.WtypeName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.WsoftId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

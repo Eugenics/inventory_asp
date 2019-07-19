@@ -1,0 +1,37 @@
+﻿@model inventory_dot_core.Models.WealthTypes
+@using inventory_dot_core.Classes
+
+@{
+    ViewData["Title"] = $"Редактироваие типа МЦ {Model.WtypeName}";
+}
+
+<h1>@Dictionary.frasesDictionary["Edit"]</h1>
+
+<h4>Тип МЦ</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="WtypeId" />
+            <div class="form-group">
+                <label asp-for="WtypeName" class="control-label"></label>
+                <input asp-for="WtypeName" class="form-control" />
+                <span asp-validation-for="WtypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WtypeNotes" class="control-label"></label>
+                <input asp-for="WtypeNotes" class="form-control" />
+                <span asp-validation-for="WtypeNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <partial name="_SaveButton" /> | <partial name="_BackButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
