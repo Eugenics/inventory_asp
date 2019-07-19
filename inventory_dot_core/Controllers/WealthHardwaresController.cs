@@ -16,9 +16,12 @@ namespace inventory_dot_core.Controllers
     public class WealthHardwaresController : Controller
     {
         private readonly InventoryContext _context;
+        private readonly ControlesItems _ControlesItems;
 
-        private ControlesItems _ControlesItems;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public WealthHardwaresController(InventoryContext context)
         {
             _context = context;
@@ -26,10 +29,24 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthHardwares
-        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "WhardId"
-            ,string WhardInumberFilter = "")
+        public async Task<IActionResult> Index(
+            string filter = "",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "",
+            int page = 1,
+            string sortExpression = "WhardId")
         {
             ViewBag.Filter = filter;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
             //ViewBag.TableFilter = tableFilter;
@@ -54,13 +71,41 @@ namespace inventory_dot_core.Controllers
                     || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filter + "%")
                 );
             }
-            var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
+
+            if (!string.IsNullOrWhiteSpace(filterType)|| !string.IsNullOrWhiteSpace(filterInv) ||
+                !string.IsNullOrWhiteSpace(filterRegion) || !string.IsNullOrWhiteSpace(filterOffice) ||
+                !string.IsNullOrWhiteSpace(filterCat) || !string.IsNullOrWhiteSpace(filterName))
+            {
+
+                filterCat = !string.IsNullOrWhiteSpace(filterCat) ? filterCat.ToUpper() : null;
+                filterType = !string.IsNullOrWhiteSpace(filterType) ? filterType.ToUpper() : null;
+                filterRegion = !string.IsNullOrWhiteSpace(filterRegion) ? filterRegion.ToUpper() : null;
+                filterName = !string.IsNullOrWhiteSpace(filterName) ? filterName.ToUpper() : null;
+                filterOffice = !string.IsNullOrWhiteSpace(filterOffice) ? filterOffice.ToUpper() : null;
+                filterInv = !string.IsNullOrWhiteSpace(filterInv) ? filterInv.ToUpper() : null;
+
+                //filter = filter.ToUpper();
+                inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WhardWtype.WtypeName.ToUpper(), "%" + filterType + "%")
+                    || EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filterInv + "%")
+                    || EF.Functions.Like(e.WhardName.ToUpper(), "%" + filterName + "%")
+                    || EF.Functions.Like(e.WhardOffice.OfficeName.ToUpper(), "%" + filterOffice + "%")
+                    || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filterRegion + "%")
+                    || EF.Functions.Like(e.WhardWcat.Wcatname.ToUpper(), "%" + filterCat + "%")
+                );
+            }
+            var model = await Classes.Paging.PagingList.CreateAsync
                 (
                    inventoryContext, pageSize, page, sortExpression, "WhardId"
                    );
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "FilterInv", filterInv},
+                { "filterOffice", filterOffice},
+                { "filterName", filterName},
+                { "filterCat", filterCat},
+                { "filterType", filterType},
+                { "filterRegion", filterRegion}
             };
 
             ViewData["WhardRegionFilter"] = new SelectList(_context.Region, "RegionId", "RegionName");

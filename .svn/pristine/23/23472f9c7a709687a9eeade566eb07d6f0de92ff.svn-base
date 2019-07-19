@@ -1,0 +1,7 @@
+﻿<input type="submit"
+       value="Сохранить"
+       class="btn btn-mdb-color btn-sm"
+       method="post"
+       asp-route-filter="@ViewBag.Filter"
+       asp-route-sortExpression="@ViewBag.SortExpression"
+       asp-route-page="@ViewBag.Page" />
