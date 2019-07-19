@@ -115,8 +115,7 @@ namespace inventory_dot_core.Controllers
 
             ViewData["RelheEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname")
                 .Where(e => e.Value == employee_id.ToString());
-            ViewData["RelheWhardId"] = new SelectList(this.GetNotUseHardList(0,_employee.EmployeeRegionId,_employee.EmployeeOfficeId)
-                , "WhardId", "WhardName");
+            ViewData["RelheWhardId"] = this.GetNotUseHardList(0,_employee.EmployeeRegionId,_employee.EmployeeOfficeId);
             return View();
         }
 
@@ -286,7 +285,7 @@ namespace inventory_dot_core.Controllers
             return _context.RelHardwareEmployee.Any(e => e.RelheId == id);
         }
 
-        private IQueryable GetNotUseHardList(int curWhardId = 0, int regionId = 0, int officeId = 0)
+        private List<SelectListItem> GetNotUseHardList(int curWhardId = 0, int regionId = 0, int officeId = 0)
         {
             // Создаем список используемого оборудования
             var _hardwareInUse = _context.RelHardwareEmployee.Select(h => h.RelheWhardId).ToArray();
@@ -302,9 +301,17 @@ namespace inventory_dot_core.Controllers
                 .Where(h => !_hardwareInUse.Contains(h.WhardId)
                 && h.WhardRegionId == regionId
                 && h.WhardOfficeId == officeId
-                );
+                )
+                .OrderBy(h => h.WhardInumber);
 
-            return _hardwareNotInUse;
+            var retList = new List<SelectListItem>();
+
+            foreach (var h in _hardwareNotInUse)
+            {
+                retList.Add(new SelectListItem(h.WhardInumber + " | " + h.WhardName, h.WhardId.ToString(), false, false));
+            }
+
+            return retList;
         }
 
        /*

@@ -14,7 +14,11 @@
     <link href="~/css/jquery-ui/jquery-ui.css" rel="stylesheet" />
     <link href="~/css/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 
+<<<<<<< HEAD
+=======
 
+
+>>>>>>> 4d8508ecc4855e927dc74b54253295dfbb3cb577
     <script src="~/lib/jquery/dist/jquery-3.4.1.js"></script>
     <script src="~/js/jquery.unobtrusive-ajax.js"></script>
     <script src="~/mdb/js/mdb.js"></script>

@@ -29,6 +29,7 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthHardwares
+<<<<<<< HEAD
         public async Task<IActionResult> Index(
             string filter = "",
             string filterInv = "",
@@ -39,6 +40,10 @@ namespace inventory_dot_core.Controllers
             string filterOffice = "",
             int page = 1,
             string sortExpression = "WhardId")
+=======
+        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "WhardId"
+            ,string WhardInumberFilter = "")
+>>>>>>> 4d8508ecc4855e927dc74b54253295dfbb3cb577
         {
             ViewBag.Filter = filter;
             ViewBag.FilterInv = filterInv;
@@ -108,8 +113,11 @@ namespace inventory_dot_core.Controllers
                 { "filterRegion", filterRegion}
             };
 
+<<<<<<< HEAD
+=======
             ViewData["WhardRegionFilter"] = new SelectList(_context.Region, "RegionId", "RegionName");
 
+>>>>>>> 4d8508ecc4855e927dc74b54253295dfbb3cb577
             return View(model);
         }
 

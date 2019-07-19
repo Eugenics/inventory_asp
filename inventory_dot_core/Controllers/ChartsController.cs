@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using inventory_dot_core.Views.Charts;
 using System.Collections;
 
 namespace inventory_dot_core.Controllers
