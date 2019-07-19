@@ -5,76 +5,16 @@
     ViewData["Title"] = "Оборудование";
 }
 
-<!--
+
 <partial name="_FilterPartial" />
 -->
 
 
-
 <h1>Оборудование</h1>
-
 <p>
     <partial name="_CreateButton" />
 </p>
-
-
-<form class="form-inline" method="get" id="tableFilterForm">
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    <input name="WhardInumberFilter"
-                           class="form-control form-control-sm"
-                           placeholder="Инвентарный номер"
-                           aria-label="Search"
-                           value="@Model.RouteValue["WhardInumberFilter"]">
-                </th>
-                <th>
-                    <input name="WhardNameFilter"
-                           class="form-control form-control-sm"
-                           placeholder="Наименование"
-                           aria-label="Search"
-                           value="@Model.RouteValue["WhardNameFilter"]">
-                </th>
-                <th>
-                    <input name="WhardOfficeFilter"
-                           class="form-control form-control-sm"
-                           placeholder="Офис"
-                           aria-label="Search"
-                           value="@Model.RouteValue["WhardOfficeFilter"]">
-                </th>
-                <th>
-                    <select name="WhardRegionFilter"
-                            class="custom-select custom-select-sm"
-                            multiple
-                            placeholder="Регион"
-                            aria-label="Search"
-                            value="@Model.RouteValue["WhardRegionFilter"]"
-                            asp-items="ViewBag.WhardRegionFilter">
-                        </select>
-                </th>
-                <th>
-                    <input name="WhardWcatFilter"
-                           class="form-control form-control-sm"
-                           placeholder="Кат"
-                           aria-label="Search"
-                           value="@Model.RouteValue["WhardWcatFilter"]">
-                </th>
-                <th>
-                    <input name="WhardWtypeFilter"
-                           class="form-control form-control-sm"
-                           placeholder="Тип"
-                           aria-label="Search"
-                           value="@Model.RouteValue["WhardWtypeFilter"]">
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
-    <button class="btn btn-mdb-color btn-sm" type="submit"><i class="fas fa-search fa-2x"></i> </button>
-</form>
-
-
+<partial name="_MultiFilterPartial" />
 <table class="table">
     <thead>
         <tr>
@@ -147,11 +87,23 @@
                        asp-route-id="@item.WhardId"
                        asp-route-page="@Model.PageIndex"
                        asp-route-filter="@ViewBag.Filter"
+                       asp-route-filterOffice="@ViewBag.FilterOffice"
+                       asp-route-filterInv="@ViewBag.FilterInv"
+                       asp-route-filterRegion="@ViewBag.FilterRegion"
+                       asp-route-filterName="@ViewBag.FilterName"
+                       asp-route-filterCat="@ViewBag.FilterCat"
+                       asp-route-filterType="@ViewBag.FilterType"
                        asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
                     <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
                        asp-route-id="@item.WhardId"
                        asp-route-page="@Model.PageIndex"
                        asp-route-filter="@ViewBag.Filter"
+                       asp-route-filterOffice="@ViewBag.FilterOffice"
+                       asp-route-filterInv="@ViewBag.FilterInv"
+                       asp-route-filterRegion="@ViewBag.FilterRegion"
+                       asp-route-filterName="@ViewBag.FilterName"
+                       asp-route-filterCat="@ViewBag.FilterCat"
+                       asp-route-filterType="@ViewBag.FilterType"
                        asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
                 </td>
             </tr>

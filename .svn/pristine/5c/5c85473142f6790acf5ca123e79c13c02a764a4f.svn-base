@@ -1,0 +1,137 @@
+﻿@model inventory_dot_core.Models.Employees
+
+@{
+    ViewData["Title"] = $"Редактирование сотрудника: {Model.EmployeeFullFio}";
+}
+
+<h1>Редактирование</h1>
+
+<h4>@Html.DisplayFor(modelItem => Model.EmployeeFullFio)</h4>
+<hr />
+
+<form asp-action="Edit" id="employee_edit_form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="EmployeeId" />
+    <table class="table-borderless">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tr>
+            <td><label asp-for="EmployeeRegionId" class="control-label"></label></td>
+            <td>
+                <select asp-for="EmployeeRegionId" class="form-control" asp-items="ViewBag.EmployeeRegionId"></select>
+                <span asp-validation-for="EmployeeRegionId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="EmployeeFirstname" class="control-label"></label></td>
+            <td>
+                <input asp-for="EmployeeFirstname" class="form-control" />
+                <span asp-validation-for="EmployeeFirstname" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="EmployeeLastname" class="control-label"></label></td>
+            <td>
+                <input asp-for="EmployeeLastname" class="form-control" />
+                <span asp-validation-for="EmployeeLastname" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="EmployeeMiddlename" class="control-label"></label></td>
+            <td>
+                <input asp-for="EmployeeMiddlename" class="form-control" />
+                <span asp-validation-for="EmployeeMiddlename" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr hidden>
+            <td><label asp-for="EmployeePhoneHome" class="control-label"></label></td>
+            <td>
+                <input asp-for="EmployeePhoneHome" class="form-control" />
+                <span asp-validation-for="EmployeePhoneHome" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="EmployeeEmail" class="control-label"></label>
+            </td>
+            <td>
+                <input asp-for="EmployeeEmail" class="form-control" />
+                <span asp-validation-for="EmployeeEmail" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="EmployeePositionId" class="control-label"></label>
+            </td>
+            <td>
+                <select asp-for="EmployeePositionId" class="form-control" asp-items="ViewBag.EmployeePositionId"></select>
+                <span asp-validation-for="EmployeePositionId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="EmployeeOfficeId" class="control-label"></label>
+            </td>
+            <td>
+                <select asp-for="EmployeeOfficeId" class="form-control" asp-items="ViewBag.EmployeeOfficeId"></select>
+                <span asp-validation-for="EmployeeOfficeId" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="EmployeePhoneWork" class="control-label"></label>
+            </td>
+            <td>
+                <input asp-for="EmployeePhoneWork" class="form-control" />
+                <span asp-validation-for="EmployeePhoneWork" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="EmployeeNote" class="control-label"></label>
+            </td>
+            <td>
+                <input asp-for="EmployeeNote" class="form-control" />
+                <span asp-validation-for="EmployeeNote" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="EmployeeFullFio" class="control-label"></label>
+            </td>
+            <td>
+                <input asp-for="EmployeeFullFio" class="form-control" />
+                <span asp-validation-for="EmployeeFullFio" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="EmployeeIsRespons" class="ChkBoxClass"></label></td>
+            <td>
+                @Html.CheckBox("EmployeeIsRespons",Convert.ToBoolean(Model.EmployeeIsRespons), new { @class = "ChkBoxClass" })
+                <span asp-validation-for="EmployeeIsRespons" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="EmployeeIsMol" class="form-check-label"></label></td>
+            <td>
+                @Html.CheckBox("EmployeeIsMol", Convert.ToBoolean(Model.EmployeeIsMol))
+                <span asp-validation-for="EmployeeIsMol" class="text-danger"></span>
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        <div class="form-group">
+            <partial name="_SaveButton" /> | <partial name="_BackButton" />
+        </div>
+    </p>
+</form>
+<hr />
+
+<script src="~/js/scripts/employee.js"></script>
+
+

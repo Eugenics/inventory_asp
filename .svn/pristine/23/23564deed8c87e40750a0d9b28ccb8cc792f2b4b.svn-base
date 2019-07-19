@@ -1,0 +1,42 @@
+﻿@model IEnumerable<inventory_dot_core.Models.AccountingBatteries>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AbBatWhard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AbWhard)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AbBatWhard.WhardId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AbWhard.WhardId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AbId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AbId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AbId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

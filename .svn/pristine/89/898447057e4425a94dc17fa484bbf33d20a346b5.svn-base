@@ -1,0 +1,48 @@
+﻿@model inventory_dot_core.Models.Positions
+@using inventory_dot_core.Classes
+
+@{
+    ViewData["Title"] = $"Редактироваие помещения {Model.PositionName}";
+}
+
+<h1>@Dictionary.frasesDictionary["Edit"]</h1>
+
+<h4>Должности</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PositionId" />
+            <div class="form-group">
+                <label asp-for="PositionDepartment.DepartmentRegion.RegionId" class="control-label"></label>
+                <select asp-for="PositionDepartment.DepartmentRegion.RegionId" class="form-control" asp-items="ViewBag.PositionRegionId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionDepartmentId" class="control-label"></label>
+                <select asp-for="PositionDepartmentId" class="form-control" asp-items="ViewBag.PositionDepartmentId"></select>
+                <span asp-validation-for="PositionDepartmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionName" class="control-label"></label>
+                <input asp-for="PositionName" class="form-control" />
+                <span asp-validation-for="PositionName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionNotes" class="control-label"></label>
+                <input asp-for="PositionNotes" class="form-control" />
+                <span asp-validation-for="PositionNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <partial name="_SaveButton" /> | <partial name="_BackButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/scripts/position.js"></script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

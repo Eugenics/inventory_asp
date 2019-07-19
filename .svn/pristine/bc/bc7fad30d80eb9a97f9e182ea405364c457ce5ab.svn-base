@@ -1,0 +1,53 @@
+﻿@using inventory_dot_core.Classes
+@model inventory_dot_core.Models.Offices
+
+@{
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Create"]} помещение";
+}
+
+<h1>@Dictionary.frasesDictionary["Create"]</h1>
+
+<h4>Помещение</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OfficeHouses.HousesRegion.RegionId" class="control-label"></label>
+                <select asp-for="OfficeHouses.HousesRegion.RegionId" class="form-control" asp-items="ViewBag.OfficeRegionId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfficeHousesId" class="control-label"></label>
+                <select asp-for="OfficeHousesId" class="form-control" asp-items="ViewBag.OfficeHousesId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfficeName" class="control-label"></label>
+                <input asp-for="OfficeName" class="form-control" />
+                <span asp-validation-for="OfficeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfficeNotes" class="control-label"></label>
+                <input asp-for="OfficeNotes" class="form-control" />
+                <span asp-validation-for="OfficeNotes" class="text-danger"></span>
+            </div>           
+            <div class="form-group">
+                <div class="form-check">
+                    <label asp-for="OfficeIsStore" class="form-check-label">
+                        @Html.DisplayNameFor(model => model.OfficeIsStore) @Html.CheckBox("OfficeIsStore", false)
+                    </label>
+                </div>
+                <span asp-validation-for="OfficeIsStore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <partial name="_SaveButton" /> | <partial name="_BackButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/scripts/house.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
