@@ -6,18 +6,29 @@
 }
 
 
-<partial name="_FilterPartial" />
-
-
 <h1>Программное обеспечение</h1>
 
 <p>
     <partial name="_CreateButton" />
 </p>
 <form class="form-inline form-sm" method="get">
-    <input name="filterInv" class="form-control mr-sm-2" placeholder="Инвентарный номер" aria-label="Search" value="@Model.RouteValue["FilterInv"]">
-    <input name="filterRegion" class="form-control mr-sm-2" placeholder="Регион" aria-label="Search" value="@Model.RouteValue["FilterRegion"]">
-    <input name="filterName" class="form-control mr-sm-2" placeholder="Наименование" aria-label="Search" value="@Model.RouteValue["FilterName"]">
+    <input name="filterRegion"
+           class="form-control form-control-sm"
+           placeholder="Регион"
+           aria-label="Search"
+           value="@Model.RouteValue["FilterRegion"]">
+    <input
+           name="filterInv"
+           class="form-control form-control-sm"
+           placeholder="Инвентарный номер"
+           aria-label="Search"
+           value="@Model.RouteValue["FilterInv"]">    
+    <input
+           name="filterName"
+           class="form-control  form-control-sm"
+           placeholder="Наименование"
+           aria-label="Search"
+           value="@Model.RouteValue["FilterName"]">
     <button class="btn btn-mdb-color btn-sm" type="submit"><i class="fas fa-search fa-2x"></i> </button>
 </form>
 <hr />
@@ -25,28 +36,28 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.WsoftRegion)
+                @Html.SortableHeaderFor(model => model.WsoftRegion,"WsoftRegion")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WsoftInumber)
+                @Html.SortableHeaderFor(model => model.WsoftInumber,"WsoftInumber")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WsoftName)
+                @Html.SortableHeaderFor(model => model.WsoftName,"WsoftName")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WsoftDateOfAdoption)
+                @Html.SortableHeaderFor(model => model.WsoftDateOfAdoption,"WsoftDateOfAdoption")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WsoftResidualValue)
+                @Html.SortableHeaderFor(model => model.WsoftResidualValue,"WsoftResidualValue")
             </th>
             <th hidden>
-                @Html.DisplayNameFor(model => model.WsoftNote)
+                @Html.SortableHeaderFor(model => model.WsoftNote,"WsoftNote")
             </th>
             <th hidden>
-                @Html.DisplayNameFor(model => model.WsoftArchiv)
+                @Html.SortableHeaderFor(model => model.WsoftArchiv,"WsoftArchiv")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WsoftCnt)
+                @Html.SortableHeaderFor(model => model.WsoftCnt,"WsoftCnt")
             </th>
             <th></th>
         </tr>
@@ -84,12 +95,18 @@
                        asp-route-id="@item.WsoftId"
                        asp-route-page="@Model.PageIndex"
                        asp-route-filter="@ViewBag.Filter"
-                       asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                       asp-route-sortExpression="@ViewBag.SortExpression"
+                       asp-route-filterInv = "@ViewBag.filterInv"
+                       asp-route-filterName = "@ViewBag.filterName"
+                       asp-route-filterRegion = "@ViewBag.filterRegion"><i class="fas fa-pencil-alt fa-lg"></i></a> |
                     <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
                        asp-route-id="@item.WsoftId"
                        asp-route-page="@Model.PageIndex"
                        asp-route-filter="@ViewBag.Filter"
-                       asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
+                       asp-route-sortExpression="@ViewBag.SortExpression"
+                       asp-route-filterInv = "@ViewBag.filterInv"
+                       asp-route-filterName = "@ViewBag.filterName"
+                       asp-route-filterRegion = "@ViewBag.filterRegion"><i class="fas fa-trash-alt fa-lg"></i></a>
                 </td>
             </tr>
         }

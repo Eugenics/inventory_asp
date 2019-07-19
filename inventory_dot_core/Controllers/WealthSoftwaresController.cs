@@ -50,6 +50,7 @@ namespace inventory_dot_core.Controllers
             if (!string.IsNullOrWhiteSpace(filter))
             {
                 filter = filter.ToUpper();
+
                 inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WsoftFnumber.ToUpper(), "%" + filter + "%")
                     || EF.Functions.Like(e.WsoftInumber.ToUpper(), "%" + filter + "%")
                     || EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filter + "%")
@@ -63,10 +64,15 @@ namespace inventory_dot_core.Controllers
                 filterName = !string.IsNullOrWhiteSpace(filterName) ? filterName.ToUpper() : null;
                 filterInv = !string.IsNullOrWhiteSpace(filterInv) ? filterInv.ToUpper() : null;
 
-                inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WsoftInumber.ToUpper(), "%" + filterInv + "%")
-                    || EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filterName + "%")
-                    || EF.Functions.Like(e.WsoftRegion.RegionName.ToUpper(), "%" + filterRegion + "%")
-                );
+                if (!string.IsNullOrWhiteSpace(filterRegion))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftRegion.RegionName.ToUpper(), "%" + filterRegion + "%"));
+                if (!string.IsNullOrWhiteSpace(filterName))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filterName + "%"));
+                if (!string.IsNullOrWhiteSpace(filterInv))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftInumber.ToUpper(), "%" + filterInv + "%"));
             }
 
             var model = await Classes.Paging.PagingList.CreateAsync
@@ -106,9 +112,15 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthSoftwares/Create
-        public IActionResult Create(string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public IActionResult Create(string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -129,9 +141,15 @@ namespace inventory_dot_core.Controllers
             ",WsoftDateOfAdoption,WsoftInitialCost,WsoftResidualValue,WsoftRegionId" +
             ",WsoftNote,WsoftArchiv,WsoftCreateDate,WsoftCnt")] WealthSoftware wealthSoftware,
             bool WsoftArchiv,
-            string filter = "", int page = 1, string sortExpression = "WsoftId")
+            string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -148,7 +166,10 @@ namespace inventory_dot_core.Controllers
                     {
                         filter = filter,
                         page = page,
-                        sortExpression = sortExpression
+                        sortExpression = sortExpression,
+                        filterInv = filterInv,
+                        filterName = filterName,
+                        filterRegion = filterRegion
                     });
             }
             ViewData["WsoftRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthSoftware.WsoftRegionId);
@@ -160,9 +181,15 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthSoftwares/Edit/5
-        public async Task<IActionResult> Edit(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public async Task<IActionResult> Edit(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -193,9 +220,15 @@ namespace inventory_dot_core.Controllers
             ",WsoftName,WsoftDateOfAdoption,WsoftInitialCost,WsoftResidualValue,WsoftRegionId" +
             ",WsoftNote,WsoftArchiv,WsoftCreateDate,WsoftCnt")] WealthSoftware wealthSoftware,
             bool WsoftArchiv,
-            string filter = "", int page = 1, string sortExpression = "WsoftId")
+            string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -231,7 +264,10 @@ namespace inventory_dot_core.Controllers
                     {
                         filter = filter,
                         page = page,
-                        sortExpression = sortExpression
+                        sortExpression = sortExpression,
+                        filterInv = filterInv,
+                        filterName = filterName,
+                        filterRegion = filterRegion
                     });
             }
             ViewData["WsoftRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthSoftware.WsoftRegionId);
@@ -243,9 +279,15 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthSoftwares/Delete/5
-        public async Task<IActionResult> Delete(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public async Task<IActionResult> Delete(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -270,9 +312,15 @@ namespace inventory_dot_core.Controllers
         // POST: WealthSoftwares/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public async Task<IActionResult> DeleteConfirmed(int id, string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -284,7 +332,10 @@ namespace inventory_dot_core.Controllers
                 {
                     filter = filter,
                     page = page,
-                    sortExpression = sortExpression
+                    sortExpression = sortExpression,
+                    filterInv = filterInv,
+                    filterName = filterName,
+                    filterRegion = filterRegion
                 });
         }
 
