@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inventory_dot_core.Controllers
 {
-    [Authorize(Policy = "RefEditorsRole")]
+    [Authorize(Policy = "RefEditorsRole")]   
     public class WealthHardwaresController : Controller
     {
         private readonly InventoryContext _context;
@@ -26,11 +26,13 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthHardwares
-        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "WhardId")
+        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "WhardId"
+            ,string WhardInumberFilter = "")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            //ViewBag.TableFilter = tableFilter;
 
             var inventoryContext = _context.WealthHardware
                 .Include(w => w.WhardMolEmployee)
@@ -61,6 +63,7 @@ namespace inventory_dot_core.Controllers
                 { "filter", filter}
             };
 
+            ViewData["WhardRegionFilter"] = new SelectList(_context.Region, "RegionId", "RegionName");
 
             return View(model);
         }

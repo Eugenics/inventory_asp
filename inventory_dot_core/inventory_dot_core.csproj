@@ -5,6 +5,10 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\js\bootstrap\bootstrap-select.min.js" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.4.1" />
@@ -19,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\css\mdb\" />
+    <Folder Include="wwwroot\bootstrap-select\" />
   </ItemGroup>
 
 </Project>
