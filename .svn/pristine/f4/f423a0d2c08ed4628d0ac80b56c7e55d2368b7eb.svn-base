@@ -1,8 +1,0 @@
-﻿<a 
-   class="btn btn-mdb-color btn-sm"
-   asp-action="Index"
-   asp-route-filter="@ViewBag.Filter"
-   asp-route-sortExpression="@ViewBag.SortExpression"
-   asp-route-page="@ViewBag.Page">
-    Назад
-</a>
