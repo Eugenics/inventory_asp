@@ -1,7 +1,0 @@
-﻿@model DateTime
-
-@{
-    IFormatProvider formatProvider =
-        new System.Globalization.CultureInfo("ru-RU");
-    <span class="DateTime">@Model.ToString("dd.MM.yyyy", formatProvider)</span>
-}
