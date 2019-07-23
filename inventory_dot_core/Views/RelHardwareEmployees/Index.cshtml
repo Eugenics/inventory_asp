@@ -28,7 +28,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RelheWhard)
+                @Html.DisplayNameFor(model => model.RelheWhard.WhardInumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelheWhard.WhardName)
             </th>
             <th></th>
         </tr>
@@ -37,6 +40,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelheWhard.WhardInumber)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RelheWhard.WhardName)
                 </td>

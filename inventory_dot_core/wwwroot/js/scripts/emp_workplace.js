@@ -1,17 +1,20 @@
 ﻿$(document).ready(
     function () {
-        //var form = $('#employee_edit_form');
-        //console.log(form);
-        //console.log($('#EmployeeRegionId').val());
-
-        var searchString = $('#hardwareSearch');
-
-        //$('#RelheWhardId').empty();
+        var searchString = $('#whardSearchId');
+        var regionId = $('#eRegionId');
+        var officeId = $('#eOfficeId');
 
 
-        searchString.on('change', function (e) {
+        searchString.on('input', function (e) {
             $('#RelheWhardId').empty();
-            console.log($('#hardwareSearch').val());
+            console.log($('#whardSearchId').val());
+
+            if ((searchString.val()).length == 0)
+                update_search(regionId.val(), officeId.val(), "null");
+            else
+                update_search(regionId.val(), officeId.val(), searchString.val());
+
+
 
             /*if (region_id.val().length > 0) {
                 update_office_by_region(region_id, 0);
@@ -22,44 +25,24 @@
             }
             */
         })
-        
+
     })
 
 
 
-/*
-function update_office_by_region(region_id) {
+function update_search(region_id, office_id, searchString) {
     $.ajax({
-        url: window.location.origin + '/api/officesApi/' + region_id.val(),
+        url: window.location.origin + '/api/whardSeachApi/' + region_id + '/' + office_id + '/' + searchString,
         data: {},
         success: function (response) {
             var new_options = response;
             //console.log(new_options);
-            $('#EmployeeOfficeId').empty();
+            $('#RelheWhardId').empty();
             $.each(new_options, function (key, value) {
-                $('#EmployeeOfficeId').append($('<option>', {
+                $('#RelheWhardId').append($('<option>', {
                     value: value.Value
                 }).text(value.Text));                
-            });    
-        }
-    });
-}
-
-
-function update_position_by_region(region_id) {
-    $.ajax({
-        url: window.location.origin + '/api/positionsApi/' + region_id.val(),
-        data: {},
-        success: function (response) {
-            var new_options = response;
-            //console.log(new_options);
-            $('#EmployeePositionId').empty();
-            $.each(new_options, function (key, value) {
-                $('#EmployeePositionId').append($('<option>', {
-                    value: value.Value
-                }).text(value.Text));
             });            
         }
     });
 }
-*/

@@ -17,6 +17,8 @@
     <link href="~/fontawesome/css/all.css" rel="stylesheet" />
     <link href="~/css/jquery-ui/jquery-ui.css" rel="stylesheet" />
     <link href="~/css/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/chosen_v1.8.7/docsupport/prism.css" />
+    <link href="~/chosen_v1.8.7/chosen.css" rel="stylesheet" />
 
 
 
@@ -24,6 +26,9 @@
     <script src="~/js/jquery.unobtrusive-ajax.js"></script>
     <script src="~/mdb/js/mdb.js"></script>
     <script src="~/fontawesome/js/all.js"></script>
+    <script src="~/chosen_v1.8.7/chosen.jquery.js"></script>
+    <script src="~/chosen_v1.8.7/docsupport/prism.js"></script>
+    <script src="~/chosen_v1.8.7/docsupport/init.js"></script>
 
 
 
@@ -120,15 +125,18 @@
     <footer class="page-footer fixed-bottom mdb-color">
         <div class="container-fluid text-center text-md-left">
             &copy; @System.DateTime.Now.Year - <a asp-area="" asp-controller="Home" asp-action="Index">
-    Учет ТМЦ (версия
-    <environment include="Development">
-        Development
-    </environment>
-    <environment include="Production">
-       Production
-    </environment>
-    )
-</a>
+                Учет ТМЦ (версия
+                <environment include="Development">
+                    Development
+                </environment>
+                <environment include="Production">
+                    Production
+                </environment>
+                <environment include="Local">
+                    Local
+                </environment>
+                )
+            </a>
         </div>
     </footer>
 
@@ -138,6 +146,10 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
     <environment include="Production">
+        <script src="~/lib/jquery/dist/jquery-3.4.1.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment include="Local">
         <script src="~/lib/jquery/dist/jquery-3.4.1.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
