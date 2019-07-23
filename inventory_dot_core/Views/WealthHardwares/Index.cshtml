@@ -5,11 +5,6 @@
     ViewData["Title"] = "Оборудование";
 }
 
-
-<partial name="_FilterPartial" />
--->
-
-
 <h1>Оборудование</h1>
 <p>
     <partial name="_CreateButton" />
@@ -19,43 +14,22 @@
     <thead>
         <tr>
             <th>
-
+                @Html.SortableHeaderFor(model => model.WhardInumber,"WhardInumber")
             </th>
             <th>
-
+                @Html.SortableHeaderFor(model => model.WhardName,"WhardName")
             </th>
             <th>
-
+                @Html.SortableHeaderFor(model => model.WhardOffice,"WhardOffice")
             </th>
             <th>
-
+                @Html.SortableHeaderFor(model => model.WhardRegion,"WhardRegion")
             </th>
             <th>
-
+                @Html.SortableHeaderFor(model => model.WhardWcat,"WhardWcat")
             </th>
             <th>
-
-            </th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.WhardInumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WhardName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WhardOffice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WhardRegion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WhardWcat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WhardWtype)
+                @Html.SortableHeaderFor(model => model.WhardWtype,"WhardWtype")
             </th>
             <th></th>
         </tr>

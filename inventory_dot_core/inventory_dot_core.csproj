@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\css\mdb\" />
-    <Folder Include="wwwroot\bootstrap-select\" />
   </ItemGroup>
 
 </Project>
