@@ -116,11 +116,11 @@ namespace inventory_dot_core.Controllers
             ViewBag.EmployeeName = _employee.EmployeeFullFio;
             ViewBag.EmployeeRegionId = _employee.EmployeeRegionId;
             ViewBag.EmployeeOfficeId = _employee.EmployeeOfficeId;
-            
+
 
             ViewData["RelheEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname")
                 .Where(e => e.Value == employee_id.ToString());
-            ViewData["RelheWhardId"] = this.GetNotUseHardList(0,_employee.EmployeeRegionId,_employee.EmployeeOfficeId);
+            ViewData["RelheWhardId"] = this.GetNotUseHardList(0, _employee.EmployeeRegionId, _employee.EmployeeOfficeId);
             return View();
         }
 
@@ -135,7 +135,7 @@ namespace inventory_dot_core.Controllers
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
-                        
+
 
             var _employee = _context.Employees.Find(employee_id);
 
@@ -154,18 +154,18 @@ namespace inventory_dot_core.Controllers
                 return RedirectToAction(nameof(Index),
                     new
                     {
-                        employee_id = employee_id,
-                        filter = filter,
-                        page = page,
-                        sortExpression = sortExpression
+                        employee_id,
+                        filter,
+                        page,
+                        sortExpression
                     });
             }
 
-           
+
             ViewData["RelheEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFullFio")
                 .Where(e => e.Value == employee_id.ToString());
             ViewData["RelheWhardId"] = new SelectList(
-                this.GetNotUseHardList(0,relHardwareEmployee.RelheEmployee.EmployeeRegionId,relHardwareEmployee.RelheEmployee.EmployeeOfficeId),
+                this.GetNotUseHardList(0, relHardwareEmployee.RelheEmployee.EmployeeRegionId, relHardwareEmployee.RelheEmployee.EmployeeOfficeId),
                 "WhardId", "WhardName");
 
             return View(relHardwareEmployee);
@@ -243,7 +243,7 @@ namespace inventory_dot_core.Controllers
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
-            ViewBag.EmployeeId = employee_id;            
+            ViewBag.EmployeeId = employee_id;
 
             if (id == null)
             {
@@ -278,10 +278,10 @@ namespace inventory_dot_core.Controllers
             return RedirectToAction(nameof(Index),
                 new
                 {
-                    employee_id = employee_id,
-                    filter = filter,
-                    page = page,
-                    sortExpression = sortExpression
+                    employee_id,
+                    filter,
+                    page,
+                    sortExpression
                 });
         }
 
@@ -321,49 +321,49 @@ namespace inventory_dot_core.Controllers
             return retList;
         }
 
-       /*
-        public async Task<IActionResult> Contact(string filter = "", int page = 1, string sortExpression = "WhardId")
-        {
-            ViewBag.Filter = filter;
-            ViewBag.Page = page;
-            ViewBag.SortExpression = sortExpression;
+        /*
+         public async Task<IActionResult> Contact(string filter = "", int page = 1, string sortExpression = "WhardId")
+         {
+             ViewBag.Filter = filter;
+             ViewBag.Page = page;
+             ViewBag.SortExpression = sortExpression;
 
-            var inventoryContext = _context.WealthHardware
-                .Include(w => w.WhardMolEmployee)
-                .Include(w => w.WhardOffice)
-                .Include(w => w.WhardRegion)
-                .Include(w => w.WhardWcat)
-                .Include(w => w.WhardWtype)
-                .AsQueryable();
+             var inventoryContext = _context.WealthHardware
+                 .Include(w => w.WhardMolEmployee)
+                 .Include(w => w.WhardOffice)
+                 .Include(w => w.WhardRegion)
+                 .Include(w => w.WhardWcat)
+                 .Include(w => w.WhardWtype)
+                 .AsQueryable();
 
-            int pageSize = 5;
+             int pageSize = 5;
 
-            if (!string.IsNullOrWhiteSpace(filter))
-            {
-                filter = filter.ToUpper();
-                inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WhardFnumber.ToUpper(), "%" + filter + "%")
-                    || EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filter + "%")
-                    || EF.Functions.Like(e.WhardName.ToUpper(), "%" + filter + "%")
-                    || EF.Functions.Like(e.WhardOffice.OfficeName, "%" + filter + "%")
-                    || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filter + "%")
-                );
-            }
-            var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
-                (
-                   inventoryContext, pageSize, page, sortExpression, "WhardId"
-                   );
-            
-            
-            model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
-            };
-            
+             if (!string.IsNullOrWhiteSpace(filter))
+             {
+                 filter = filter.ToUpper();
+                 inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WhardFnumber.ToUpper(), "%" + filter + "%")
+                     || EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filter + "%")
+                     || EF.Functions.Like(e.WhardName.ToUpper(), "%" + filter + "%")
+                     || EF.Functions.Like(e.WhardOffice.OfficeName, "%" + filter + "%")
+                     || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filter + "%")
+                 );
+             }
+             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
+                 (
+                    inventoryContext, pageSize, page, sortExpression, "WhardId"
+                    );
 
 
-            //return View(model);
+             model.RouteValue = new RouteValueDictionary {
+                 { "filter", filter}
+             };
 
-            return PartialView("_hardWareModalFrm", model);
-        }
-        */
+
+
+             //return View(model);
+
+             return PartialView("_hardWareModalFrm", model);
+         }
+         */
     }
 }

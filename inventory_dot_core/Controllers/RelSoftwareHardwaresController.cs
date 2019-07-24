@@ -141,7 +141,7 @@ namespace inventory_dot_core.Controllers
 
             ViewData["RelshIdHardwareId"] = new SelectList(_context.WealthHardware, "WhardId", "WhardName")
                 .Where(e => e.Value == hardware_id.ToString());
-            ViewData["RelshWsoftId"] = GetNotUseSoftList(0, _hardware.WhardRegionId.Value);
+            ViewData["RelshWsoftId"] = GetNotUseSoftList(0);
 
             return View();
         }
@@ -158,7 +158,7 @@ namespace inventory_dot_core.Controllers
 
             var _hardware = _context.WealthHardware.Find(hardware_id);
 
-            ViewBag.EmployeeName = _hardware.WhardName;
+            ViewBag.HardwareName = _hardware.WhardName;
 
             relSoftwareHardware.RelshWhardId = hardware_id;
 
@@ -181,7 +181,7 @@ namespace inventory_dot_core.Controllers
             ViewData["RelshIdHardwareId"] = new SelectList(_context.Employees, "WhardId", "WhardName")
                 .Where(e => e.Value == hardware_id.ToString());
             ViewData["RelshIdSoftId"] = new SelectList(
-                GetNotUseSoftList(0, relSoftwareHardware.RelshWhard.WhardRegionId.Value),
+                GetNotUseSoftList(0),
                 "WhardId", "WhardName");
 
             return View();
@@ -244,16 +244,21 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: RelSoftwareHardwares/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int hardware_id, string filter = "", int page = 1, string sortExpression = "RelshId")
         {
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+            ViewBag.HardwareId = hardware_id;
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var relSoftwareHardware = await _context.RelSoftwareHardware
-                .Include(r => r.RelshWhard)
                 .Include(r => r.RelshWsoft)
+                .Include(r => r.RelshWhard)
                 .FirstOrDefaultAsync(m => m.RelshId == id);
 
             if (relSoftwareHardware == null)
@@ -267,13 +272,24 @@ namespace inventory_dot_core.Controllers
         // POST: RelSoftwareHardwares/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int hardware_id, string filter = "", int page = 1, string sortExpression = "RelshId")
         {
+            ViewBag.Filter = filter;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+            ViewBag.HardwareId = hardware_id;
+
             var relSoftwareHardware = await _context.RelSoftwareHardware.FindAsync(id);
             _context.RelSoftwareHardware.Remove(relSoftwareHardware);
             await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index),
+                new
+                {
+                    hardware_id,
+                    filter,
+                    page,
+                    sortExpression
+                });
         }
 
         /// <summary>
@@ -293,21 +309,22 @@ namespace inventory_dot_core.Controllers
         /// <param name="regionId"></param>
         /// <param name="officeId"></param>
         /// <returns></returns>
-        private List<SelectListItem> GetNotUseSoftList(int curSoftdId = 0, int regionId = 0)
+        private List<SelectListItem> GetNotUseSoftList(int curSoftdId = 0)
         {
             // Создаем список используемого ПО
-            var _softwareInUse = _context.RelSoftwareHardware.Select(h => h.RelshWsoftId).ToArray();
-
+            var _softwareInUse = _context.RelSoftwareHardware
+                .Select(h => h.RelshWsoftId)
+                .ToArray();
             // Удаляем из списка используемого ПО текущее. Это необходимо для списка при редактировании.
-            if (curSoftdId != 0)
-            {
-                _softwareInUse = _softwareInUse.Where(l => l != curSoftdId).ToArray();
-            }
+            //if (curSoftdId != 0)
+            //{
+            //    _softwareInUse = _softwareInUse.Where(l => l != curSoftdId).ToArray();
+            //}
 
             // Получаем список не используемого ПО
             var _hardwareNotInUse = _context.WealthSoftware
-                .Where(h => !_softwareInUse.Contains(h.WsoftId)
-                && h.WsoftRegionId == regionId
+                .Where(h => !(h.WsoftCnt < _softwareInUse.Where(x => x == h.WsoftId).Count())
+                //!_softwareInUse.Contains(h.WsoftId)
                 )
                 .OrderBy(h => h.WsoftInumber);
 
