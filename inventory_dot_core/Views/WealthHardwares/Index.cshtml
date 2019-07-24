@@ -7,7 +7,20 @@
 
 <h1>Оборудование</h1>
 <p>
-    <partial name="_CreateButton" />
+    <partial name="_CreateButton" /> |
+
+    <a asp-action="Report" class="btn btn-mdb-color btn-sm"
+       asp-route-page="@Model.PageIndex"
+       asp-route-filter="@ViewBag.Filter"
+       asp-route-filterOffice="@ViewBag.FilterOffice"
+       asp-route-filterInv="@ViewBag.FilterInv"
+       asp-route-filterRegion="@ViewBag.FilterRegion"
+       asp-route-filterName="@ViewBag.FilterName"
+       asp-route-filterCat="@ViewBag.FilterCat"
+       asp-route-filterType="@ViewBag.FilterType"
+       asp-route-sortExpression="@ViewBag.SortExpression">
+        <i class="fas fa-file-alt"></i>
+    </a>
 </p>
 <partial name="_MultiFilterPartial" />
 <table class="table">
