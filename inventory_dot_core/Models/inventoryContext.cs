@@ -16,11 +16,11 @@ namespace inventory_dot_core.Models
             : base(options)
         {
         }
-        
+
         public virtual DbSet<AccountingBatteries> AccountingBatteries { get; set; }
         public virtual DbSet<AccountingCartridges> AccountingCartridges { get; set; }
-        public virtual DbSet<AccountingPhones> AccountingPhones { get; set; }        
-        public virtual DbSet<AccountingTires> AccountingTires { get; set; }        
+        public virtual DbSet<AccountingPhones> AccountingPhones { get; set; }
+        public virtual DbSet<AccountingTires> AccountingTires { get; set; }
         public virtual DbSet<Accounts> Accounts { get; set; }
         public virtual DbSet<Departments> Departments { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
@@ -35,7 +35,9 @@ namespace inventory_dot_core.Models
         public virtual DbSet<WealthHardware> WealthHardware { get; set; }
         public virtual DbSet<WealthSoftware> WealthSoftware { get; set; }
         public virtual DbSet<WealthTypes> WealthTypes { get; set; }
-        
+
+        // Unable to generate entity type for table 'inventory.Temp_Hardware'. Please see the warning messages.
+
         #region added manualy
         public IConfiguration Configuration { get; }
         #endregion
@@ -43,14 +45,14 @@ namespace inventory_dot_core.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {                
-                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("inventoryDataBase_test"));
+            {
+                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("inventoryDataBase"));
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity<AccountingBatteries>(entity =>
             {
@@ -148,7 +150,7 @@ namespace inventory_dot_core.Models
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("accounting_phones_wealth_hardware_fk");
             });
-            
+
             modelBuilder.Entity<AccountingTires>(entity =>
             {
                 entity.HasKey(e => e.AtId)
@@ -178,7 +180,7 @@ namespace inventory_dot_core.Models
                     .HasColumnName("at_name")
                     .HasMaxLength(255);
             });
-            
+
             modelBuilder.Entity<Accounts>(entity =>
             {
                 entity.HasKey(e => e.AccountId)
@@ -323,19 +325,19 @@ namespace inventory_dot_core.Models
                 entity.HasOne(d => d.EmployeeOffice)
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.EmployeeOfficeId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("employees_offices_fk");
 
                 entity.HasOne(d => d.EmployeePosition)
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.EmployeePositionId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("employees_positions_fk");
 
                 entity.HasOne(d => d.EmployeeRegion)
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.EmployeeRegionId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("employees_region_fk");
             });
 
@@ -350,7 +352,7 @@ namespace inventory_dot_core.Models
                     .HasName("fki_Houses_Region_id");
 
                 entity.Property(e => e.HousesId)
-                    .HasColumnName("houses_id")                    
+                    .HasColumnName("houses_id")
                     .HasDefaultValueSql("nextval('inventory.house_id_seq'::regclass)");
 
                 entity.Property(e => e.HousesName)
@@ -477,8 +479,8 @@ namespace inventory_dot_core.Models
                     .HasConstraintName("rel_hardware_employee_employees_fk");
 
                 entity.HasOne(d => d.RelheWhard)
-                    .WithMany(p => p.RelHardwareEmployee)
-                    .HasForeignKey(d => d.RelheWhardId)
+                    .WithOne(p => p.RelHardwareEmployee)
+                    .HasForeignKey<RelHardwareEmployee>(d => d.RelheWhardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_hardware_employee_wealth_hardware_fk");
             });
@@ -507,13 +509,13 @@ namespace inventory_dot_core.Models
                 entity.HasOne(d => d.RoeEmployee)
                     .WithMany(p => p.RelOfficeResponsEmployee)
                     .HasForeignKey(d => d.RoeEmployeeId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_office_respons_employee_employees_fk");
 
                 entity.HasOne(d => d.RoeOffice)
                     .WithMany(p => p.RelOfficeResponsEmployee)
                     .HasForeignKey(d => d.RoeOfficeId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_office_respons_employee_offices_fk");
             });
 
@@ -541,13 +543,13 @@ namespace inventory_dot_core.Models
                 entity.HasOne(d => d.RelshWhard)
                     .WithMany(p => p.RelSoftwareHardware)
                     .HasForeignKey(d => d.RelshWhardId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_software_hardware_wealth_hardware_fk");
 
                 entity.HasOne(d => d.RelshWsoft)
                     .WithMany(p => p.RelSoftwareHardware)
                     .HasForeignKey(d => d.RelshWsoftId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_software_hardware_wealth_software_fk");
             });
 
@@ -814,7 +816,7 @@ namespace inventory_dot_core.Models
 
             modelBuilder.HasSequence("wsoft_id_seq");
 
-            modelBuilder.HasSequence("wtype_id_seq");            
+            modelBuilder.HasSequence("wtype_id_seq");
         }
     }
 }

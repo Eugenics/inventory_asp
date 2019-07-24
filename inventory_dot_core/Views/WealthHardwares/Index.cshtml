@@ -14,22 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardInumber,"WhardInumber")
+                @Html.SortableHeaderFor(model => model.WhardInumber, "WhardInumber")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardName,"WhardName")
+                @Html.SortableHeaderFor(model => model.WhardName, "WhardName")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardOffice,"WhardOffice")
+                @Html.SortableHeaderFor(model => model.WhardOffice, "WhardOffice")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardRegion,"WhardRegion")
+                @Html.SortableHeaderFor(model => model.WhardRegion, "WhardRegion")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardWcat,"WhardWcat")
+                @Html.SortableHeaderFor(model => model.WhardWcat, "WhardWcat")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardWtype,"WhardWtype")
+                @Html.SortableHeaderFor(model => model.WhardWtype, "WhardWtype")
             </th>
             <th></th>
         </tr>
@@ -79,6 +79,24 @@
                        asp-route-filterCat="@ViewBag.FilterCat"
                        asp-route-filterType="@ViewBag.FilterType"
                        asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
+                    @if (Convert.ToBoolean(item.IsSoftDeployed))
+                    {
+                        <a asp-controller="RelSoftwareHardwares"
+                           asp-action="Index" class="btn btn-mdb-color btn-sm"
+                           asp-route-hardware_id="@item.WhardId"
+                           asp-route-hard_page="@Model.PageIndex"
+                           asp-route-hard_filter="@ViewBag.Filter"
+                           asp-route-hard_sortExpression=""
+                           asp-route-page="1"
+                           asp-route-filter=""
+                           asp-route-filterOffice="@ViewBag.FilterOffice"
+                           asp-route-filterInv="@ViewBag.FilterInv"
+                           asp-route-filterRegion="@ViewBag.FilterRegion"
+                           asp-route-filterName="@ViewBag.FilterName"
+                           asp-route-filterCat="@ViewBag.FilterCat"
+                           asp-route-filterType="@ViewBag.FilterType"
+                           asp-route-sortExpression=""><i class="fas fa-brain fa-lg"></i></a>
+                    }
                 </td>
             </tr>
         }
