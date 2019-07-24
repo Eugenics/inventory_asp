@@ -29,6 +29,9 @@
     <script src="~/chosen_v1.8.7/chosen.jquery.js"></script>
     <script src="~/chosen_v1.8.7/docsupport/prism.js"></script>
     <script src="~/chosen_v1.8.7/docsupport/init.js"></script>
+    <script lang="javascript" src="~/js/xlsx.full.min.js"></script>
+
+    <script src="~/js/scripts/ExportHTMLdataTable.js"></script>
 
 
 
@@ -72,6 +75,15 @@
                         <li class="nav-item" hidden>
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href=# id="navSources" data-toggle="dropdown">
+                                Экспорт
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navSources">
+                                <a id="exportXLSXBtn" class="dropdown-item waves-effect"><i class="fas fa-file-alt"></i> XLSX</a>
+                                <a id="exportCSVBtn" class="dropdown-item waves-effect"><i class="fas fa-file-alt"></i> CSV</a>
+                            </div>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <partial name="_LoginPartial" />
@@ -81,35 +93,12 @@
         </nav>
     </header>
 
+    <h2>Отчет</h2>
+    <hr />
+   
     <!--<breadcrumb></breadcrumb>-->
     <main role="main">
         <div class="row">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="col-sm col-md-2">
-                    <div class="sidebar-fixed position-sticky">
-                        <div class="list-group list-group-flush">
-                            <a asp-area="" asp-controller="Charts" asp-action="Index" class="list-group-item waves-effect">
-                                <i class="fas fa-chart-pie mr-3"></i>Dashboard
-                            </a>
-
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="list-group-item list-group-item-action waves-effect">
-                                <i class="fas fa-user mr-3"></i>Профиль
-                            </a>
-
-                            <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
-                                <i class="fas fa-table mr-3"></i>Tables
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
-                                <i class="fas fa-map mr-3"></i>Maps
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
-                                <i class="fas fa-money-bill-alt mr-3"></i>Orders
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            }
             <div class="col-sm col-lg-10">
                 <div class="container-fluid">
                     <partial name="_CookieConsentPartial" />
@@ -158,3 +147,6 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+

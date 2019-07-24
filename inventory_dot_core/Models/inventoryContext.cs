@@ -480,7 +480,7 @@ namespace inventory_dot_core.Models
 
                 entity.HasOne(d => d.RelheWhard)
                     .WithOne(p => p.RelHardwareEmployee)
-                    .HasForeignKey<RelHardwareEmployee>(d => d.RelheWhardId)
+                    //.HasForeignKey(d => d.RelheWhardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_hardware_employee_wealth_hardware_fk");
             });

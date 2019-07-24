@@ -1,0 +1,112 @@
+﻿@model IEnumerable<inventory_dot_core.Models.WealthHardware>
+
+@{
+    ViewData["Title"] = "Список оборудования на учете";
+    Layout = "~/Views/Shared/_Layout_Report.cshtml";
+}
+
+@{ int rowNum = 0; }
+
+<table class="table" id="dataTable">
+    <thead>
+        <tr>
+            <th colspan="15">Список оборудования на учете</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardInumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardFnumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardDateOfAdoption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardNote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardArchiv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardCreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSoftDeployed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardMolEmployee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardOffice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardRegion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardWcat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhardWtype)
+            </th>
+            <th>
+                РМ Сотрудника
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            rowNum++;
+            <tr>
+                <td>@rowNum</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardInumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardFnumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardDateOfAdoption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardNote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardArchiv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardCreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSoftDeployed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardMolEmployee.EmployeeFullFio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardOffice.OfficeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardRegion.RegionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardWcat.Wcatname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WhardWtype.WtypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelHardwareEmployee.RelheEmployee.EmployeeFullFio)                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

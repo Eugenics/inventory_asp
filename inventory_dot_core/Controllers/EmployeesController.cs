@@ -57,7 +57,9 @@ namespace inventory_dot_core.Views
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync(employeesQueryable, pageSize, page, sortExpression, "EmployeeId");
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);

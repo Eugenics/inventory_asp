@@ -45,7 +45,9 @@ namespace inventory_dot_core.Views
                    );
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);
