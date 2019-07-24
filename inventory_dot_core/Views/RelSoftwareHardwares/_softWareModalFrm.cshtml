@@ -1,6 +1,6 @@
-﻿@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.WealthSoftware>
+﻿@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.WealthHardware>
 
-@using (Html.BeginForm("Contact", "RelSoftwareHardwares"))
+@using (Html.BeginForm("Contact", "RelHardwareEmployees"))
 {
     <div class="modal fade" id="add-contact" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -20,10 +20,10 @@
                         <thead>
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.WsoftName)
+                                    @Html.DisplayNameFor(model => model.WhardName)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.WsoftInumber)
+                                    @Html.DisplayNameFor(model => model.WhardInumber)
                                 </th>
                                 <th></th>
                             </tr>
@@ -33,10 +33,10 @@
                             {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.WsoftName)
+                                    @Html.DisplayFor(modelItem => item.WhardName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.WsoftInumber)
+                                    @Html.DisplayFor(modelItem => item.WhardInumber)
                                 </td>
                                 <td></td>
                             </tr>

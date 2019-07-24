@@ -15,7 +15,7 @@ namespace inventory_dot_core.Controllers
     public class RelOfficeResponsEmployeesController : Controller
     {
         private readonly InventoryContext _context;
-        private Classes.ControlesItems _ControleItems;
+        private readonly Classes.ControlesItems _ControleItems;
 
         public RelOfficeResponsEmployeesController(InventoryContext context)
         {
@@ -111,19 +111,19 @@ namespace inventory_dot_core.Controllers
                 return RedirectToAction(nameof(Index),
                     new
                     {
-                        page = page,
-                        filter = filter,
-                        sortExpression = sortExpression
+                        page,
+                        filter,
+                        sortExpression
                     });
             }
             ViewData["OfficeRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName"
-                ,relOfficeResponsEmployee.RoeOffice.OfficeHouses.HousesRegionId);
+                , relOfficeResponsEmployee.RoeOffice.OfficeHouses.HousesRegionId);
             ViewData["OfficeHousesId"] = new SelectList(_context.Houses, "HouseId", "HouseName"
-                ,relOfficeResponsEmployee.RoeOffice.OfficeHousesId);
+                , relOfficeResponsEmployee.RoeOffice.OfficeHousesId);
             ViewData["RoeEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFullFio"
-                ,relOfficeResponsEmployee.RoeEmployeeId);
+                , relOfficeResponsEmployee.RoeEmployeeId);
             ViewData["RoeOfficeId"] = new SelectList(_context.Offices, "OfficeId", "OfficeName"
-                ,relOfficeResponsEmployee.RoeOfficeId);
+                , relOfficeResponsEmployee.RoeOfficeId);
             return View(relOfficeResponsEmployee);
         }
 
@@ -145,10 +145,10 @@ namespace inventory_dot_core.Controllers
                 return NotFound();
             }
 
-            
+
             var _relOR = _context.RelOfficeResponsEmployee
                 .Include(h => h.RoeOffice.OfficeHouses)
-                .Include(e => e.RoeEmployee)                
+                .Include(e => e.RoeEmployee)
                 .Include(o => o.RoeOffice)
                 .AsNoTracking();
 
@@ -219,9 +219,9 @@ namespace inventory_dot_core.Controllers
                 return RedirectToAction(nameof(Index),
                     new
                     {
-                        page = page,
-                        filter = filter,
-                        sortExpression = sortExpression
+                        page,
+                        filter,
+                        sortExpression
                     });
             }
 
@@ -291,9 +291,9 @@ namespace inventory_dot_core.Controllers
             return RedirectToAction(nameof(Index),
                 new
                 {
-                    page = page,
-                    filter = filter,
-                    sortExpression = sortExpression
+                    page,
+                    filter,
+                    sortExpression
                 });
         }
 

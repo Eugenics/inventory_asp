@@ -40,7 +40,7 @@ namespace inventory_dot_core.Views
             var employeesQueryable = _context.Employees
                 .Include(e => e.EmployeeOffice)
                 .Include(p => p.EmployeePosition)
-                .Include(r => r.EmployeeRegion)                
+                .Include(r => r.EmployeeRegion)
                 .AsQueryable();
             int pageSize = 10;
 
