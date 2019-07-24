@@ -108,9 +108,14 @@ namespace inventory_dot_core.Controllers
             ViewBag.SortExpression = sortExpression;
             ViewBag.EmployeeId = employee_id;
 
-            var _employee = _context.Employees.Find(employee_id);
+            var _employee = _context.Employees
+                .Include(o => o.EmployeeOffice)
+                .Where(e => e.EmployeeId == employee_id)
+                .FirstOrDefault();
 
             ViewBag.EmployeeName = _employee.EmployeeFullFio;
+            ViewBag.EmployeeRegionId = _employee.EmployeeRegionId;
+            ViewBag.EmployeeOfficeId = _employee.EmployeeOfficeId;
             
 
             ViewData["RelheEmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeFirstname")
@@ -290,11 +295,13 @@ namespace inventory_dot_core.Controllers
             // Создаем список используемого оборудования
             var _hardwareInUse = _context.RelHardwareEmployee.Select(h => h.RelheWhardId).ToArray();
 
+            /*
             // Удаляем из списка используемого оборудования текущее. Это необходимо для списка при редактировании.
             if (curWhardId != 0)
             {
                 _hardwareInUse = _hardwareInUse.Where(l => l != curWhardId).ToArray();
             }
+            */
 
             // Получаем список не используемого оборудования
             var _hardwareNotInUse = _context.WealthHardware

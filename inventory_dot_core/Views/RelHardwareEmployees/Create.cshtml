@@ -9,13 +9,21 @@
 <h4>На РМ сотрудника: @ViewBag.EmployeeName</h4>
 <hr />
 
+<input hidden id="eRegionId" value="@ViewBag.EmployeeRegionId" />
+<input hidden id="eOfficeId" value="@ViewBag.EmployeeOfficeId" />
+
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="RelheWhardId" class="control-label"></label>
-                <select asp-for="RelheWhardId" class="form-control" asp-items="ViewBag.RelheWhardId"></select>
+                <input hidden id="whardSearchId" name="whardSeach" class="form-control" />
+                <select asp-for="RelheWhardId"
+                        class="chosen-select"
+                        asp-items="ViewBag.RelheWhardId"
+                        style="font-family:Arial !important;"></select>
             </div>
             <div class="form-group">
                 <input type="submit"
@@ -38,6 +46,9 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $('#RelheWhardId').chosen({ width: '100%' });    
+</script>
 <script src="~/js/scripts/emp_workplace.js"></script>
 
 @section Scripts {
