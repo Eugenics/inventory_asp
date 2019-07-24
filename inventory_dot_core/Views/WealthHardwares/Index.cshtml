@@ -7,29 +7,47 @@
 
 <h1>Оборудование</h1>
 <p>
-    <partial name="_CreateButton" />
+    <partial name="_CreateButton" /> | 
+
+    <a asp-action="Report" class="btn btn-mdb-color btn-sm"       
+       asp-route-page="@Model.PageIndex"
+       asp-route-filter="@ViewBag.Filter"
+       asp-route-filterOffice="@ViewBag.FilterOffice"
+       asp-route-filterInv="@ViewBag.FilterInv"
+       asp-route-filterRegion="@ViewBag.FilterRegion"
+       asp-route-filterName="@ViewBag.FilterName"
+       asp-route-filterCat="@ViewBag.FilterCat"
+       asp-route-filterType="@ViewBag.FilterType"
+       asp-route-sortExpression="@ViewBag.SortExpression">
+    <i class="fas fa-file-alt"></i>
+    </a>
 </p>
+
 <partial name="_MultiFilterPartial" />
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardInumber,"WhardInumber")
+                @Html.SortableHeaderFor(model => model.WhardInumber, "WhardInumber")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardName,"WhardName")
+                @Html.SortableHeaderFor(model => model.WhardName, "WhardName")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardOffice,"WhardOffice")
+                @Html.SortableHeaderFor(model => model.WhardOffice, "WhardOffice")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardRegion,"WhardRegion")
+                @Html.SortableHeaderFor(model => model.WhardRegion, "WhardRegion")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardWcat,"WhardWcat")
+                @Html.SortableHeaderFor(model => model.WhardWcat, "WhardWcat")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WhardWtype,"WhardWtype")
+                @Html.SortableHeaderFor(model => model.WhardWtype, "WhardWtype")
+            </th>
+            <th>
+                РМ Сотрудника
+                @Html.SortableHeaderFor(model => model.RelHardwareEmployee.RelheEmployee.EmployeeFullFio, "WhardWtype")
             </th>
             <th></th>
         </tr>
@@ -37,50 +55,53 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardInumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardOffice.OfficeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardRegion.RegionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardWcat.Wcatname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WhardWtype.WtypeName)
-                </td>
-                <td>
-                    <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
-                       asp-route-id="@item.WhardId"
-                       asp-route-page="@Model.PageIndex"
-                       asp-route-filter="@ViewBag.Filter"
-                       asp-route-filterOffice="@ViewBag.FilterOffice"
-                       asp-route-filterInv="@ViewBag.FilterInv"
-                       asp-route-filterRegion="@ViewBag.FilterRegion"
-                       asp-route-filterName="@ViewBag.FilterName"
-                       asp-route-filterCat="@ViewBag.FilterCat"
-                       asp-route-filterType="@ViewBag.FilterType"
-                       asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
-                    <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
-                       asp-route-id="@item.WhardId"
-                       asp-route-page="@Model.PageIndex"
-                       asp-route-filter="@ViewBag.Filter"
-                       asp-route-filterOffice="@ViewBag.FilterOffice"
-                       asp-route-filterInv="@ViewBag.FilterInv"
-                       asp-route-filterRegion="@ViewBag.FilterRegion"
-                       asp-route-filterName="@ViewBag.FilterName"
-                       asp-route-filterCat="@ViewBag.FilterCat"
-                       asp-route-filterType="@ViewBag.FilterType"
-                       asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
-                </td>
-            </tr>
+        <tr>
+            <td width="10%">
+                @Html.DisplayFor(modelItem => item.WhardInumber)
+            </td>
+            <td width="20%">
+                @Html.DisplayFor(modelItem => item.WhardName)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.WhardOffice.OfficeName)
+            </td>
+            <td width="15%" align="center">
+                @Html.DisplayFor(modelItem => item.WhardRegion.RegionName)
+            </td>
+            <td width="10%" align="center">
+                @Html.DisplayFor(modelItem => item.WhardWcat.Wcatname)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.WhardWtype.WtypeName)
+            </td>
+            <td width="10%" align="center">
+                @Html.DisplayFor(modelItem => item.RelHardwareEmployee.RelheEmployee.EmployeeFullFio)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.WhardId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-filterOffice="@ViewBag.FilterOffice"
+                   asp-route-filterInv="@ViewBag.FilterInv"
+                   asp-route-filterRegion="@ViewBag.FilterRegion"
+                   asp-route-filterName="@ViewBag.FilterName"
+                   asp-route-filterCat="@ViewBag.FilterCat"
+                   asp-route-filterType="@ViewBag.FilterType"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
+                   asp-route-id="@item.WhardId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-filterOffice="@ViewBag.FilterOffice"
+                   asp-route-filterInv="@ViewBag.FilterInv"
+                   asp-route-filterRegion="@ViewBag.FilterRegion"
+                   asp-route-filterName="@ViewBag.FilterName"
+                   asp-route-filterCat="@ViewBag.FilterCat"
+                   asp-route-filterType="@ViewBag.FilterType"
+                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
