@@ -115,7 +115,9 @@ namespace inventory_dot_core.Controllers
                 { "filterName", filterName},
                 { "filterCat", filterCat},
                 { "filterType", filterType},
-                { "filterRegion", filterRegion}
+                { "filterRegion", filterRegion},                
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             ViewData["WhardRegionFilter"] = new SelectList(_context.Region, "RegionId", "RegionName");

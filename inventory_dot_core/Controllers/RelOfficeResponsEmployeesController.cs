@@ -48,7 +48,9 @@ namespace inventory_dot_core.Controllers
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync(roeQueryable, pageSize, page, sortExpression, "RoeId");
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                 { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);
