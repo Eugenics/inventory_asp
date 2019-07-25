@@ -44,6 +44,10 @@
             <th>
                 @Html.SortableHeaderFor(model => model.WhardWtype, "WhardWtype")
             </th>
+            <th>
+                РМ Сотрудника
+                @Html.DisplayNameFor(model => model.RelHardwareEmployee.RelheEmployee.EmployeeFullFio)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -51,23 +55,26 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WhardInumber)
                 </td>
-                <td>
+                <td width="15%">
                     @Html.DisplayFor(modelItem => item.WhardName)
                 </td>
-                <td>
+                <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WhardOffice.OfficeName)
                 </td>
-                <td>
+                <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WhardRegion.RegionName)
                 </td>
-                <td>
+                <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WhardWcat.Wcatname)
                 </td>
-                <td>
+                <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WhardWtype.WtypeName)
+                </td>
+                <td width="15%">
+                    @Html.DisplayFor(modelItem => item.RelHardwareEmployee.RelheEmployee.EmployeeFullFio)
                 </td>
                 <td>
                     <a asp-action="Edit" class="btn btn-mdb-color btn-sm"

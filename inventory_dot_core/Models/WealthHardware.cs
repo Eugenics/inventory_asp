@@ -14,7 +14,7 @@ namespace inventory_dot_core.Models
             AccountingCartridgesAcCartWhard = new HashSet<AccountingCartridges>();
             AccountingCartridgesAcWhard = new HashSet<AccountingCartridges>();
             AccountingPhones = new HashSet<AccountingPhones>();
-            RelHardwareEmployee = new RelHardwareEmployee();
+            //RelHardwareEmployee = new RelHardwareEmployee();
             RelSoftwareHardware = new HashSet<RelSoftwareHardware>();
         }
 

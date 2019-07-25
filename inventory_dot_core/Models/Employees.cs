@@ -10,7 +10,7 @@ namespace inventory_dot_core.Models
         public Employees()
         {
             AccountingPhones = new HashSet<AccountingPhones>();
-            RelHardwareEmployee = new HashSet<RelHardwareEmployee>();
+            //RelHardwareEmployee = new RelHardwareEmployee();
             RelOfficeResponsEmployee = new HashSet<RelOfficeResponsEmployee>();
             WealthHardware = new HashSet<WealthHardware>();
         }
@@ -75,7 +75,7 @@ namespace inventory_dot_core.Models
         public virtual Region EmployeeRegion { get; set; }
 
         public virtual ICollection<AccountingPhones> AccountingPhones { get; set; }
-        public virtual ICollection<RelHardwareEmployee> RelHardwareEmployee { get; set; }
+        public virtual RelHardwareEmployee RelHardwareEmployee { get; set; }
         public virtual ICollection<RelOfficeResponsEmployee> RelOfficeResponsEmployee { get; set; }
         public virtual ICollection<WealthHardware> WealthHardware { get; set; }
     }
