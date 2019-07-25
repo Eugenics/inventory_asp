@@ -407,16 +407,13 @@ namespace inventory_dot_core.Controllers
             var _softwareInUse = _context.RelSoftwareHardware
                 .Select(h => h.RelshWsoftId)
                 .ToArray();
-            // Удаляем из списка используемого ПО текущее. Это необходимо для списка при редактировании.
-            //if (curSoftdId != 0)
-            //{
-            //    _softwareInUse = _softwareInUse.Where(l => l != curSoftdId).ToArray();
-            //}
 
             // Получаем список не используемого ПО
             var _hardwareNotInUse = _context.WealthSoftware
-                .Where(h => !(h.WsoftCnt < _softwareInUse.Where(x => x == h.WsoftId).Count())
-                //!_softwareInUse.Contains(h.WsoftId)
+                .Where(h => !(
+                h.WsoftCnt < _softwareInUse
+                .Where(x => x == h.WsoftId).Count()
+                )
                 )
                 .OrderBy(h => h.WsoftInumber);
 

@@ -547,8 +547,8 @@ namespace inventory_dot_core.Models
                     .HasConstraintName("rel_software_hardware_wealth_hardware_fk");
 
                 entity.HasOne(d => d.RelshWsoft)
-                    .WithMany(p => p.RelSoftwareHardware)
-                    .HasForeignKey(d => d.RelshWsoftId)
+                    .WithOne(p => p.RelSoftwareHardware)
+                    //.HasForeignKey(d => d.RelshWsoftId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_software_hardware_wealth_software_fk");
             });

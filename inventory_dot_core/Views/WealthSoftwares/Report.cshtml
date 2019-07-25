@@ -1,0 +1,112 @@
+﻿@model IEnumerable<inventory_dot_core.Models.WealthSoftware>
+
+@{
+    ViewData["Title"] = "Список ПО на учете";
+    Layout = "~/Views/Shared/_Layout_Report.cshtml";
+}
+
+@{ int rowNum = 0; }
+
+<table class="table" id="dataTable">
+    <thead>
+        <tr>
+            <th colspan="15">Список ПО на учете</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftInumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftFnumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftDateOfAdoption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftNote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftArchiv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftCreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftCnt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftCntFree)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftResidualValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftRegion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftWcat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WsoftWtype)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelSoftwareHardware.RelshWhard.WhardName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            rowNum++;
+            <tr>
+                <td>@rowNum</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftInumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftFnumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftDateOfAdoption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftNote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftArchiv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftCreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftCnt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftCntFree)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftResidualValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftRegion.RegionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftWcat.Wcatname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WsoftWtype.WtypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelSoftwareHardware.RelshWhard.WhardName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

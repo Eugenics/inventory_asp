@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inventory_dot_core.Controllers
 {
-    [Authorize(Policy = "RefEditorsRole")]   
+    [Authorize(Policy = "RefEditorsRole")]
     public class WealthHardwaresController : Controller
     {
         private readonly InventoryContext _context;
@@ -56,7 +56,7 @@ namespace inventory_dot_core.Controllers
                 .Include(w => w.WhardRegion)
                 .Include(w => w.WhardWcat)
                 .Include(w => w.WhardWtype)
-                .Include(w => w.RelHardwareEmployee.RelheEmployee)                
+                .Include(w => w.RelHardwareEmployee.RelheEmployee)
                 .AsQueryable();
 
             int pageSize = 5;
@@ -115,7 +115,7 @@ namespace inventory_dot_core.Controllers
                 { "filterName", filterName},
                 { "filterCat", filterCat},
                 { "filterType", filterType},
-                { "filterRegion", filterRegion},                
+                { "filterRegion", filterRegion},
                 { "sortExpression", sortExpression },
                 { "page", page }
             };
@@ -216,15 +216,15 @@ namespace inventory_dot_core.Controllers
                 return RedirectToAction(nameof(Index),
                     new
                     {
-                        filter = filter,
-                        page = page,
-                        sortExpression = sortExpression,
-                        filterInv = filterInv,
-                        filterName = filterName,
-                        filterRegion = filterRegion,
-                        filterCat = filterCat,
-                        filterType = filterType,
-                        filterOffice = filterOffice
+                        filter,
+                        page,
+                        sortExpression,
+                        filterInv,
+                        filterName,
+                        filterRegion,
+                        filterCat,
+                        filterType,
+                        filterOffice
                     });
             }
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(wealthHardware.WhardRegion.RegionId);
@@ -425,15 +425,15 @@ namespace inventory_dot_core.Controllers
             return RedirectToAction(nameof(Index),
                  new
                  {
-                     filter = filter,
-                     page = page,
-                     sortExpression = sortExpression,
-                     filterInv = filterInv,
-                     filterName = filterName,
-                     filterRegion = filterRegion,
-                     filterCat = filterCat,
-                     filterType = filterType,
-                     filterOffice = filterOffice
+                     filter,
+                     page,
+                     sortExpression,
+                     filterInv,
+                     filterName,
+                     filterRegion,
+                     filterCat,
+                     filterType,
+                     filterOffice
                  });
         }
 
@@ -472,6 +472,7 @@ namespace inventory_dot_core.Controllers
                 .Include(w => w.WhardWcat)
                 .Include(w => w.WhardWtype)
                 .Include(w => w.RelHardwareEmployee.RelheEmployee)
+                .AsNoTracking()
                 .AsQueryable();
 
             int pageSize = 100000;
