@@ -33,12 +33,24 @@
                        asp-route-hardware_id="@ViewBag.HardwareId"
                        asp-route-filter="@ViewBag.Filter"
                        asp-route-sortExpression="@ViewBag.SortExpression"
-                       asp-route-page="@ViewBag.Page" /> |
+                       asp-route-page="@ViewBag.Page"
+                       asp-route-filterOffice="@ViewBag.FilterOffice"
+                       asp-route-filterInv="@ViewBag.FilterInv"
+                       asp-route-filterRegion="@ViewBag.FilterRegion"
+                       asp-route-filterName="@ViewBag.FilterName"
+                       asp-route-filterCat="@ViewBag.FilterCat"
+                       asp-route-filterType="@ViewBag.FilterType"/> |
                 <a class="btn btn-mdb-color btn-sm" asp-action="Index"
                    asp-route-hardware_id="@ViewBag.HardwareId"
                    asp-route-filter="@ViewBag.Filter"
                    asp-route-sortExpression="@ViewBag.SortExpression"
-                   asp-route-page="@ViewBag.Page">
+                   asp-route-page="@ViewBag.Page"                  
+                   asp-route-filterOffice="@ViewBag.FilterOffice"
+                   asp-route-filterInv="@ViewBag.FilterInv"
+                   asp-route-filterRegion="@ViewBag.FilterRegion"
+                   asp-route-filterName="@ViewBag.FilterName"
+                   asp-route-filterCat="@ViewBag.FilterCat"
+                   asp-route-filterType="@ViewBag.FilterType">
                     Назад
                 </a>
             </div>

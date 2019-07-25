@@ -12,7 +12,13 @@
        asp-route-hardware_id="@ViewBag.HardwareId"
        asp-route-page="@Model.PageIndex"
        asp-route-filter="@ViewBag.Filter"
-       asp-route-sortExpression="@ViewBag.SortExpression">
+       asp-route-sortExpression="@ViewBag.SortExpression"
+       asp-route-filterOffice="@ViewBag.FilterOffice"
+       asp-route-filterInv="@ViewBag.FilterInv"
+       asp-route-filterRegion="@ViewBag.FilterRegion"
+       asp-route-filterName="@ViewBag.FilterName"
+       asp-route-filterCat="@ViewBag.FilterCat"
+       asp-route-filterType="@ViewBag.FilterType">
         Добавить программное обеспечение
     </a> |
     <a class="btn btn-mdb-color btn-sm"
@@ -58,7 +64,13 @@
                        asp-route-id="@item.RelshId"
                        asp-route-page="@Model.PageIndex"
                        asp-route-filter="@ViewBag.Filter"
-                       asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Delete"]</a>
+                       asp-route-sortExpression="@ViewBag.SortExpression"
+                       asp-route-filterOffice="@ViewBag.FilterOffice"
+                       asp-route-filterInv="@ViewBag.FilterInv"
+                       asp-route-filterRegion="@ViewBag.FilterRegion"
+                       asp-route-filterName="@ViewBag.FilterName"
+                       asp-route-filterCat="@ViewBag.FilterCat"
+                       asp-route-filterType="@ViewBag.FilterType">@Dictionary.frasesDictionary["Delete"]</a>
                 </td>
             </tr>
         }

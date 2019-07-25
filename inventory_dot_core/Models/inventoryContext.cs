@@ -473,8 +473,8 @@ namespace inventory_dot_core.Models
                 entity.Property(e => e.RelheWhardId).HasColumnName("relhe_whard_id");
 
                 entity.HasOne(d => d.RelheEmployee)
-                    .WithMany(p => p.RelHardwareEmployee)
-                    .HasForeignKey(d => d.RelheEmployeeId)
+                    .WithOne(p => p.RelHardwareEmployee)
+                    //.HasForeignKey(d => d.RelheEmployeeId)                    
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_hardware_employee_employees_fk");
 
