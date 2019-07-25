@@ -15,7 +15,6 @@ namespace inventory_dot_core.Controllers
     public class RelSoftwareHardwaresController : Controller
     {
         private readonly InventoryContext _context;
-        private static string _hard_filter;
         private static int _hard_page;
         private static string _hard_sortExpression;
         //private static int indexPageOpnCnt = 0;
@@ -34,7 +33,6 @@ namespace inventory_dot_core.Controllers
         public async Task<IActionResult> Index(int hardware_id, string filter = "",
             int page = 1,
             int hard_page = 1,
-            string hard_filter = "",
             string filterInv = "",
             string filterCat = "",
             string filterType = "",
@@ -59,12 +57,10 @@ namespace inventory_dot_core.Controllers
             if (_hardware_id != hardware_id)
             {
                 _hardware_id = hardware_id;
-                _hard_filter = hard_filter;
                 _hard_page = hard_page;
                 _hard_sortExpression = hard_sortExpression;
             }
 
-            ViewBag.HardFilter = _hard_filter;
             ViewBag.HardPage = _hard_page;
             ViewBag.HardSortExpression = _hard_sortExpression;
 
@@ -94,7 +90,7 @@ namespace inventory_dot_core.Controllers
 
             model.RouteValue = new RouteValueDictionary {
                 { "filter", filter},
-                { "HardwareId", hardware_id},
+                { "hardware_id", hardware_id},
                 { "FilterInv", filterInv},
                 { "filterOffice", filterOffice},
                 { "filterName", filterName},
@@ -128,15 +124,34 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: RelSoftwareHardwares/Create
-        public IActionResult Create(int hardware_id, string filter = "", int page = 1, string sortExpression = "RelshId")
+        public IActionResult Create(int hardware_id, string filter = "",
+            int page = 1,
+            int hard_page = 1,
+            string filterInv = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterName = "",
+            string filterOffice = "",
+            string filterRegion = "",
+            string sortExpression = "RelshId",
+            string hard_sortExpression = "WhardId")
         {
+            ViewBag.HardwareId = hardware_id;
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
             ViewBag.HardwareId = hardware_id;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             var _hardware = _context.WealthHardware.Find(hardware_id);
 
+            ViewBag.HardPage = _hard_page;
+            ViewBag.HardSortExpression = _hard_sortExpression;
             ViewBag.HardwareName = _hardware.WhardName;
 
             ViewData["RelshIdHardwareId"] = new SelectList(_context.WealthHardware, "WhardId", "WhardName")
