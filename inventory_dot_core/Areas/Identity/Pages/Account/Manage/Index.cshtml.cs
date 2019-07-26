@@ -78,6 +78,10 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
