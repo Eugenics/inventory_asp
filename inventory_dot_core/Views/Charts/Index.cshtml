@@ -10,6 +10,7 @@
 
 
 <script src="~/Chart.js/Chart.min.js"></script>
+<script src="~/Chart.js/utils.js"></script>
 
 <!--
 
@@ -131,12 +132,23 @@
 
 
 <body>
-    <h2>Графическое отображение ТМЦ</h2>
-    <div class="row">
-        <div class="container-fluid">
-            <canvas id="myChart" width="75%"></canvas>
+    <h2>DASHBOARD</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <canvas id="totalMcChart"></canvas>
+            </div>
+            <div class="col">
+                <canvas id="totalSoftChart"></canvas>
+            </div>
         </div>
+        <hr />
+        <div class="row">
+            <canvas id="totalITMcChart"></canvas>
+        </div>
+        <hr />
     </div>
+
 
 
     <!--
@@ -156,17 +168,85 @@
 
 <script type="text/javascript">
     var hard_data = @Html.Raw(ViewData["DataHardSoftByRegion"]);
-    var hd = hard_data;
 
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    var labels = [];
+    var hard = [];
+    var soft = [];
+    var TotalHardInUse = [];
+    var TotalITHard = [];
+
+
+    hard_data.forEach(function(row) {
+        labels.push(row["RegionName"]);
+        hard.push(row["totalHard"]);
+        soft.push(row["totalSoft"]);
+        TotalHardInUse.push(row["TotalHardInUse"]);
+        TotalITHard.push(row["TotalITHardCnt"]);
+    });
+
+    //console.log(labels);
+    //console.log(hard);
+    //console.log(soft);
+    console.log(TotalHardInUse);
+    console.log(TotalITHard);
+
+    var color = Chart.helpers.color;
+
+    var totalMCChart = document.getElementById('totalMcChart').getContext('2d');
+    var MCChart = new Chart(totalMCChart, {
         type: 'bar',
         data: {
-            labels: ['04', '22', '17', '19', '24', '38', '42', '54', '55', '70'],
+            labels: labels,
             datasets: [{
-                label: 'Всего на учете',
-                data: hard_data
+                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.red,
+			    borderWidth: 1,
+                label: 'Всего МЦ по регионам:',
+                data: hard
             }]
+        },
+        options: {}
+    });
+
+
+    var totalSoftChart = document.getElementById('totalSoftChart').getContext('2d');
+    var SoftChart = new Chart(totalSoftChart, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.green,
+                    borderWidth: 1,
+                    label: 'Всего SOFT по регионам:',
+                    data: soft
+                }]
+        },
+        options: {}
+    });
+
+
+    var totalITMcChart = document.getElementById('totalITMcChart').getContext('2d');
+    var ITMcChart = new Chart(totalITMcChart, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.yellow,
+                    borderWidth: 1,
+                    label: 'IT МЦ по регионам',
+                    data: TotalITHard
+                },
+                {
+                    backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.purple,
+                    borderWidth: 1,
+                    label: 'IT МЦ по регионам (распределено по РМ)',
+                    data: TotalHardInUse
+                }]
         },
         options: {}
     });

@@ -46,8 +46,16 @@ namespace inventory_dot_core.Controllers
                 .ToList();
 
             var modelHard = _context.WealthHardware
-                .Include(x => x.WhardRegion)
+                .Include(x => x.WhardRegion)                
                 .OrderBy(x => x.WhardName)
+                .Include(t => t.WhardWtype)
+                .AsNoTracking()
+                .ToList();
+
+            var modelRelHE = _context.RelHardwareEmployee
+                .Include(w => w.RelheWhard)
+                .Include(r => r.RelheWhard.WhardRegion)
+                .Include(t => t.RelheWhard.WhardWtype)
                 .AsNoTracking()
                 .ToList();
 
@@ -69,8 +77,32 @@ namespace inventory_dot_core.Controllers
                 }).OrderBy(t => t.RegionName)
                 .ToList();
 
-            List<object[]> lineCharts1 = new List<object[]>();
-            object[] obj;
+            var HardInUse = modelRelHE
+                    .Where(t => t.RelheWhard.WhardWtype.wtype_is_it == 1)
+                    .GroupBy(h => h.RelheWhard.WhardRegion.RegionName)
+                    .Select(hgroup => new
+                    {
+                        RegionName = hgroup.Key,
+                        TotalHardInUse = hgroup.Count()
+                    })
+                    .OrderBy(h => h.RegionName)
+                    .ToList();
+            
+            var TotalITHard = modelHard
+                .Where(t => t.WhardWtype.wtype_is_it == 1)
+                .GroupBy(h => h.WhardRegion.RegionName)
+                .Select(hgroup => new
+                {
+                    RegionName = hgroup.Key,
+                    TotalITHardCnt= hgroup.Count()
+                })
+                    .OrderBy(h => h.RegionName)
+                    .ToList();
+
+
+
+            List<object> HardChart = new List<object>();
+            object obj;
 
             foreach (var item in _context.Region)
             {
@@ -80,13 +112,23 @@ namespace inventory_dot_core.Controllers
                 int totalSoft = grpSoftByRegion.Where(x => x.RegionName == item.RegionName).FirstOrDefault() != null
                    ? grpSoftByRegion.Where(x => x.RegionName == item.RegionName).FirstOrDefault().TotalSoft : 0;
 
-                obj= new object[3];
+                int hardInUse = HardInUse.Where(x => x.RegionName == item.RegionName).FirstOrDefault() != null
+                    ? HardInUse.Where(x => x.RegionName == item.RegionName).FirstOrDefault().TotalHardInUse : 0;
 
-                obj[0] = item.RegionName;
-                obj[1] = totalHard;
-                obj[2] = totalSoft;
+                int TotalITHardCnt = TotalITHard.Where(x => x.RegionName == item.RegionName).FirstOrDefault() != null
+                    ? TotalITHard.Where(x => x.RegionName == item.RegionName).FirstOrDefault().TotalITHardCnt : 0;
 
-                lineCharts1.Add(obj);
+
+                obj = new
+                {
+                    RegionName = item.RegionName,
+                    totalHard = totalHard,
+                    totalSoft = totalSoft,
+                    TotalHardInUse = hardInUse,
+                    TotalITHardCnt = TotalITHardCnt
+                };
+
+                HardChart.Add(obj);
             }
 
             var grpResultType = modelSoft
@@ -99,8 +141,8 @@ namespace inventory_dot_core.Controllers
                 .ToList();
 
             ViewData["DataHardByMol"] = JsonConvert.SerializeObject(modelHardMol);
-            ViewData["DataHardSoftByRegion"] = JsonConvert.SerializeObject(lineCharts1);
-            ViewData["DataSoftByType"] = JsonConvert.SerializeObject(grpResultType);
+            ViewData["DataHardSoftByRegion"] = JsonConvert.SerializeObject(HardChart);
+            ViewData["DataSoftByType"] = JsonConvert.SerializeObject(grpResultType);            
 
             return View();
         }

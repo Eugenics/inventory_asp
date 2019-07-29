@@ -25,6 +25,11 @@
                 <span asp-validation-for="WtypeNotes" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="wtype_is_it" class="control-label"></label>
+                @Html.CheckBox("wtype_is_it", Convert.ToBoolean(Model.wtype_is_it))
+                <span asp-validation-for="wtype_is_it" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <partial name="_SaveButton" /> | <partial name="_BackButton" />
             </div>
         </form>

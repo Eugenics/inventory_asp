@@ -270,7 +270,7 @@ namespace inventory_dot_core.Controllers
             _whard = _whard.Where(h => h.WhardId == id);
 
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(_whard.First().WhardRegion.RegionId);
-            ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_whard.First().WhardRegion.RegionId);
+            ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_whard.First().WhardRegion.RegionId,_whard.First().WhardOfficeId);
             ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthHardware.WhardRegionId);
             ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname", wealthHardware.WhardWcatId);
             ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
