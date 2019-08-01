@@ -54,7 +54,9 @@ namespace inventory_dot_core.Classes
             selectId = selectId == null ? 0 : selectId;
 
             var _offices = _context.Offices.Where(o => o.OfficeHouses.HousesRegionId == regionId)
-                .Include(h => h.OfficeHouses);
+                .Include(h => h.OfficeHouses)
+                .OrderBy(o => o.OfficeHouses.HousesName)
+                    .ThenBy(o => o.OfficeName);
 
             var retList = new List<SelectListItem>();
 
@@ -78,7 +80,9 @@ namespace inventory_dot_core.Classes
         public List<SelectListItem> GetOfficesByHouse(int houseId)
         {
             var _offices = _context.Offices.Where(o => o.OfficeHousesId == houseId)
-                .Include(h => h.OfficeHouses);
+                .Include(h => h.OfficeHouses)
+                .OrderBy(o => o.OfficeHouses.HousesName)
+                    .ThenBy(o => o.OfficeName);
 
             var retList = new List<SelectListItem>();
 
@@ -183,7 +187,9 @@ namespace inventory_dot_core.Classes
             if (regionId == 4) regionId = 22;
 
             var _employees = _context.Employees.Where(e => e.EmployeeRegionId == regionId && e.EmployeeIsMol == 1)
-                .Include(d => d.EmployeePosition.PositionDepartment);
+                .Include(d => d.EmployeePosition.PositionDepartment)
+                .OrderBy(e => e.EmployeeFullFio);
+
             var retList = new List<SelectListItem>();
 
             foreach (var e in _employees)

@@ -59,7 +59,7 @@ namespace inventory_dot_core.Controllers
                     .Count();
             }
 
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {

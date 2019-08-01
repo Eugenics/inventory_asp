@@ -59,7 +59,7 @@ namespace inventory_dot_core.Controllers
                 .Include(w => w.RelHardwareEmployee.RelheEmployee)
                 .AsQueryable();
 
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -171,9 +171,9 @@ namespace inventory_dot_core.Controllers
 
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(_Region.RegionId);
             ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_Region.RegionId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName");
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname");
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName");
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(r => r.RegionName), "RegionId", "RegionName");
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname");
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName");
             return View();
         }
 
@@ -229,9 +229,9 @@ namespace inventory_dot_core.Controllers
             }
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(wealthHardware.WhardRegion.RegionId);
             ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(wealthHardware.WhardRegion.RegionId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthHardware.WhardRegionId);
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname", wealthHardware.WhardWcatId);
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(r => r.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
             return View(wealthHardware);
         }
 
@@ -271,9 +271,9 @@ namespace inventory_dot_core.Controllers
 
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(_whard.First().WhardRegion.RegionId);
             ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_whard.First().WhardRegion.RegionId,_whard.First().WhardOfficeId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthHardware.WhardRegionId);
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname", wealthHardware.WhardWcatId);
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(r => r.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
             return View(wealthHardware);
         }
 
@@ -353,9 +353,9 @@ namespace inventory_dot_core.Controllers
 
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(_whard.First().WhardRegion.RegionId);
             ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_whard.First().WhardRegion.RegionId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthHardware.WhardRegionId);
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname", wealthHardware.WhardWcatId);
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(c => c.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
             return View(wealthHardware);
         }
 

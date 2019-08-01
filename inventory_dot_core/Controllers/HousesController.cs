@@ -41,7 +41,7 @@ namespace inventory_dot_core.Controllers
         public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "HousesId")
         {
             var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsQueryable();
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
