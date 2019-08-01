@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace inventory_dot_core.Controllers
 {
     [Authorize(Policy = "RefEditorsRole")]
-    public class RelHardwareSoftwares : Controller
+    public class RelHardwareSoftwaresController : Controller
     {
         private readonly InventoryContext _context;
 
@@ -20,7 +20,7 @@ namespace inventory_dot_core.Controllers
         private static int _soft_page;
         private static string _soft_sortExpression;
 
-        public RelHardwareSoftwares(InventoryContext context)
+        public RelHardwareSoftwaresController(InventoryContext context)
         {
             _context = context;
         }
