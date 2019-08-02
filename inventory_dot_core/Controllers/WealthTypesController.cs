@@ -45,7 +45,9 @@ namespace inventory_dot_core.Views
                    );
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);
@@ -84,12 +86,17 @@ namespace inventory_dot_core.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WtypeId,WtypeName,WtypeNotes")] WealthTypes wealthTypes,
+        public async Task<IActionResult> Create([Bind("WtypeId,WtypeName,WtypeNotes,wtype_is_it")] WealthTypes wealthTypes,
+            bool wtype_is_it,
             string filter = "", int page = 1, string sortExpression = "WtypeId")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+
+            wealthTypes.wtype_is_it = wtype_is_it ? 1 : 0;
+
+            ModelState.Clear();
 
             if (ModelState.IsValid)
             {
@@ -131,12 +138,18 @@ namespace inventory_dot_core.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("WtypeId,WtypeName,WtypeNotes")] WealthTypes wealthTypes,
+        public async Task<IActionResult> Edit(int id, [Bind("WtypeId,WtypeName,WtypeNotes,wtype_is_it")] WealthTypes wealthTypes,
+            bool wtype_is_it,
             string filter = "", int page = 1, string sortExpression = "WtypeId")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+
+
+            wealthTypes.wtype_is_it = wtype_is_it ? 1 : 0;
+
+            ModelState.Clear();
 
             if (id != wealthTypes.WtypeId)
             {

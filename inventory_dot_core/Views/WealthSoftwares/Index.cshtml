@@ -5,26 +5,34 @@
     ViewData["Title"] = "Программное обеспечение";
 }
 
-
 <h1>Программное обеспечение</h1>
 
 <p>
     <partial name="_CreateButton" />
+
+    <a asp-action="Report" class="btn btn-mdb-color btn-sm"
+       asp-route-page="@Model.PageIndex"
+       asp-route-filter="@ViewBag.Filter"
+       asp-route-sortExpression="@ViewBag.SortExpression"
+       asp-route-filterInv="@ViewBag.filterInv"
+       asp-route-filterName="@ViewBag.filterName"
+       asp-route-filterRegion="@ViewBag.filterRegion">
+        <i class="fas fa-file-alt"></i>
+    </a>
 </p>
+
 <form class="form-inline form-sm" method="get">
     <input name="filterRegion"
            class="form-control form-control-sm"
            placeholder="Регион"
            aria-label="Search"
            value="@Model.RouteValue["FilterRegion"]">
-    <input
-           name="filterInv"
+    <input name="filterInv"
            class="form-control form-control-sm"
            placeholder="Инвентарный номер"
            aria-label="Search"
-           value="@Model.RouteValue["FilterInv"]">    
-    <input
-           name="filterName"
+           value="@Model.RouteValue["FilterInv"]">
+    <input name="filterName"
            class="form-control  form-control-sm"
            placeholder="Наименование"
            aria-label="Search"
@@ -36,28 +44,31 @@
     <thead>
         <tr>
             <th>
-                @Html.SortableHeaderFor(model => model.WsoftRegion,"WsoftRegion")
+                @Html.SortableHeaderFor(model => model.WsoftRegion, "WsoftRegion")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WsoftInumber,"WsoftInumber")
+                @Html.SortableHeaderFor(model => model.WsoftInumber, "WsoftInumber")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WsoftName,"WsoftName")
+                @Html.SortableHeaderFor(model => model.WsoftName, "WsoftName")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WsoftDateOfAdoption,"WsoftDateOfAdoption")
+                @Html.SortableHeaderFor(model => model.WsoftDateOfAdoption, "WsoftDateOfAdoption")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WsoftResidualValue,"WsoftResidualValue")
+                @Html.SortableHeaderFor(model => model.WsoftResidualValue, "WsoftResidualValue")
             </th>
             <th hidden>
-                @Html.SortableHeaderFor(model => model.WsoftNote,"WsoftNote")
+                @Html.SortableHeaderFor(model => model.WsoftNote, "WsoftNote")
             </th>
             <th hidden>
-                @Html.SortableHeaderFor(model => model.WsoftArchiv,"WsoftArchiv")
+                @Html.SortableHeaderFor(model => model.WsoftArchiv, "WsoftArchiv")
             </th>
             <th>
-                @Html.SortableHeaderFor(model => model.WsoftCnt,"WsoftCnt")
+                @Html.SortableHeaderFor(model => model.WsoftCnt, "WsoftCnt")
+            </th>
+            <th>
+                @Html.SortableHeaderFor(model => model.WsoftCntFree, "WsoftCntFree")
             </th>
             <th></th>
         </tr>
@@ -66,13 +77,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WsoftRegion.RegionName)
                 </td>
-                <td>
+                <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WsoftInumber)
                 </td>
-                <td width="15%">
+                <td width="20%">
                     @Html.DisplayFor(modelItem => item.WsoftName)
                 </td>
                 <td width="10%">
@@ -90,24 +101,26 @@
                 <td width="10%" align="center">
                     @Html.DisplayFor(modelItem => item.WsoftCnt)
                 </td>
+                <td width="10%" align="center">
+                    @Html.DisplayFor(modelItem => item.WsoftCntFree)
+                </td>
                 <td>
                     <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
                        asp-route-id="@item.WsoftId"
                        asp-route-page="@Model.PageIndex"
                        asp-route-filter="@ViewBag.Filter"
                        asp-route-sortExpression="@ViewBag.SortExpression"
-                       asp-route-filterInv = "@ViewBag.filterInv"
-                       asp-route-filterName = "@ViewBag.filterName"
-                       asp-route-filterRegion = "@ViewBag.filterRegion"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                       asp-route-filterInv="@ViewBag.filterInv"
+                       asp-route-filterName="@ViewBag.filterName"
+                       asp-route-filterRegion="@ViewBag.filterRegion"><i class="fas fa-pencil-alt fa-lg"></i></a> |
                     <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
                        asp-route-id="@item.WsoftId"
                        asp-route-page="@Model.PageIndex"
                        asp-route-filter="@ViewBag.Filter"
                        asp-route-sortExpression="@ViewBag.SortExpression"
-                       asp-route-filterInv = "@ViewBag.filterInv"
-                       asp-route-filterName = "@ViewBag.filterName"
-                       asp-route-filterRegion = "@ViewBag.filterRegion"><i class="fas fa-trash-alt fa-lg"></i></a> |
-
+                       asp-route-filterInv="@ViewBag.filterInv"
+                       asp-route-filterName="@ViewBag.filterName"
+                       asp-route-filterRegion="@ViewBag.filterRegion"><i class="fas fa-trash-alt fa-lg"></i></a>
                     <a asp-controller="RelHardwareSoftwares"
                        asp-action="Index" class="btn btn-mdb-color btn-sm"
                        asp-route-soft_id="@item.WsoftId"

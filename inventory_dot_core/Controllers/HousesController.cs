@@ -25,7 +25,7 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: Houses
-        [Breadcrumb("Строения")]
+       
         //public IActionResult Index(int page = 1 )
         //{
         //    var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsNoTracking().OrderBy(p=>p.HousesId);
@@ -53,7 +53,9 @@ namespace inventory_dot_core.Controllers
             var model = await PagingList.CreateAsync(housesesQueryable, pageSize, page, sortExpression, "HousesId");
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);

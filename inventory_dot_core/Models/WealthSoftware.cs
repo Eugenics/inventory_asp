@@ -9,7 +9,7 @@ namespace inventory_dot_core.Models
     {
         public WealthSoftware()
         {
-            RelSoftwareHardware = new HashSet<RelSoftwareHardware>();
+            //RelSoftwareHardware = new HashSet<RelSoftwareHardware>();
         }
 
         [Display(Name ="Код")]
@@ -55,6 +55,10 @@ namespace inventory_dot_core.Models
         [Display(Name = "Количество лицензий")]
         public int WsoftCnt { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Количество свободных лицензий")]
+        public int WsoftCntFree { get; set; }
+
         [Display(Name = "Регион")]
         public virtual Region WsoftRegion { get; set; }
 
@@ -65,6 +69,6 @@ namespace inventory_dot_core.Models
         public virtual WealthTypes WsoftWtype { get; set; }
 
         [Display(Name = "Оборудование")]
-        public virtual ICollection<RelSoftwareHardware> RelSoftwareHardware { get; set; }
+        public virtual RelSoftwareHardware RelSoftwareHardware { get; set; }
     }
 }

@@ -46,10 +46,12 @@ namespace inventory_dot_core.Classes
         /// </summary>
         /// <param name="regionId"></param>
         /// <returns></returns>
-        public List<SelectListItem> GetOfficesByRegion(int regionId)
+        public List<SelectListItem> GetOfficesByRegion(int regionId, int? selectId = 0)
         {
-            if (regionId == 17 || regionId == 19) regionId = 24;
-            if (regionId == 4) regionId = 22;
+            //if (regionId == 17 || regionId == 19) regionId = 24;
+            //if (regionId == 4) regionId = 22;
+
+            selectId = selectId == null ? 0 : selectId;
 
             var _offices = _context.Offices.Where(o => o.OfficeHouses.HousesRegionId == regionId)
                 .Include(h => h.OfficeHouses);
@@ -63,7 +65,7 @@ namespace inventory_dot_core.Classes
                 if (o.OfficeHouses != null)
                     if (_context.Houses.Where(h => h.HousesId == o.OfficeHousesId).AsNoTracking().Count() > 0)
                         retList.Add(new SelectListItem(o.OfficeHouses.HousesName + " | " + o.OfficeName,
-                            o.OfficeId.ToString(), false, false));
+                            o.OfficeId.ToString(), o.OfficeId == selectId ? true : false, false));
             }
             return retList;
         }
@@ -99,8 +101,8 @@ namespace inventory_dot_core.Classes
         /// <returns></returns>
         public List<SelectListItem> GetHousesByRegion(int regionId)
         {
-            if (regionId == 17 || regionId == 19) regionId = 24;
-            if (regionId == 4) regionId = 22;
+            //if (regionId == 17 || regionId == 19) regionId = 24;
+            //if (regionId == 4) regionId = 22;
 
             var _offices = _context.Houses.Where(o => o.HousesRegionId == regionId)
                 .Include(h => h.HousesRegion);

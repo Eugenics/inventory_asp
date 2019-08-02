@@ -31,7 +31,9 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: RelSoftwareHardwares
-        public async Task<IActionResult> Index(int hardware_id, string filter = "",
+        public async Task<IActionResult> Index(
+            int hardware_id,
+            string filter = "",
             int page = 1,
             int hard_page = 1,
             string hard_filter = "",
@@ -128,12 +130,31 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: RelSoftwareHardwares/Create
-        public IActionResult Create(int hardware_id, string filter = "", int page = 1, string sortExpression = "RelshId")
+        public IActionResult Create(
+            int hardware_id,
+            string filter = "",
+            int page = 1,
+            string sortExpression = "RelshId",
+            int hard_page = 1,
+            string hard_filter = "",
+            string filterInv = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterName = "",
+            string filterOffice = "",
+            string filterRegion = "",
+            string hard_sortExpression = "WhardId")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
             ViewBag.HardwareId = hardware_id;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             var _hardware = _context.WealthHardware.Find(hardware_id);
 
@@ -150,11 +171,30 @@ namespace inventory_dot_core.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RelshId,RelshWsoftId,RelshWhardId")] RelSoftwareHardware relSoftwareHardware,
-            int hardware_id, string filter = "", int page = 1, string sortExpression = "RelshId")
+            int hardware_id,
+            string filter = "",
+            int page = 1,
+            string sortExpression = "RelshId",
+            int hard_page = 1,
+            string hard_filter = "",
+            string filterInv = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterName = "",
+            string filterOffice = "",
+            string filterRegion = "",
+            string hard_sortExpression = "WhardId")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            ViewBag.HardwareId = hardware_id;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             var _hardware = _context.WealthHardware.Find(hardware_id);
 
@@ -174,11 +214,17 @@ namespace inventory_dot_core.Controllers
                         hardware_id,
                         filter,
                         page,
-                        sortExpression
+                        sortExpression,
+                        filterInv,
+                        filterName,
+                        filterRegion,
+                        filterCat,
+                        filterType,
+                        filterOffice
                     });
             }
 
-            ViewData["RelshIdHardwareId"] = new SelectList(_context.Employees, "WhardId", "WhardName")
+            ViewData["RelshIdHardwareId"] = new SelectList(_context.WealthHardware, "WhardId", "WhardName")
                 .Where(e => e.Value == hardware_id.ToString());
             ViewData["RelshIdSoftId"] = new SelectList(
                 GetNotUseSoftList(0),
@@ -244,12 +290,32 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: RelSoftwareHardwares/Delete/5
-        public async Task<IActionResult> Delete(int? id, int hardware_id, string filter = "", int page = 1, string sortExpression = "RelshId")
+        public async Task<IActionResult> Delete(
+            int? id,
+            int hardware_id,
+            string filter = "",
+            int page = 1,
+            string sortExpression = "RelshId",
+            int hard_page = 1,
+            string hard_filter = "",
+            string filterInv = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterName = "",
+            string filterOffice = "",
+            string filterRegion = "",
+            string hard_sortExpression = "WhardId")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
             ViewBag.HardwareId = hardware_id;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             if (id == null)
             {
@@ -272,12 +338,32 @@ namespace inventory_dot_core.Controllers
         // POST: RelSoftwareHardwares/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, int hardware_id, string filter = "", int page = 1, string sortExpression = "RelshId")
+        public async Task<IActionResult> DeleteConfirmed(
+            int id,
+            int hardware_id,
+            string filter = "",
+            int page = 1,
+            string sortExpression = "RelshId",
+            int hard_page = 1,
+            string hard_filter = "",
+            string filterInv = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterName = "",
+            string filterOffice = "",
+            string filterRegion = "",
+            string hard_sortExpression = "WhardId")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
             ViewBag.HardwareId = hardware_id;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             var relSoftwareHardware = await _context.RelSoftwareHardware.FindAsync(id);
             _context.RelSoftwareHardware.Remove(relSoftwareHardware);
@@ -288,7 +374,13 @@ namespace inventory_dot_core.Controllers
                     hardware_id,
                     filter,
                     page,
-                    sortExpression
+                    sortExpression,
+                    filterInv,
+                    filterName,
+                    filterRegion,
+                    filterCat,
+                    filterType,
+                    filterOffice
                 });
         }
 
@@ -315,16 +407,13 @@ namespace inventory_dot_core.Controllers
             var _softwareInUse = _context.RelSoftwareHardware
                 .Select(h => h.RelshWsoftId)
                 .ToArray();
-            // Удаляем из списка используемого ПО текущее. Это необходимо для списка при редактировании.
-            //if (curSoftdId != 0)
-            //{
-            //    _softwareInUse = _softwareInUse.Where(l => l != curSoftdId).ToArray();
-            //}
 
             // Получаем список не используемого ПО
             var _hardwareNotInUse = _context.WealthSoftware
-                .Where(h => !(h.WsoftCnt < _softwareInUse.Where(x => x == h.WsoftId).Count())
-                //!_softwareInUse.Contains(h.WsoftId)
+                .Where(h => !(
+                h.WsoftCnt < _softwareInUse
+                .Where(x => x == h.WsoftId).Count()
+                )
                 )
                 .OrderBy(h => h.WsoftInumber);
 

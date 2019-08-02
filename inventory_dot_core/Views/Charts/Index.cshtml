@@ -1,9 +1,19 @@
-﻿<script src="../../wwwroot/js/anycharts/anychart-base.min.js" type="text/javascript"></script>
+﻿<!--
+<script src="../../wwwroot/js/anycharts/anychart-base.min.js" type="text/javascript"></script>
 <script src="~/js/anycharts/anychart-core.min.js"></script>
 <script src="~/js/anycharts/anychart-pie.min.js"></script>
 <script src="~/js/anycharts/anychart-exports.min.js"></script>
 <script src="~/js/anycharts/anychart-ui.min.js"></script>
 <script src="~/js/anycharts/anychart-cartesian.min.js"></script>
+-->
+
+
+
+<script src="~/Chart.js/Chart.min.js"></script>
+<script src="~/Chart.js/utils.js"></script>
+
+<!--
+
 <script>
     anychart.onDocumentLoad(function () {
           // get data from server
@@ -117,17 +127,127 @@
         };
 
 </script>
+
+-->
+
+
 <body>
-    <h2>Графическое отображение ТМЦ</h2>
-    <div class="row">
-        <div id="container" style="width: 1000px; height: 400px;"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <div id="containerPie1" style="width: 700px; height: 400px;"></div>
+    <h2>DASHBOARD</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <canvas id="totalMcChart"></canvas>
+            </div>
+            <div class="col">
+                <canvas id="totalSoftChart"></canvas>
+            </div>
         </div>
-        <div class="col-sm">
-            <div id="containerPie2" style="width: 700px; height: 400px;"></div>
+        <hr />
+        <div class="row">
+            <canvas id="totalITMcChart"></canvas>
         </div>
+        <hr />
     </div>
+
+
+
+    <!--
+        <div class="row">
+            <div id="container" style="width: 1000px; height: 400px;"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div id="containerPie1" style="width: 700px; height: 400px;"></div>
+            </div>
+            <div class="col-sm">
+                <div id="containerPie2" style="width: 700px; height: 400px;"></div>
+            </div>
+        </div>
+    -->
 </body>
+
+<script type="text/javascript">
+    var hard_data = @Html.Raw(ViewData["DataHardSoftByRegion"]);
+
+    var labels = [];
+    var hard = [];
+    var soft = [];
+    var TotalHardInUse = [];
+    var TotalITHard = [];
+
+
+    hard_data.forEach(function(row) {
+        labels.push(row["RegionName"]);
+        hard.push(row["totalHard"]);
+        soft.push(row["totalSoft"]);
+        TotalHardInUse.push(row["TotalHardInUse"]);
+        TotalITHard.push(row["TotalITHardCnt"]);
+    });
+
+    //console.log(labels);
+    //console.log(hard);
+    //console.log(soft);
+    console.log(TotalHardInUse);
+    console.log(TotalITHard);
+
+    var color = Chart.helpers.color;
+
+    var totalMCChart = document.getElementById('totalMcChart').getContext('2d');
+    var MCChart = new Chart(totalMCChart, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.red,
+			    borderWidth: 1,
+                label: 'Всего МЦ по регионам:',
+                data: hard
+            }]
+        },
+        options: {}
+    });
+
+
+    var totalSoftChart = document.getElementById('totalSoftChart').getContext('2d');
+    var SoftChart = new Chart(totalSoftChart, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    backgroundColor: color(window.chartColors.green).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.green,
+                    borderWidth: 1,
+                    label: 'Всего SOFT по регионам:',
+                    data: soft
+                }]
+        },
+        options: {}
+    });
+
+
+    var totalITMcChart = document.getElementById('totalITMcChart').getContext('2d');
+    var ITMcChart = new Chart(totalITMcChart, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.yellow,
+                    borderWidth: 1,
+                    label: 'IT МЦ по регионам',
+                    data: TotalITHard
+                },
+                {
+                    backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+                    borderColor: window.chartColors.purple,
+                    borderWidth: 1,
+                    label: 'IT МЦ по регионам (распределено по РМ)',
+                    data: TotalHardInUse
+                }]
+        },
+        options: {}
+    });
+</script>

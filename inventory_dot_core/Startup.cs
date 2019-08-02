@@ -45,6 +45,7 @@ namespace inventory_dot_core
             services.AddTransient<IClock, clockClass>();
             services.AddResponseCaching();                  // Add caching  2019-06-03
 
+            /*
             services.AddBreadcrumbs(GetType().Assembly, options =>
             {
                 options.TagName = "nav";
@@ -54,6 +55,7 @@ namespace inventory_dot_core
                 options.ActiveLiClasses = "breadcrumb-item active";
                 options.SeparatorElement = "<li class=\"separator\">/</li>";
             });
+            */
            
             services.Configure<IdentityOptions>(options =>
             {

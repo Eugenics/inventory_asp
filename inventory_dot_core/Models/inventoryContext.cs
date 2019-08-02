@@ -473,14 +473,14 @@ namespace inventory_dot_core.Models
                 entity.Property(e => e.RelheWhardId).HasColumnName("relhe_whard_id");
 
                 entity.HasOne(d => d.RelheEmployee)
-                    .WithMany(p => p.RelHardwareEmployee)
-                    .HasForeignKey(d => d.RelheEmployeeId)
+                    .WithOne(p => p.RelHardwareEmployee)
+                    //.HasForeignKey(d => d.RelheEmployeeId)                    
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_hardware_employee_employees_fk");
 
                 entity.HasOne(d => d.RelheWhard)
                     .WithOne(p => p.RelHardwareEmployee)
-                    .HasForeignKey<RelHardwareEmployee>(d => d.RelheWhardId)
+                    //.HasForeignKey(d => d.RelheWhardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_hardware_employee_wealth_hardware_fk");
             });
@@ -547,8 +547,8 @@ namespace inventory_dot_core.Models
                     .HasConstraintName("rel_software_hardware_wealth_hardware_fk");
 
                 entity.HasOne(d => d.RelshWsoft)
-                    .WithMany(p => p.RelSoftwareHardware)
-                    .HasForeignKey(d => d.RelshWsoftId)
+                    .WithOne(p => p.RelSoftwareHardware)
+                    //.HasForeignKey(d => d.RelshWsoftId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rel_software_hardware_wealth_software_fk");
             });

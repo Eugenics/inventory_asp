@@ -49,7 +49,9 @@ namespace inventory_dot_core.Controllers
             var model = await PagingList.CreateAsync(regionsQueryable, pageSize, page, sortExpression, "RegionId");
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);
