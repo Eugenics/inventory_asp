@@ -14,22 +14,42 @@ namespace inventory_dot_core.Areas.Admin.Pages
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public IndexModel(
-    UserManager<IdentityUser> userManager,
-    SignInManager<IdentityUser> signInManager)
+        public IndexModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+
+            var identityUsers = _userManager.Users.ToList();
+
+            usersList = new List<InputModel>();
+
+            foreach (var item in identityUsers)
+            {
+                usersList.Add(
+                    new InputModel
+                    {
+                        UserId = item.Id,
+                        UserName = item.UserName,
+                        Role = Role,
+                        Email = item.Email
+                    });
+            }
         }
 
-        public string Username { get; set; }
+        readonly List<InputModel> usersList;
+        //public string Username { get; set; }
         public string Role { get; set; }
+        public List<InputModel> DisplayedUser { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "User Id")]
+            public string UserId { get; set; }
+
             [Required]
             [Display(Name = "User Name")]
             public string UserName { get; set; }
@@ -46,28 +66,24 @@ namespace inventory_dot_core.Areas.Admin.Pages
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var userName = await _userManager.GetUserNameAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
-            var role = Role;
-
-            Username = userName;
-
-            Input = new InputModel
-            {
-                UserName = userName,
-                Email = email,
-                Role = role
-            };
+            DisplayedUser = usersList;
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            //var product = await _context.Products.FindAsync(id);
+
+            //if (product != null)
+            //{
+            //    _context.Products.Remove(product);
+            //    await _context.SaveChangesAsync();
+            //}
+
+            return RedirectToPage();
         }
     }
 }
