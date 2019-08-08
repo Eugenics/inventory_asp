@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
+using inventory_dot_core.Admin.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,33 +11,39 @@ namespace inventory_dot_core.Areas.Admin.Pages
     public class IndexModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public IndexModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
+        public IndexModel(UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-
+            _roleManager = roleManager;
+  
             var identityUsers = _userManager.Users.ToList();
-
             usersList = new List<InputModel>();
 
             foreach (var item in identityUsers)
             {
+                var user = _userManager.FindByIdAsync(item.Id);
+                var userRole = _userManager.GetRolesAsync(item).Result;
+
                 usersList.Add(
                     new InputModel
                     {
                         UserId = item.Id,
                         UserName = item.UserName,
-                        Role = Role,
+                        Role = userRole[0],
                         Email = item.Email
                     });
             }
         }
 
         readonly List<InputModel> usersList;
-        //public string Username { get; set; }
-        public string Role { get; set; }
         public List<InputModel> DisplayedUser { get; set; }
 
         [BindProperty]
@@ -55,6 +60,7 @@ namespace inventory_dot_core.Areas.Admin.Pages
             public string UserName { get; set; }
 
             [Required]
+            [Display(Name = "Email")]
             [EmailAddress]
             public string Email { get; set; }
 
@@ -73,9 +79,11 @@ namespace inventory_dot_core.Areas.Admin.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        public IActionResult OnPostDelete(int userid)
         {
-            //var product = await _context.Products.FindAsync(id);
+
+
+            //var product = await _IdentityDBContext.
 
             //if (product != null)
             //{

@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace inventory_dot_core.Areas.Admin.Model
+namespace inventory_dot_core.Admin.Models
 {
-    public partial class User :IdentityUser
+    public class User : IdentityUser
     {
         public string Role { get; set; }
     }

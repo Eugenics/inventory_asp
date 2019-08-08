@@ -1,13 +1,28 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
 @model inventory_dot_core.Areas.Admin.Pages.EditModel
 @{
-    ViewData["Title"] = "Редактирование прав пользователя";
+    ViewData["Title"] = "Редактирование пользователя";
 }
 
-<h2>Пользователь  </h2>
+<h2>Пользователь @Model.Input.UserName</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <h3>Список ролей</h3>
+        <form method="post">
+            <div class="form-group">
+                @foreach (IdentityRole role in Model.AllRoles)
+                {
+                    <input type="checkbox" name="roles" value="@role.Name"
+                           @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
+                    }
+            </div>
 
+            <div>
+                <input class="btn btn-dark-green" type="submit" value="Сохранить" /> |
+                <input class="btn btn-primary" type="submit" value="Назад" />
+            </div>
+        </form>
     </div>
 </div>
