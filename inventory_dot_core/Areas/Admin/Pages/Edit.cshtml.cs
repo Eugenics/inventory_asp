@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,7 +29,6 @@ namespace inventory_dot_core.Areas.Admin.Pages
             _roleManager = roleManager;
             AllRoles = new List<IdentityRole>();
             UserRoles = new List<string>();
-
             AllRoles = _roleManager.Roles.ToList();
         }
 
@@ -92,7 +91,6 @@ namespace inventory_dot_core.Areas.Admin.Pages
         {
             // получаем пользователя
             var user = await _userManager.FindByIdAsync(userId);
-            //var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
                 return NotFound($"Невозможно загрузить пользователя с идентификатором '{_userManager.GetUserId(User)}'.");
@@ -108,9 +106,8 @@ namespace inventory_dot_core.Areas.Admin.Pages
                 // получаем роли, которые были удалены
                 var removedRoles = userRoles.Except(roles);
 
-                var role = await _userManager.AddToRolesAsync(user, addedRoles);
-                if (role.Succeeded) ;
-                //await _userManager.remove(user, removedRoles);
+                await _userManager.AddToRolesAsync(user, addedRoles);
+                await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
                 //await _signInManager.RefreshSignInAsync(user);
 
