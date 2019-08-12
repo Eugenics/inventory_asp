@@ -8,6 +8,7 @@
 <h2>Пользователь @Model.Input.UserName</h2>
 <hr />
 <div class="row">
+    <input type="hidden" name="userId" value="@Model.Input.UserId" />
     <div class="col-md-4">
         <h3>Список ролей</h3>
         <form method="post">
@@ -20,8 +21,8 @@
             </div>
 
             <div>
-                <input class="btn btn-dark-green" type="submit" value="Сохранить" /> |
-                <input class="btn btn-primary" type="submit" value="Назад" />
+                <input class="btn btn-dark-green" type="submit" value="Сохранить" asp-route-userId="@Model.Input.UserId" /> |
+                <a id="admin" class="btn btn-dark-green" asp-area="Admin" asp-page="/Index">Назад</a>
             </div>
         </form>
     </div>

@@ -26,10 +26,20 @@
             <tr>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
-                <td>@user.Role</td>
+                <td>
+                    @foreach (var item in user.Role)
+                    {
+                        <text>@item</text>
+                        if (@user.Role.ToList().Last() != item)
+                        {
+                            <text>, </text>
+                        }
+                    }
+                </td>
                 <td>
                     <a class="btn btn-sm btn-primary" asp-area="Admin" asp-page="/Edit" asp-route-userid="@user.UserId">Права доступа</a> |
-                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-userid="@user.UserId">Удалить</a>
+                    @*<a class="btn btn-sm btn-danger" asp-page-handler="delete" asp-route-userid="@user.UserId">Удалить</a>*@
+                    <button class="btn btn-sm btn-danger" type="submit" asp-page-handler="Delete" asp-route-id="@user.UserId">Удалить</button>
                 </td>
             </tr>
         }

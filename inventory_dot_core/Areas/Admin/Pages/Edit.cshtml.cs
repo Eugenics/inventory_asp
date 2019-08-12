@@ -13,12 +13,16 @@ namespace inventory_dot_core.Areas.Admin.Pages
     public class EditModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         public List<IdentityRole> AllRoles { get; set; }
         public IList<string> UserRoles { get; set; }
         public string Username { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         public EditModel(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
@@ -32,6 +36,9 @@ namespace inventory_dot_core.Areas.Admin.Pages
         [BindProperty]
         public InputModel Input { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public class InputModel
         {
             [Required]
@@ -62,23 +69,54 @@ namespace inventory_dot_core.Areas.Admin.Pages
                 .FirstOrDefault();
             // получем список ролей пользователя
             var userRole = _userManager.GetRolesAsync(user);
-            UserRoles = userRole.Result;
-
             var userName = _userManager.GetUserNameAsync(user);
             var email = _userManager.GetEmailAsync(user);
+            UserRoles = userRole.Result;
             Username = userName.Result;
 
             Input = new InputModel
             {
+                UserId = user.Id,
                 UserName = Username,
-                Email = email.Result,
-                //Role = role
+                Email = email.Result
             };
         }
 
-        public void OnPost(string roleName)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> OnPostAsync(string userId, List<string> roles)
         {
-            //var addRoleResult = await _userManager.AddToRoleAsync(, roleName);
+            // получаем пользователя
+            var user = await _userManager.FindByIdAsync(userId);
+            //var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return NotFound($"Невозможно загрузить пользователя с идентификатором '{_userManager.GetUserId(User)}'.");
+
+            if (user != null)
+            {
+                // получем список ролей пользователя
+                var userRoles = await _userManager.GetRolesAsync(user);
+                // получаем все роли
+                var allRoles = _roleManager.Roles.ToList();
+                // получаем список ролей, которые были добавлены
+                var addedRoles = roles.Except(userRoles);
+                // получаем роли, которые были удалены
+                var removedRoles = userRoles.Except(roles);
+
+                var role = await _userManager.AddToRolesAsync(user, addedRoles);
+                if (role.Succeeded) ;
+                //await _userManager.remove(user, removedRoles);
+
+                //await _signInManager.RefreshSignInAsync(user);
+
+                return RedirectToPage("/Index");
+            }
+            return NotFound();
         }
     }
 }

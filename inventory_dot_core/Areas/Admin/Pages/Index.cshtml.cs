@@ -11,19 +11,16 @@ namespace inventory_dot_core.Areas.Admin.Pages
     public class IndexModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
-        public IndexModel(UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+        public IndexModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
-  
+
             var identityUsers = _userManager.Users.ToList();
             usersList = new List<InputModel>();
 
@@ -37,7 +34,7 @@ namespace inventory_dot_core.Areas.Admin.Pages
                     {
                         UserId = item.Id,
                         UserName = item.UserName,
-                        Role = userRole[0],
+                        Role = userRole,
                         Email = item.Email
                     });
             }
@@ -56,16 +53,16 @@ namespace inventory_dot_core.Areas.Admin.Pages
             public string UserId { get; set; }
 
             [Required]
-            [Display(Name = "User Name")]
+            [Display(Name = "»м€ пользовател€")]
             public string UserName { get; set; }
 
             [Required]
-            [Display(Name = "Email")]
+            [Display(Name = "Ёлектронный адрес")]
             [EmailAddress]
             public string Email { get; set; }
 
             [Display(Name = "Role")]
-            public string Role { get; set; }
+            public IList<string> Role { get; set; }
         }
 
         /// <summary>
@@ -79,17 +76,15 @@ namespace inventory_dot_core.Areas.Admin.Pages
             return Page();
         }
 
-        public IActionResult OnPostDelete(int userid)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public IActionResult OnPostDelete(string userid)
         {
-
-
-            //var product = await _IdentityDBContext.
-
-            //if (product != null)
-            //{
-            //    _context.Products.Remove(product);
-            //    await _context.SaveChangesAsync();
-            //}
+            var user = _userManager.FindByIdAsync(userid);
+            _userManager.DeleteAsync(user.Result);
 
             return RedirectToPage();
         }
