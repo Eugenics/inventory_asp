@@ -67,6 +67,10 @@ namespace inventory_dot_core
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
 
+                //options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                //options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                //options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+
                 // Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;

@@ -121,6 +121,18 @@
                        asp-route-filterInv="@ViewBag.filterInv"
                        asp-route-filterName="@ViewBag.filterName"
                        asp-route-filterRegion="@ViewBag.filterRegion"><i class="fas fa-trash-alt fa-lg"></i></a>
+                    <a asp-controller="RelHardwareSoftwares"
+                       asp-action="Index" class="btn btn-mdb-color btn-sm"
+                       asp-route-soft_id="@item.WsoftId"
+                       asp-route-soft_page="@Model.PageIndex"
+                       asp-route-soft_filter="@ViewBag.Filter"
+                       asp-route-soft_sortExpression="@ViewBag.SortExpression"
+                       asp-route-filterInv="@ViewBag.FilterInv"
+                       asp-route-filterName="@ViewBag.FilterName"
+                       asp-route-filterRegion="@ViewBag.FilterRegion"
+                       asp-route-page="1"
+                       asp-route-filter=""
+                       asp-route-sortExpression=""><i class="fas fa-cloud fa-lg"></i></a>
                 </td>
             </tr>
         }

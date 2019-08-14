@@ -28,7 +28,6 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
-
         public bool IsEmailConfirmed { get; set; }
 
         [TempData]
@@ -40,15 +39,16 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
-            [Display(Name = "User Name")]
+            [Display(Name = "Имя Пользователя")]
             public string UserName { get; set; }
 
             [Required]
             [EmailAddress]
+            [Display(Name = "Почтовый адрес")]
             public string Email { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Телефонный номер")]
             public string PhoneNumber { get; set; }
         }
 
@@ -57,7 +57,7 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Невозможно загрузить пользователя с идентификатором '{_userManager.GetUserId(User)}'.");
             }
 
             var userName = await _userManager.GetUserNameAsync(user);
@@ -78,6 +78,10 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -94,14 +98,14 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
                 if(!setUserName.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting User Name for user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Произошла непредвиденная ошибка при установке имени пользователя для пользователя с идентификатором '{userId}'.");
                 }
             }
 
             
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Невозможно загрузить пользователя с идентификатором '{_userManager.GetUserId(User)}'.");
             }
 
             var email = await _userManager.GetEmailAsync(user);
@@ -111,7 +115,7 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
                 if (!setEmailResult.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Произошла непредвиденная ошибка при настройке электронной почты для пользователя с идентификатором '{userId}'.");
                 }
             }
 
@@ -127,7 +131,7 @@ namespace inventory_dot_core.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Ваш профиль был обновлен";
             return RedirectToPage();
         }
 

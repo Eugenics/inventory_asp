@@ -1,0 +1,60 @@
+﻿@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.RelSoftwareHardware>
+@using inventory_dot_core.Classes;
+
+@{
+    ViewData["Title"] = $"Программный продукт: {ViewBag.SoftName}";
+}
+
+<h3>Список материальных ценностей, куда установлено ПО: @ViewBag.SoftName</h3>
+
+<p>    
+    <a class="btn btn-mdb-color btn-sm"
+       asp-controller="WealthSoftwares"
+       asp-action="Index"
+       asp-route-filter="@ViewBag.SoftFilter"
+       asp-route-sortExpression="@ViewBag.SoftSortExpression"
+       asp-route-page="@ViewBag.SoftPage"
+       asp-route-filterInv="@ViewBag.FilterInv"
+       asp-route-filterRegion="@ViewBag.FilterRegion"
+       asp-route-filterName="@ViewBag.FilterName">
+       Назад
+    </a>        
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RelshWhard.WhardInumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RelshWhard.WhardName)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelshWhard.WhardInumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelshWhard.WhardName)
+            </td>
+            <td>                    
+                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
+                   asp-route-soft_id="@ViewBag.SoftId"
+                   asp-route-id="@item.RelshId"
+                   asp-route-page="@Model.PageIndex"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression">@Dictionary.frasesDictionary["Delete"]</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<nav>
+    <partial name="_PagerPartial" />
+</nav>
