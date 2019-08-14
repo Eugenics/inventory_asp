@@ -24,20 +24,13 @@ namespace inventory_dot_core.Controllers
             _context = context;
         }
 
-        // GET: Houses
-       
-        //public IActionResult Index(int page = 1 )
-        //{
-        //    var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsNoTracking().OrderBy(p=>p.HousesId);
-        //    int pageSize = 5;
-        //    var model = PagingList.Create(housesesQueryable, pageSize, page);
-
-
-        //    //return View(await inventoryContext.ToListAsync());
-        //    //return View(await PaginatedList<Houses>.CreateAsync(houseses.AsNoTracking(), pageNumber ?? 1, pageSize));
-        //    return View(model);
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="page"></param>
+        /// <param name="sortExpression"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "HousesId")
         {
             var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsQueryable();
@@ -46,7 +39,7 @@ namespace inventory_dot_core.Controllers
             if (!string.IsNullOrWhiteSpace(filter))
             {
                 filter = filter.ToUpper();
-                housesesQueryable = housesesQueryable.Where(h => EF.Functions.Like(h.HousesName.ToUpper(), "%" + filter + "%") 
+                housesesQueryable = housesesQueryable.Where(h => EF.Functions.Like(h.HousesName.ToUpper(), "%" + filter + "%")
                 || EF.Functions.Like(h.HousesRegion.RegionName.ToUpper(), "%" + filter + "%"));
             }
 
@@ -91,8 +84,6 @@ namespace inventory_dot_core.Controllers
         }
 
         // POST: Houses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("HousesId,HousesName,HousesRem,HousesRegionId")] Houses houses)
@@ -126,16 +117,12 @@ namespace inventory_dot_core.Controllers
         }
 
         // POST: Houses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("HousesId,HousesName,HousesRem,HousesRegionId")] Houses houses)
         {
             if (id != houses.HousesId)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -147,13 +134,9 @@ namespace inventory_dot_core.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!HousesExists(houses.HousesId))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }

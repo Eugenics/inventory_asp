@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace inventory_dot_core.Areas.Admin.Model
+namespace inventory_dot_core.Admin.Models
 {
-    public partial class User
+    public class User : IdentityUser
     {
+        public string Role { get; set; }
     }
 }
