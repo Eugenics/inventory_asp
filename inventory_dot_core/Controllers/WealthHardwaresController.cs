@@ -274,6 +274,7 @@ namespace inventory_dot_core.Controllers
             ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(r => r.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
             ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
             ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["IsSoftDeployed"] = Convert.ToBoolean(wealthHardware.IsSoftDeployed);
             return View(wealthHardware);
         }
 
@@ -356,6 +357,8 @@ namespace inventory_dot_core.Controllers
             ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(c => c.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
             ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
             ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["IsSoftDeployed"] = Convert.ToBoolean(wealthHardware.IsSoftDeployed);
+
             return View(wealthHardware);
         }
 

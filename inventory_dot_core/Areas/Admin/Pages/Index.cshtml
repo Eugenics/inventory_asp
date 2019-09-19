@@ -5,7 +5,7 @@
     //ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h2>Список пользователей</h2>
+<h2>Администрирование пользователей</h2>
 <table class="table">
     <thead>
         <tr>
@@ -24,9 +24,9 @@
         @foreach (var user in Model.DisplayedUser)
         {
             <tr>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>
+                <td align="center">@user.UserName</td>
+                <td align="center">@user.Email</td>
+                <td align="center">
                     @foreach (var item in user.Role)
                     {
                         <text>@item</text>
@@ -36,9 +36,11 @@
                         }
                     }
                 </td>
-                <td>
-                    <a class="btn btn-sm btn-primary" asp-area="Admin" asp-page="/Edit" asp-route-userid="@user.UserId">Права доступа</a> |
-                    @*<button class="btn btn-sm btn-danger" type="submit" asp-page-handler="Delete" asp-route-id="@user.UserId">Удалить</button>*@
+                <td align="center">
+                    <a class="btn btn-primary btn-sm"
+                       asp-area="Admin"
+                       asp-page="/Edit"
+                       asp-route-userid="@user.UserId">Права</a>
                 </td>
             </tr>
         }

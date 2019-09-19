@@ -15,14 +15,29 @@
             <div class="form-group">
                 @foreach (IdentityRole role in Model.AllRoles)
                 {
-                    <input type="checkbox" name="roles" value="@role.Name"
-                           @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
-                    }
+                    <div class="custom-control custom-checkbox">
+                        <input id="roleCheckBox_@role.Name"
+                               name="roles"
+                               type="checkbox"
+                               class="custom-control-input"
+                               value="@role.Name"
+                               @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />
+                        <label class="custom-control-label" for="roleCheckBox_@role.Name">
+                            @role.Name
+                        </label>
+                        <br />
+                    </div>
+                }
             </div>
 
             <div>
-                <input class="btn btn-dark-green" type="submit" value="Сохранить" asp-route-userId="@Model.Input.UserId" /> |
-                <a id="admin" class="btn btn-dark-green" asp-area="Admin" asp-page="/Index">Назад</a>
+                <input class="btn btn-primary btn-sm"
+                       type="submit"
+                       value="Сохранить"
+                       asp-route-userId="@Model.Input.UserId" /> |
+                <a id="admin" class="btn btn-primary btn-sm"
+                   asp-area="Admin"
+                   asp-page="/Index">Назад</a>
             </div>
         </form>
     </div>

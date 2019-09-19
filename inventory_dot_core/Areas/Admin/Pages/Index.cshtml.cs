@@ -62,7 +62,7 @@ namespace inventory_dot_core.Areas.Admin.Pages
             [EmailAddress]
             public string Email { get; set; }
 
-            [Display(Name = "Role")]
+            [Display(Name = "Роль")]
             public IList<string> Role { get; set; }
         }
 

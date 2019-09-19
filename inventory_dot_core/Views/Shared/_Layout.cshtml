@@ -97,15 +97,12 @@
                                 <i class="fas fa-user mr-3"></i>Профиль
                             </a>
 
-                            <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
-                                <i class="fas fa-table mr-3"></i>Tables
+                            @if (User.IsInRole("root"))
+                            {
+                            <a id="admin" asp-area="Admin" asp-page="/Index" class="list-group-item list-group-item-action waves-effect" title="Admin">
+                                <i class="fas fa-user-secret mr-3"></i>Администрирование
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
-                                <i class="fas fa-map mr-3"></i>Maps
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action waves-effect" hidden>
-                                <i class="fas fa-money-bill-alt mr-3"></i>Orders
-                            </a>
+                            }
                         </div>
                     </div>
                 </div>

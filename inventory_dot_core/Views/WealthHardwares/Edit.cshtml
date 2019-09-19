@@ -79,7 +79,7 @@
         <tr>
             <td> <label asp-for="WhardDateOfAdoption" class="control-label"></label></td>
             <td>
-                <input asp-for="WhardDateOfAdoption" class="form-control" type="date"/>
+                <input asp-for="WhardDateOfAdoption" class="form-control" type="date" />
                 <span asp-validation-for="WhardDateOfAdoption" class="text-danger"></span>
             </td>
         </tr>
@@ -114,8 +114,8 @@
         <tr>
             <td> <label asp-for="IsSoftDeployed" class="control-label"></label></td>
             <td>
-                @Html.CheckBox("IsSoftDeployed", Convert.ToBoolean(Model.IsSoftDeployed))
-                <span asp-validation-for="IsSoftDeployed" class="text-danger"></span>                                
+                @(Html.CheckBox("IsSoftDeployed", Convert.ToBoolean(Model.IsSoftDeployed)))
+                <span asp-validation-for="IsSoftDeployed" class="text-danger"></span>
             </td>
         </tr>
         <tr>
@@ -140,7 +140,7 @@
                    asp-route-filterRegion="@ViewBag.FilterRegion"
                    asp-route-filterName="@ViewBag.FilterName"
                    asp-route-filterCat="@ViewBag.FilterCat"
-                   asp-route-filterType="@ViewBag.FilterType" /> | 
+                   asp-route-filterType="@ViewBag.FilterType" /> |
             <a class="btn btn-mdb-color btn-sm"
                asp-action="Index"
                asp-route-filter="@ViewBag.Filter"
