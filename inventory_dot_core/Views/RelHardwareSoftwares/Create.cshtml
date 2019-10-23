@@ -1,0 +1,52 @@
+﻿@model inventory_dot_core.Models.RelSoftwareHardware
+
+@{
+    ViewData["Title"] = $"Добавление оборудование к ПО: {ViewBag.HardwareName}";
+}
+
+<h1>Добавление оборудования</h1>
+
+<h4>На ПО: @ViewBag.SofrwareName</h4>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RelshWhardId" class="control-label"></label>
+                <input hidden id="wsoftSearchId" name="wsoftSeach" class="form-control" />
+                <select asp-for="RelshWhardId"
+                        class="chosen-select"
+                        asp-items="ViewBag.RelshWhardId"
+                        style="font-family:Arial !important;"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit"
+                       value="Сохранить"
+                       class="btn btn-mdb-color btn-sm"
+                       method="post"
+                       asp-route-soft_id="@ViewBag.SoftId"
+                       asp-route-filter="@ViewBag.Filter"
+                       asp-route-sortExpression="@ViewBag.SortExpression"
+                       asp-route-page="@ViewBag.Page" /> |
+                <a class="btn btn-mdb-color btn-sm" asp-action="Index"
+                   asp-route-soft_id="@ViewBag.SoftId"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"
+                   asp-route-page="@ViewBag.Page">
+                    Назад
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#RelshWhardId').chosen({ width: '100%' });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

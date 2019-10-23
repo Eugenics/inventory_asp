@@ -16,9 +16,12 @@ namespace inventory_dot_core.Controllers
     public class WealthHardwaresController : Controller
     {
         private readonly InventoryContext _context;
+        private readonly ControlesItems _ControlesItems;
 
-        private ControlesItems _ControlesItems;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public WealthHardwaresController(InventoryContext context)
         {
             _context = context;
@@ -26,9 +29,24 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthHardwares
-        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "WhardId")
+        public async Task<IActionResult> Index(
+            string filter = "",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "",
+            int page = 1,
+            string sortExpression = "WhardId")
         {
             ViewBag.Filter = filter;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -38,9 +56,10 @@ namespace inventory_dot_core.Controllers
                 .Include(w => w.WhardRegion)
                 .Include(w => w.WhardWcat)
                 .Include(w => w.WhardWtype)
+                .Include(w => w.RelHardwareEmployee.RelheEmployee)
                 .AsQueryable();
 
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -52,15 +71,56 @@ namespace inventory_dot_core.Controllers
                     || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filter + "%")
                 );
             }
-            var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
+
+            if (!string.IsNullOrWhiteSpace(filterType) || !string.IsNullOrWhiteSpace(filterInv) ||
+                !string.IsNullOrWhiteSpace(filterRegion) || !string.IsNullOrWhiteSpace(filterOffice) ||
+                !string.IsNullOrWhiteSpace(filterCat) || !string.IsNullOrWhiteSpace(filterName))
+            {
+
+                filterCat = !string.IsNullOrWhiteSpace(filterCat) ? filterCat.ToUpper() : null;
+                filterType = !string.IsNullOrWhiteSpace(filterType) ? filterType.ToUpper() : null;
+                filterRegion = !string.IsNullOrWhiteSpace(filterRegion) ? filterRegion.ToUpper() : null;
+                filterName = !string.IsNullOrWhiteSpace(filterName) ? filterName.ToUpper() : null;
+                filterOffice = !string.IsNullOrWhiteSpace(filterOffice) ? filterOffice.ToUpper() : null;
+                filterInv = !string.IsNullOrWhiteSpace(filterInv) ? filterInv.ToUpper() : null;
+
+                if (!string.IsNullOrWhiteSpace(filterCat))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardWcat.Wcatname.ToUpper(), "%" + filterCat + "%"));
+                if (!string.IsNullOrWhiteSpace(filterType))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardWtype.WtypeName.ToUpper(), "%" + filterType + "%"));
+                if (!string.IsNullOrWhiteSpace(filterRegion))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filterRegion + "%"));
+                if (!string.IsNullOrWhiteSpace(filterName))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardName.ToUpper(), "%" + filterName + "%"));
+                if (!string.IsNullOrWhiteSpace(filterOffice))
+                    inventoryContext = inventoryContext.Where(e =>
+                     EF.Functions.Like(e.WhardOffice.OfficeName.ToUpper(), "%" + filterOffice + "%"));
+                if (!string.IsNullOrWhiteSpace(filterInv))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filterInv + "%"));
+            }
+            var model = await Classes.Paging.PagingList.CreateAsync
                 (
                    inventoryContext, pageSize, page, sortExpression, "WhardId"
                    );
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "FilterInv", filterInv},
+                { "filterOffice", filterOffice},
+                { "filterName", filterName},
+                { "filterCat", filterCat},
+                { "filterType", filterType},
+                { "filterRegion", filterRegion},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
+            ViewData["WhardRegionFilter"] = new SelectList(_context.Region, "RegionId", "RegionName");
 
             return View(model);
         }
@@ -89,19 +149,31 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthHardwares/Create
-        public IActionResult Create(string filter = "", int page = 1, string sortExpression = "WhardId")
+        public IActionResult Create(string filter = "", int page = 1, string sortExpression = "WhardId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             var _Region = _context.Region.FirstOrDefault();
 
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(_Region.RegionId);
             ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_Region.RegionId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName");
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname");
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName");
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(r => r.RegionName), "RegionId", "RegionName");
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname");
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName");
             return View();
         }
 
@@ -114,11 +186,23 @@ namespace inventory_dot_core.Controllers
             ",WhardDateOfAdoption,WhardInitialCost,WhardResidualValue,WhardOfficeId" +
             ",WhardNote,WhardArchiv,WhardCreateDate,WhardMolEmployeeId,WhardRegionId,IsSoftDeployed")] WealthHardware wealthHardware,
             bool WhardArchiv, bool IsSoftDeployed,
-            string filter = "", int page = 1, string sortExpression = "WhardId")
+            string filter = "", int page = 1, string sortExpression = "WhardId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             wealthHardware.WhardArchiv = WhardArchiv ? 1 : 0;
             wealthHardware.IsSoftDeployed = IsSoftDeployed ? 1 : 0;
@@ -132,25 +216,43 @@ namespace inventory_dot_core.Controllers
                 return RedirectToAction(nameof(Index),
                     new
                     {
-                        filter = filter,
-                        page = page,
-                        sortExpression = sortExpression
+                        filter,
+                        page,
+                        sortExpression,
+                        filterInv,
+                        filterName,
+                        filterRegion,
+                        filterCat,
+                        filterType,
+                        filterOffice
                     });
             }
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(wealthHardware.WhardRegion.RegionId);
             ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(wealthHardware.WhardRegion.RegionId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthHardware.WhardRegionId);
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname", wealthHardware.WhardWcatId);
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(r => r.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
             return View(wealthHardware);
         }
 
         // GET: WealthHardwares/Edit/5
-        public async Task<IActionResult> Edit(int? id, string filter = "", int page = 1, string sortExpression = "WhardId")
+        public async Task<IActionResult> Edit(int? id, string filter = "", int page = 1, string sortExpression = "WhardId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             if (id == null)
             {
@@ -168,10 +270,11 @@ namespace inventory_dot_core.Controllers
             _whard = _whard.Where(h => h.WhardId == id);
 
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(_whard.First().WhardRegion.RegionId);
-            ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_whard.First().WhardRegion.RegionId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthHardware.WhardRegionId);
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname", wealthHardware.WhardWcatId);
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_whard.First().WhardRegion.RegionId,_whard.First().WhardOfficeId);
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(r => r.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["IsSoftDeployed"] = Convert.ToBoolean(wealthHardware.IsSoftDeployed);
             return View(wealthHardware);
         }
 
@@ -184,11 +287,23 @@ namespace inventory_dot_core.Controllers
             ",WhardName,WhardDateOfAdoption,WhardInitialCost,WhardResidualValue,WhardOfficeId,WhardNote" +
             ",WhardArchiv,WhardCreateDate,WhardMolEmployeeId,WhardRegionId,IsSoftDeployed")] WealthHardware wealthHardware,
             bool WhardArchiv, bool IsSoftDeployed,
-            string filter = "", int page = 1, string sortExpression = "WhardId")
+            string filter = "", int page = 1, string sortExpression = "WhardId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             wealthHardware.WhardArchiv = WhardArchiv ? 1 : 0;
             wealthHardware.IsSoftDeployed = IsSoftDeployed ? 1 : 0;
@@ -223,7 +338,13 @@ namespace inventory_dot_core.Controllers
                      {
                          filter = filter,
                          page = page,
-                         sortExpression = sortExpression
+                         sortExpression = sortExpression,
+                         filterInv = filterInv,
+                         filterName = filterName,
+                         filterRegion = filterRegion,
+                         filterCat = filterCat,
+                         filterType = filterType,
+                         filterOffice = filterOffice
                      });
             }
 
@@ -233,18 +354,32 @@ namespace inventory_dot_core.Controllers
 
             ViewData["WhardMolEmployeeId"] = _ControlesItems.GetMOLEmployeesByRegion(_whard.First().WhardRegion.RegionId);
             ViewData["WhardOfficeId"] = _ControlesItems.GetOfficesByRegion(_whard.First().WhardRegion.RegionId);
-            ViewData["WhardRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthHardware.WhardRegionId);
-            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories, "WcatId", "Wcatname", wealthHardware.WhardWcatId);
-            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes, "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["WhardRegionId"] = new SelectList(_context.Region.OrderBy(c => c.RegionName), "RegionId", "RegionName", wealthHardware.WhardRegionId);
+            ViewData["WhardWcatId"] = new SelectList(_context.WealthCategories.OrderBy(c => c.Wcatname), "WcatId", "Wcatname", wealthHardware.WhardWcatId);
+            ViewData["WhardWtypeId"] = new SelectList(_context.WealthTypes.OrderBy(t => t.WtypeName), "WtypeId", "WtypeName", wealthHardware.WhardWtypeId);
+            ViewData["IsSoftDeployed"] = Convert.ToBoolean(wealthHardware.IsSoftDeployed);
+
             return View(wealthHardware);
         }
 
         // GET: WealthHardwares/Delete/5
-        public async Task<IActionResult> Delete(int? id, string filter = "", int page = 1, string sortExpression = "WhardId")
+        public async Task<IActionResult> Delete(int? id, string filter = "", int page = 1, string sortExpression = "WhardId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             if (id == null)
             {
@@ -269,11 +404,23 @@ namespace inventory_dot_core.Controllers
         // POST: WealthHardwares/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, string filter = "", int page = 1, string sortExpression = "WhardId")
+        public async Task<IActionResult> DeleteConfirmed(int id, string filter = "", int page = 1, string sortExpression = "WhardId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "")
         {
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
 
             var wealthHardware = await _context.WealthHardware.FindAsync(id);
             _context.WealthHardware.Remove(wealthHardware);
@@ -281,9 +428,15 @@ namespace inventory_dot_core.Controllers
             return RedirectToAction(nameof(Index),
                  new
                  {
-                     filter = filter,
-                     page = page,
-                     sortExpression = sortExpression
+                     filter,
+                     page,
+                     sortExpression,
+                     filterInv,
+                     filterName,
+                     filterRegion,
+                     filterCat,
+                     filterType,
+                     filterOffice
                  });
         }
 
@@ -291,5 +444,103 @@ namespace inventory_dot_core.Controllers
         {
             return _context.WealthHardware.Any(e => e.WhardId == id);
         }
+
+
+        // GET: WealthHardwares
+        public async Task<IActionResult> Report(
+            string filter = "",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            string filterOffice = "",
+            int page = 1,
+            string sortExpression = "WhardId")
+        {
+            ViewBag.Filter = filter;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.FilterOffice = filterOffice;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
+            var inventoryContext = _context.WealthHardware
+                .Include(w => w.WhardMolEmployee)
+                .Include(w => w.WhardOffice)
+                .Include(w => w.WhardRegion)
+                .Include(w => w.WhardWcat)
+                .Include(w => w.WhardWtype)
+                .Include(w => w.RelHardwareEmployee.RelheEmployee)
+                .AsNoTracking()
+                .AsQueryable();
+
+            int pageSize = 100000;
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                filter = filter.ToUpper();
+                inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WhardFnumber.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardName.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardOffice.OfficeName.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filter + "%")
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(filterType) || !string.IsNullOrWhiteSpace(filterInv) ||
+                !string.IsNullOrWhiteSpace(filterRegion) || !string.IsNullOrWhiteSpace(filterOffice) ||
+                !string.IsNullOrWhiteSpace(filterCat) || !string.IsNullOrWhiteSpace(filterName))
+            {
+
+                filterCat = !string.IsNullOrWhiteSpace(filterCat) ? filterCat.ToUpper() : null;
+                filterType = !string.IsNullOrWhiteSpace(filterType) ? filterType.ToUpper() : null;
+                filterRegion = !string.IsNullOrWhiteSpace(filterRegion) ? filterRegion.ToUpper() : null;
+                filterName = !string.IsNullOrWhiteSpace(filterName) ? filterName.ToUpper() : null;
+                filterOffice = !string.IsNullOrWhiteSpace(filterOffice) ? filterOffice.ToUpper() : null;
+                filterInv = !string.IsNullOrWhiteSpace(filterInv) ? filterInv.ToUpper() : null;
+
+                if (!string.IsNullOrWhiteSpace(filterCat))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardWcat.Wcatname.ToUpper(), "%" + filterCat + "%"));
+                if (!string.IsNullOrWhiteSpace(filterType))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardWtype.WtypeName.ToUpper(), "%" + filterType + "%"));
+                if (!string.IsNullOrWhiteSpace(filterRegion))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardRegion.RegionName.ToUpper(), "%" + filterRegion + "%"));
+                if (!string.IsNullOrWhiteSpace(filterName))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardName.ToUpper(), "%" + filterName + "%"));
+                if (!string.IsNullOrWhiteSpace(filterOffice))
+                    inventoryContext = inventoryContext.Where(e =>
+                     EF.Functions.Like(e.WhardOffice.OfficeName.ToUpper(), "%" + filterOffice + "%"));
+                if (!string.IsNullOrWhiteSpace(filterInv))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WhardInumber.ToUpper(), "%" + filterInv + "%"));
+            }
+            var model = await Classes.Paging.PagingList.CreateAsync
+                (
+                   inventoryContext, pageSize, page, sortExpression, "WhardId"
+                   );
+
+            model.RouteValue = new RouteValueDictionary {
+                { "filter", filter},
+                { "FilterInv", filterInv},
+                { "filterOffice", filterOffice},
+                { "filterName", filterName},
+                { "filterCat", filterCat},
+                { "filterType", filterType},
+                { "filterRegion", filterRegion}
+            };
+
+            ViewData["WhardRegionFilter"] = new SelectList(_context.Region, "RegionId", "RegionName");
+
+            return View(model);
+        }
+
     }
 }

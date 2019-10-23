@@ -1,0 +1,68 @@
+﻿@model inventory_dot_core.Models.RelSoftwareHardware
+
+@{
+    ViewData["Title"] = $"Добавление программного обеспечения на оборудование: {ViewBag.HardwareName}";
+}
+
+<h1>Добавление программного обеспечения</h1>
+
+<h4>На оборудование: @ViewBag.HardwareName</h4>
+<hr />
+
+@*<input hidden id="eRegionId" value="@ViewBag.EmployeeRegionId" />
+<input hidden id="eOfficeId" value="@ViewBag.EmployeeOfficeId" />*@
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RelshWsoftId" class="control-label"></label>
+                <input hidden id="whardSearchId" name="whardSeach" class="form-control" />
+                <select asp-for="RelshWsoftId"
+                        class="chosen-select"
+                        asp-items="ViewBag.RelshWsoftId"
+                        style="font-family:Arial !important;"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit"
+                       value="Сохранить"
+                       class="btn btn-mdb-color btn-sm"
+                       method="post"
+                       asp-route-hardware_id="@ViewBag.HardwareId"
+                       asp-route-filter="@ViewBag.Filter"
+                       asp-route-sortExpression="@ViewBag.SortExpression"
+                       asp-route-page="@ViewBag.Page"
+                       asp-route-filterOffice="@ViewBag.FilterOffice"
+                       asp-route-filterInv="@ViewBag.FilterInv"
+                       asp-route-filterRegion="@ViewBag.FilterRegion"
+                       asp-route-filterName="@ViewBag.FilterName"
+                       asp-route-filterCat="@ViewBag.FilterCat"
+                       asp-route-filterType="@ViewBag.FilterType"/> |
+                <a class="btn btn-mdb-color btn-sm" asp-action="Index"
+                   asp-route-hardware_id="@ViewBag.HardwareId"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-sortExpression="@ViewBag.SortExpression"
+                   asp-route-page="@ViewBag.Page"                  
+                   asp-route-filterOffice="@ViewBag.FilterOffice"
+                   asp-route-filterInv="@ViewBag.FilterInv"
+                   asp-route-filterRegion="@ViewBag.FilterRegion"
+                   asp-route-filterName="@ViewBag.FilterName"
+                   asp-route-filterCat="@ViewBag.FilterCat"
+                   asp-route-filterType="@ViewBag.FilterType">
+                    Назад
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#RelshWsoftId').chosen({ width: '100%' });
+</script>
+@*<script src="~/js/scripts/emp_workplace.js"></script>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

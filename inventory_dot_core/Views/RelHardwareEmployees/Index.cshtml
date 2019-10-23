@@ -8,14 +8,14 @@
 <h1>Рабочее место сотрудника: @ViewBag.EmployeeName</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-primary"
+    <a asp-action="Create" class="btn btn-mdb-color btn-sm"
        asp-route-employee_id="@ViewBag.EmployeeId"
        asp-route-page="@Model.PageIndex"
        asp-route-filter="@ViewBag.Filter"
        asp-route-sortExpression="@ViewBag.SortExpression">
         Добавить оборудование
     </a> |
-    <a class="btn btn-outline-primary"
+    <a class="btn btn-mdb-color btn-sm"
        asp-controller="Employees"
        asp-action="Index"
        asp-route-filter="@ViewBag.EmpFilter"
@@ -28,7 +28,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RelheWhard)
+                @Html.DisplayNameFor(model => model.RelheWhard.WhardInumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelheWhard.WhardName)
             </th>
             <th></th>
         </tr>
@@ -38,10 +41,13 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.RelheWhard.WhardInumber)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.RelheWhard.WhardName)
                 </td>
                 <td>                    
-                    <a asp-action="Delete" class="btn btn-outline-primary btn-sm"
+                    <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
                        asp-route-employee_id="@ViewBag.EmployeeId"
                        asp-route-id="@item.RelheId"
                        asp-route-page="@Model.PageIndex"

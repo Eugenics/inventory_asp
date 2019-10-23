@@ -94,11 +94,23 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="WsoftId" />
-        <input type="submit" value="Удалить" class="btn btn-outline-danger"
+        <input type="submit" value="Удалить" class="btn btn-danger btn-sm"
                formmethod="post"
                asp-route-filter="@ViewBag.Filter"
                asp-route-sortExpression="@ViewBag.SortExpression"
-               asp-route-page="@ViewBag.Page" /> |
-        <partial name="_BackButton" />
+               asp-route-page="@ViewBag.Page"
+                asp-route-filterInv="@ViewBag.filterInv"
+               asp-route-filterName="@ViewBag.filterName"
+               asp-route-filterRegion="@ViewBag.filterRegion"/> |
+        <a class="btn btn-mdb-color btn-sm"
+           asp-action="Index"
+           asp-route-filter="@ViewBag.Filter"
+           asp-route-sortExpression="@ViewBag.SortExpression"
+           asp-route-page="@ViewBag.Page"
+           asp-route-filterInv="@ViewBag.filterInv"
+           asp-route-filterName="@ViewBag.filterName"
+           asp-route-filterRegion="@ViewBag.filterRegion">
+            Назад
+        </a>
     </form>
 </div>

@@ -23,6 +23,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.WtypeNotes)
             </th>
+            <th>
+                @Html.SortableHeaderFor(model => model.wtype_is_it,"wtype_is_it")
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +38,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.WtypeNotes)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.wtype_is_it)
             </td>
             <td>
                 <a asp-action="Edit" class="btn btn-mdb-color btn-sm"

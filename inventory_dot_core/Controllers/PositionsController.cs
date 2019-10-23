@@ -30,7 +30,7 @@ namespace inventory_dot_core.Controllers
             ViewBag.Filter = filter;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
-                        
+
             var positionsQry = _context.Positions
                 .Include(p => p.PositionDepartment)
                 .Include(r => r.PositionDepartment.DepartmentRegion)
@@ -48,11 +48,13 @@ namespace inventory_dot_core.Controllers
             }
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
                 (
-                   positionsQry, pageSize, page, sortExpression, "PositionId"
-                   );
+                positionsQry, pageSize, page, sortExpression, "PositionId"
+                );
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);

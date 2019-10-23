@@ -9,6 +9,7 @@ using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Routing;
 using inventory_dot_core.Classes;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections;
 
 namespace inventory_dot_core.Controllers
 {
@@ -16,8 +17,7 @@ namespace inventory_dot_core.Controllers
     public class WealthSoftwaresController : Controller
     {
         private readonly InventoryContext _context;
-
-        private ControlesItems _ControlesItems;
+        private readonly ControlesItems _ControlesItems;
 
 
         public WealthSoftwaresController(InventoryContext context)
@@ -27,9 +27,17 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthSoftwares
-        public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public async Task<IActionResult> Index(string filter = "",
+            int page = 1,
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string sortExpression = "WsoftId")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -38,26 +46,60 @@ namespace inventory_dot_core.Controllers
                 .Include(w => w.WsoftWtype)
                 .AsQueryable();
 
-            int pageSize = 5;
+            // Создаем список используемого ПО
+            var _softwareInUse = _context.RelSoftwareHardware
+                .Select(h => h.RelshWsoftId)
+                .ToArray();
+
+            foreach (var item in inventoryContext)
+            {
+                item.WsoftCntFree =
+                    item.WsoftCnt - _softwareInUse
+                    .Where(x => x == item.WsoftId)
+                    .Count();
+            }
+
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
                 filter = filter.ToUpper();
+
                 inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WsoftFnumber.ToUpper(), "%" + filter + "%")
                     || EF.Functions.Like(e.WsoftInumber.ToUpper(), "%" + filter + "%")
-                    || EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filter + "%")                    
+                    || EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filter + "%")
                     || EF.Functions.Like(e.WsoftRegion.RegionName.ToUpper(), "%" + filter + "%")
                 );
             }
-            var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
+
+            if (!string.IsNullOrWhiteSpace(filterInv) || !string.IsNullOrWhiteSpace(filterRegion) || !string.IsNullOrWhiteSpace(filterName))
+            {
+                filterRegion = !string.IsNullOrWhiteSpace(filterRegion) ? filterRegion.ToUpper() : null;
+                filterName = !string.IsNullOrWhiteSpace(filterName) ? filterName.ToUpper() : null;
+                filterInv = !string.IsNullOrWhiteSpace(filterInv) ? filterInv.ToUpper() : null;
+
+                if (!string.IsNullOrWhiteSpace(filterRegion))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftRegion.RegionName.ToUpper(), "%" + filterRegion + "%"));
+                if (!string.IsNullOrWhiteSpace(filterName))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filterName + "%"));
+                if (!string.IsNullOrWhiteSpace(filterInv))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftInumber.ToUpper(), "%" + filterInv + "%"));
+            }
+
+            var model = await Classes.Paging.PagingList.CreateAsync
                 (
                    inventoryContext, pageSize, page, sortExpression, "WsoftId"
                    );
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "filterInv", filterInv},
+                { "filterName", filterName},
+                { "filterRegion", filterRegion}
             };
-
 
             return View(model);
         }
@@ -74,6 +116,7 @@ namespace inventory_dot_core.Controllers
                 .Include(w => w.WsoftRegion)
                 .Include(w => w.WsoftWcat)
                 .Include(w => w.WsoftWtype)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.WsoftId == id);
             if (wealthSoftware == null)
             {
@@ -84,9 +127,15 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthSoftwares/Create
-        public IActionResult Create(string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public IActionResult Create(string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -107,9 +156,15 @@ namespace inventory_dot_core.Controllers
             ",WsoftDateOfAdoption,WsoftInitialCost,WsoftResidualValue,WsoftRegionId" +
             ",WsoftNote,WsoftArchiv,WsoftCreateDate,WsoftCnt")] WealthSoftware wealthSoftware,
             bool WsoftArchiv,
-            string filter = "", int page = 1, string sortExpression = "WsoftId")
+            string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -124,9 +179,12 @@ namespace inventory_dot_core.Controllers
                 return RedirectToAction(nameof(Index),
                     new
                     {
-                        filter = filter,
-                        page = page,
-                        sortExpression = sortExpression
+                        filter,
+                        page,
+                        sortExpression,
+                        filterInv,
+                        filterName,
+                        filterRegion
                     });
             }
             ViewData["WsoftRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthSoftware.WsoftRegionId);
@@ -138,9 +196,15 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthSoftwares/Edit/5
-        public async Task<IActionResult> Edit(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public async Task<IActionResult> Edit(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -171,9 +235,15 @@ namespace inventory_dot_core.Controllers
             ",WsoftName,WsoftDateOfAdoption,WsoftInitialCost,WsoftResidualValue,WsoftRegionId" +
             ",WsoftNote,WsoftArchiv,WsoftCreateDate,WsoftCnt")] WealthSoftware wealthSoftware,
             bool WsoftArchiv,
-            string filter = "", int page = 1, string sortExpression = "WsoftId")
+            string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -207,9 +277,12 @@ namespace inventory_dot_core.Controllers
                 return RedirectToAction(nameof(Index),
                     new
                     {
-                        filter = filter,
-                        page = page,
-                        sortExpression = sortExpression
+                        filter,
+                        page,
+                        sortExpression,
+                        filterInv,
+                        filterName,
+                        filterRegion
                     });
             }
             ViewData["WsoftRegionId"] = new SelectList(_context.Region, "RegionId", "RegionName", wealthSoftware.WsoftRegionId);
@@ -221,9 +294,15 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: WealthSoftwares/Delete/5
-        public async Task<IActionResult> Delete(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public async Task<IActionResult> Delete(int? id, string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -237,6 +316,7 @@ namespace inventory_dot_core.Controllers
                 .Include(w => w.WsoftWcat)
                 .Include(w => w.WsoftWtype)
                 .FirstOrDefaultAsync(m => m.WsoftId == id);
+
             if (wealthSoftware == null)
             {
                 return NotFound();
@@ -248,9 +328,15 @@ namespace inventory_dot_core.Controllers
         // POST: WealthSoftwares/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, string filter = "", int page = 1, string sortExpression = "WsoftId")
+        public async Task<IActionResult> DeleteConfirmed(int id, string filter = "", int page = 1, string sortExpression = "WsoftId",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "")
         {
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
             ViewBag.Filter = filter;
+            ViewBag.FilterRegion = filterRegion;
             ViewBag.Page = page;
             ViewBag.SortExpression = sortExpression;
 
@@ -260,9 +346,12 @@ namespace inventory_dot_core.Controllers
             return RedirectToAction(nameof(Index),
                 new
                 {
-                    filter = filter,
-                    page = page,
-                    sortExpression = sortExpression
+                    filter,
+                    page,
+                    sortExpression,
+                    filterInv,
+                    filterName,
+                    filterRegion
                 });
         }
 
@@ -270,5 +359,91 @@ namespace inventory_dot_core.Controllers
         {
             return _context.WealthSoftware.Any(e => e.WsoftId == id);
         }
+
+        // GET: WealthHardwares
+        public async Task<IActionResult> Report(
+            string filter = "",
+            string filterInv = "",
+            string filterName = "",
+            string filterRegion = "",
+            string filterCat = "",
+            string filterType = "",
+            int page = 1,
+            string sortExpression = "WsoftId")
+        {
+            ViewBag.Filter = filter;
+            ViewBag.FilterInv = filterInv;
+            ViewBag.FilterName = filterName;
+            ViewBag.FilterRegion = filterRegion;
+            ViewBag.FilterCat = filterCat;
+            ViewBag.FilterType = filterType;
+            ViewBag.Page = page;
+            ViewBag.SortExpression = sortExpression;
+
+            var inventoryContext = _context.WealthSoftware
+                .Include(w => w.RelSoftwareHardware.RelshWhard)
+                .Include(w => w.WsoftRegion)
+                .Include(w => w.WsoftWcat)
+                .Include(w => w.WsoftWtype)
+                .AsQueryable();
+
+            // Создаем список используемого ПО
+            var _softwareInUse = _context.RelSoftwareHardware
+                .Select(h => h.RelshWsoftId)
+                .ToArray();
+
+            foreach (var item in inventoryContext)
+            {
+                item.WsoftCntFree =
+                    item.WsoftCnt - _softwareInUse
+                    .Where(x => x == item.WsoftId)
+                    .Count();
+            }
+
+            int pageSize = 100000;
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                filter = filter.ToUpper();
+                inventoryContext = inventoryContext.Where(e => EF.Functions.Like(e.WsoftFnumber.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WsoftInumber.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filter + "%")
+                    || EF.Functions.Like(e.WsoftRegion.RegionName.ToUpper(), "%" + filter + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filterInv) || !string.IsNullOrWhiteSpace(filterRegion) || !string.IsNullOrWhiteSpace(filterName))
+            {
+                filterRegion = !string.IsNullOrWhiteSpace(filterRegion) ? filterRegion.ToUpper() : null;
+                filterName = !string.IsNullOrWhiteSpace(filterName) ? filterName.ToUpper() : null;
+                filterInv = !string.IsNullOrWhiteSpace(filterInv) ? filterInv.ToUpper() : null;
+
+                if (!string.IsNullOrWhiteSpace(filterRegion))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftRegion.RegionName.ToUpper(), "%" + filterRegion + "%"));
+                if (!string.IsNullOrWhiteSpace(filterName))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftName.ToUpper(), "%" + filterName + "%"));
+                if (!string.IsNullOrWhiteSpace(filterInv))
+                    inventoryContext = inventoryContext.Where(e =>
+                    EF.Functions.Like(e.WsoftInumber.ToUpper(), "%" + filterInv + "%"));
+            }
+
+            var model = await Classes.Paging.PagingList.CreateAsync
+                (
+                   inventoryContext, pageSize, page, sortExpression, "WsoftId"
+                   );
+
+            model.RouteValue = new RouteValueDictionary {
+                { "filter", filter},
+                { "filterInv", filterInv},
+                { "filterName", filterName},
+                { "filterRegion", filterRegion}
+            };
+
+            //ViewData["WhardRegionFilter"] = new SelectList(_context.Region, "RegionId", "RegionName");
+
+            return View(model);
+        }
+
     }
 }

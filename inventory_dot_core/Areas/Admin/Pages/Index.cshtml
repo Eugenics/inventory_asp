@@ -1,0 +1,48 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Пользователи";
+    //ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h2>Администрирование пользователей</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Input.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Input.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Input.Role)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.DisplayedUser)
+        {
+            <tr>
+                <td align="center">@user.UserName</td>
+                <td align="center">@user.Email</td>
+                <td align="center">
+                    @foreach (var item in user.Role)
+                    {
+                        <text>@item</text>
+                        if (@user.Role.ToList().Last() != item)
+                        {
+                            <text>, </text>
+                        }
+                    }
+                </td>
+                <td align="center">
+                    <a class="btn btn-primary btn-sm"
+                       asp-area="Admin"
+                       asp-page="/Edit"
+                       asp-route-userid="@user.UserId">Права</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

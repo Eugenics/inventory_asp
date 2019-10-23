@@ -14,7 +14,7 @@ namespace inventory_dot_core.Models
             AccountingCartridgesAcCartWhard = new HashSet<AccountingCartridges>();
             AccountingCartridgesAcWhard = new HashSet<AccountingCartridges>();
             AccountingPhones = new HashSet<AccountingPhones>();
-            RelHardwareEmployee = new HashSet<RelHardwareEmployee>();
+            //RelHardwareEmployee = new RelHardwareEmployee();
             RelSoftwareHardware = new HashSet<RelSoftwareHardware>();
         }
 
@@ -91,7 +91,7 @@ namespace inventory_dot_core.Models
         public virtual ICollection<AccountingCartridges> AccountingCartridgesAcCartWhard { get; set; }
         public virtual ICollection<AccountingCartridges> AccountingCartridgesAcWhard { get; set; }
         public virtual ICollection<AccountingPhones> AccountingPhones { get; set; }
-        public virtual ICollection<RelHardwareEmployee> RelHardwareEmployee { get; set; }
+        public virtual RelHardwareEmployee RelHardwareEmployee { get; set; }
         public virtual ICollection<RelSoftwareHardware> RelSoftwareHardware { get; set; }
     }
 }

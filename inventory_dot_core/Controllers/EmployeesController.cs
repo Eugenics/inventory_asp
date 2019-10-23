@@ -40,7 +40,7 @@ namespace inventory_dot_core.Views
             var employeesQueryable = _context.Employees
                 .Include(e => e.EmployeeOffice)
                 .Include(p => p.EmployeePosition)
-                .Include(r => r.EmployeeRegion)                
+                .Include(r => r.EmployeeRegion)
                 .AsQueryable();
             int pageSize = 10;
 
@@ -57,7 +57,9 @@ namespace inventory_dot_core.Views
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync(employeesQueryable, pageSize, page, sortExpression, "EmployeeId");
 
             model.RouteValue = new RouteValueDictionary {
-                { "filter", filter}
+                { "filter", filter},
+                { "sortExpression", sortExpression },
+                { "page", page }
             };
 
             return View(model);

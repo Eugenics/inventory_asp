@@ -25,14 +25,14 @@ namespace inventory_dot_core.Api
         [HttpGet("{regionId}")]
         public ActionResult GetJSONOfficesByRegion(int regionId)
         {
-            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByRegion(regionId).OrderBy(x => x.Value));
+            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByRegion(regionId));
         }
 
         [HttpGet]
         [Route("[action]/{houseId}")]
         public ActionResult GetJSONOfficesByHouse(int houseId)
         {
-            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByHouse(houseId).OrderBy(x => x.Value));
+            return new JsonResult(new Classes.ControlesItems(_context).GetOfficesByHouse(houseId));
         }
     }
 }

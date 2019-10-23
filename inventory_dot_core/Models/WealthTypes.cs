@@ -14,7 +14,6 @@ namespace inventory_dot_core.Models
         }
 
         [Display(Name ="Код")]
-
         public int WtypeId { get; set; }
 
         [Display(Name = "Наименование")]
@@ -22,6 +21,10 @@ namespace inventory_dot_core.Models
 
         [Display(Name = "Примечание")]
         public string WtypeNotes { get; set; }
+
+        [Display(Name ="IT оборудование")]
+        [UIHint("_YesNoTemplate")]
+        public int wtype_is_it { get; set; }
 
         public virtual ICollection<WealthHardware> WealthHardware { get; set; }
         public virtual ICollection<WealthSoftware> WealthSoftware { get; set; }

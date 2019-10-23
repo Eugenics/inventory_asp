@@ -28,13 +28,13 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="RelheId" />
-        <input type="submit" value="Удалить" class="btn btn-outline-danger"
+        <input type="submit" value="Удалить" class="btn btn-danger btn-sm"
                formmethod="post"
                asp-route-filter="@ViewBag.Filter"
                asp-route-sortExpression="@ViewBag.SortExpression"
                asp-route-page="@ViewBag.Page"
                asp-route-employee_id="@ViewBag.EmployeeId"/> |
-        <a class="btn btn-outline-primary" asp-action="Index"
+        <a class="btn btn-mdb-color btn-sm" asp-action="Index"
            asp-route-filter="@ViewBag.Filter"
            asp-route-sortExpression="@ViewBag.SortExpression"
            asp-route-page="@ViewBag.Page"

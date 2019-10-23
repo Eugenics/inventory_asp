@@ -1,0 +1,101 @@
+﻿@model inventory_dot_core.Classes.Paging.PagingList<inventory_dot_core.Models.RelSoftwareHardware>
+@using inventory_dot_core.Classes;
+
+@{
+    ViewData["Title"] = $"Программный продукт: {ViewBag.SoftName}";
+}
+
+<h3>Список оборудования, на которое установлено ПО: @ViewBag.SoftName</h3>
+
+<p>
+    <a asp-action="Create" class="btn btn-mdb-color btn-sm"
+       asp-route-soft_id="@ViewBag.SoftId"
+       asp-route-page="@Model.PageIndex"
+       asp-route-filter="@ViewBag.Filter"
+       asp-route-sortExpression="@ViewBag.SortExpression"
+       asp-route-filterInv="@ViewBag.FilterInv"
+       asp-route-filterRegion="@ViewBag.FilterRegion"
+       asp-route-filterName="@ViewBag.FilterName"
+       hidden>
+        Добавить оборудование
+    </a>
+    <a class="btn btn-mdb-color btn-sm"
+       asp-controller="WealthSoftwares"
+       asp-action="Index"
+       asp-route-filter="@ViewBag.SoftFilter"
+       asp-route-sortExpression="@ViewBag.SoftSortExpression"
+       asp-route-page="@ViewBag.SoftPage"
+       asp-route-filterInv="@ViewBag.FilterInv"
+       asp-route-filterRegion="@ViewBag.FilterRegion"
+       asp-route-filterName="@ViewBag.FilterName">
+        Назад
+    </a>
+    <a asp-action="Report" class="btn btn-mdb-color btn-sm"
+       asp-route-page="@ViewBag.SoftPage"
+       asp-route-filter="@ViewBag.SoftFilter"
+       asp-route-sortExpression="@ViewBag.SoftSortExpression"
+       asp-route-filterInv="@ViewBag.FilterInv"
+       asp-route-filterRegion="@ViewBag.FilterRegion"
+       asp-route-filterName="@ViewBag.FilterName">
+        <i class="fas fa-file-alt"></i>
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RelshWhard.WhardRegion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelshWhard.WhardOffice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelshWhard.RelHardwareEmployee.RelheEmployee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelshWhard.WhardInumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RelshWhard.WhardName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelshWhard.WhardRegion.RegionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelshWhard.WhardOffice.OfficeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelshWhard.RelHardwareEmployee.RelheEmployee.EmployeeFullFio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelshWhard.WhardInumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelshWhard.WhardName)
+                </td>
+                <td>
+                    <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
+                       asp-route-soft_id="@ViewBag.SoftId"
+                       asp-route-id="@item.RelshId"
+                       asp-route-page="@Model.PageIndex"
+                       asp-route-filter="@ViewBag.Filter"
+                       asp-route-sortExpression="@ViewBag.SortExpression"
+                       asp-route-filterInv="@ViewBag.FilterInv"
+                       asp-route-filterRegion="@ViewBag.FilterRegion"
+                       asp-route-filterName="@ViewBag.FilterName">@Dictionary.frasesDictionary["Delete"]</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <partial name="_PagerPartial" />
+</nav>

@@ -1,0 +1,57 @@
+﻿@model inventory_dot_core.Models.RelSoftwareHardware
+@using inventory_dot_core.Classes
+
+@{
+    ViewData["Title"] = $"{Dictionary.frasesDictionary["Delete"]} ПО {Model.RelshWsoft.WsoftName}";
+}
+
+<h1>@Dictionary.frasesDictionary["Delete"]</h1>
+
+<h3>@Dictionary.frasesDictionary["DeleteConfirm"]</h3>
+<div>
+    <h4>Удаление программного обеспечения с оборудования</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RelshWhard)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RelshWhard.WhardName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RelshWsoft)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RelshWsoft.WsoftName)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="RelshId" />
+        <input type="submit" value="Удалить" class="btn btn-danger btn-sm"
+               formmethod="post"
+               asp-route-filter="@ViewBag.Filter"
+               asp-route-sortExpression="@ViewBag.SortExpression"
+               asp-route-page="@ViewBag.Page"
+               asp-route-hardware_id="@ViewBag.HardwareId"
+               asp-route-filterOffice="@ViewBag.FilterOffice"
+               asp-route-filterInv="@ViewBag.FilterInv"
+               asp-route-filterRegion="@ViewBag.FilterRegion"
+               asp-route-filterName="@ViewBag.FilterName"
+               asp-route-filterCat="@ViewBag.FilterCat"
+               asp-route-filterType="@ViewBag.FilterType" /> |
+        <a class="btn btn-mdb-color btn-sm" asp-action="Index"
+           asp-route-filter="@ViewBag.Filter"
+           asp-route-sortExpression="@ViewBag.SortExpression"
+           asp-route-page="@ViewBag.Page"
+           asp-route-hardware_id="@ViewBag.HardwareId"
+           asp-route-filterOffice="@ViewBag.FilterOffice"
+           asp-route-filterInv="@ViewBag.FilterInv"
+           asp-route-filterRegion="@ViewBag.FilterRegion"
+           asp-route-filterName="@ViewBag.FilterName"
+           asp-route-filterCat="@ViewBag.FilterCat"
+           asp-route-filterType="@ViewBag.FilterType">
+            Назад
+        </a>
+    </form>
+</div>

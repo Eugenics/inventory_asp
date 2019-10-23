@@ -28,7 +28,7 @@ namespace inventory_dot_core
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        private readonly IHostingEnvironment hostingEnvironment;
+        //private readonly IHostingEnvironment hostingEnvironment;
 
         public Startup(IConfiguration configuration)
         {
@@ -45,6 +45,7 @@ namespace inventory_dot_core
             services.AddTransient<IClock, clockClass>();
             services.AddResponseCaching();                  // Add caching  2019-06-03
 
+            /*
             services.AddBreadcrumbs(GetType().Assembly, options =>
             {
                 options.TagName = "nav";
@@ -54,6 +55,7 @@ namespace inventory_dot_core
                 options.ActiveLiClasses = "breadcrumb-item active";
                 options.SeparatorElement = "<li class=\"separator\">/</li>";
             });
+            */
            
             services.Configure<IdentityOptions>(options =>
             {
@@ -64,6 +66,10 @@ namespace inventory_dot_core
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
+
+                //options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                //options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                //options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
 
                 // Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -102,12 +108,14 @@ namespace inventory_dot_core
                     npgsqlOptionsAction: sqlOptions => { sqlOptions.EnableRetryOnFailure(); });
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
-            });            
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDeveloperExceptionPage();
+            /*
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -117,6 +125,7 @@ namespace inventory_dot_core
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            */
 
             var supportedCultures = new[]
             {
@@ -148,12 +157,14 @@ namespace inventory_dot_core
             });
             */
 
+            /*
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "identity",
                     template: "Identity/{controller=Account}/{action=Register}/{id?}");
             });
+            */
 
             app.UseMvc(routes =>
             {

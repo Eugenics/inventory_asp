@@ -18,6 +18,7 @@ namespace inventory_dot_core.Models
         public int RelheEmployeeId { get; set; }
 
         [Display(Name = "Оборудование")]
+        [ForeignKey("WealthHardware")]
         public int RelheWhardId { get; set; }
 
         [Display(Name = "Сотрудник")]
