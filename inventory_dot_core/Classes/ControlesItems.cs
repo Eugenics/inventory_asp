@@ -150,6 +150,21 @@ namespace inventory_dot_core.Classes
 
         }
 
+        public List<Departments> GetDepartments()
+        {
+            var retList = new List<Departments>();
+            var _departments = _context.Departments.Include(r => r.DepartmentRegion);
+
+            Departments[] dep = _context.Departments.ToArray();
+
+            foreach(var d in dep)
+            {
+                retList.Add(d);
+            }
+
+            return retList;
+        }
+
 
         /// <summary>
         /// Get employees by region code for list controles

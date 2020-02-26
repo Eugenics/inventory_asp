@@ -8,42 +8,67 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ТМЦ</title>
-    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/all.css" />
-    <link rel="stylesheet" href="~/jsTree/themes/default/style.min.css" />
-    <link rel="stylesheet" href="~/css/PagedList.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/mdb/css/mdb.css" />"
+
     <link href="~/fontawesome/css/all.css" rel="stylesheet" />
-    <link href="~/css/jquery-ui/jquery-ui.css" rel="stylesheet" />
-    <link href="~/css/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/sb-admin-2.min.css" />
+    <link rel="stylesheet" href="~/css/animate.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/all.css" />
+    <link rel="stylesheet" href="~/css/PagedList.css" />
     <link href="~/chosen_v1.8.7/docsupport/prism.css" />
     <link href="~/chosen_v1.8.7/chosen.css" rel="stylesheet" />
-    
-    
 
-    <script src="~/lib/jquery/dist/jquery-3.4.1.js"></script>
+    <script src="~/lib/jquery/dist/jquery-3.4.1.min.js"></script>
     <script src="~/js/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/mdb/js/mdb.js"></script>
     <script src="~/fontawesome/js/all.js"></script>
     <script src="~/chosen_v1.8.7/chosen.jquery.js"></script>
     <script src="~/chosen_v1.8.7/docsupport/prism.js"></script>
     <script src="~/chosen_v1.8.7/docsupport/init.js"></script>
-    
+
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/bootstrap/js/bootstrap.js"></script>
+    <script src="~/js/moment.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/sb-admin-2.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+
+
+    <!--
+        <link rel="stylesheet" href="~/jsTree/themes/default/style.min.css" />
+        <link rel="stylesheet" href="~/mdb/css/mdb.css" />"
+        <link rel="stylesheet" href="~/bootstrap/css/bootstrap.css" />
+        <script src="~/mdb/js/mdb.js"></script>
+    -->
+
 
 
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark mdb-color fixed-top shadow-sm scrolling-navbar">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ТМЦ</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse">
+    <nav class="navbar navbar-expand navbar-dark bg-gray-900 shadow fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" asp-area="" asp-controller="Charts" asp-action="Index">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">
+                    TMC
+                    <sup>2</sup>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                @if (User.Identity.IsAuthenticated)
+                {
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Charts" asp-action="Index" class="nav-link">
+                                <!--<i class="fas fa-chart-pie mr-3"></i>-->
+                                Dashboard
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href=# id="navSources" data-toggle="dropdown">
                                 Объекты учета
@@ -73,69 +98,46 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav ml-auto">
-                        <partial name="_LoginPartial" />
-                    </ul>
-                </div>
+                }
+                <ul class="navbar-nav ml-auto">
+                    <partial name="_LoginPartial" />
+                </ul>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <!--<breadcrumb></breadcrumb>-->
     <main role="main">
         <div class="row">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="col-sm col-md-2">
-                    <div class="sidebar-fixed position-sticky">
-                        <div class="list-group list-group-flush">
-                            <a asp-area="" asp-controller="Charts" asp-action="Index" class="list-group-item waves-effect">
-                                <i class="fas fa-chart-pie mr-3"></i>Dashboard
-                            </a>
-
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="list-group-item list-group-item-action waves-effect">
-                                <i class="fas fa-user mr-3"></i>Профиль
-                            </a>
-
-                            @if (User.IsInRole("root"))
-                            {
-                            <a id="admin" asp-area="Admin" asp-page="/Index" class="list-group-item list-group-item-action waves-effect" title="Admin">
-                                <i class="fas fa-user-secret mr-3"></i>Администрирование
-                            </a>
-                            }
-                        </div>
-                    </div>
-                </div>
-            }
-            <div class="col-sm col-lg-10">
-                <div class="container-fluid">
-                    <partial name="_CookieConsentPartial" />
-                    @RenderBody()
-                </div>
+            <div class="container-fluid">
+                <partial name="_CookieConsentPartial" />
+                @RenderBody()
             </div>
         </div>
     </main>
 
 
 
-
-    <footer class="page-footer fixed-bottom mdb-color">
-        <div class="container-fluid text-center text-md-left">
-            &copy; @System.DateTime.Now.Year - <a asp-area="" asp-controller="Home" asp-action="Index">
-                Учет ТМЦ (версия
-                <environment include="Development">
-                    Development
-                </environment>
-                <environment include="Production">
-                    Production
-                </environment>
-                <environment include="Local">
-                    Local
-                </environment>
-                )
-            </a>
+    <!--
+    <footer class="py-5 bg-white">
+        <div class="container">
+            <p class="text-center text-md-left">
+                &copy; @System.DateTime.Now.Year - <a asp-area="" asp-controller="Home" asp-action="Index">
+                    Учет ТМЦ (версия
+                    <environment include="Development">
+                        Development
+                    </environment>
+                    <environment include="Production">
+                        Production
+                    </environment>
+                    <environment include="Local">
+                        Local
+                    </environment>
+                    )
+                </a>
+            </p>
         </div>
     </footer>
+        -->
 
 
     <environment include="Development">

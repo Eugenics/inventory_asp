@@ -27,5 +27,12 @@ namespace inventory_dot_core.Api
         {
             return new JsonResult(new Classes.ControlesItems(_context).GetDepartmentsByRegion(regionId).OrderBy(x => x.Text));
         }
+
+        [HttpGet]
+        public ActionResult GetJSONDepartmentFull()
+        {
+            object listDep = new Classes.ControlesItems(_context).GetDepartments();
+            return new JsonResult(listDep);
+        }
     }
 }
