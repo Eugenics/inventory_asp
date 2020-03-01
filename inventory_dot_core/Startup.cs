@@ -47,7 +47,7 @@ namespace inventory_dot_core
             services.AddResponseCaching();                  // Add caching  2019-06-03
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();     // Add for get user 2020-02-29
 
-            services.AddIdentity<ApplicationUser>();
+            //services.AddIdentity<ApplicationUser>();
              
 
 

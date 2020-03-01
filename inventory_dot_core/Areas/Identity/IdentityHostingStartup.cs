@@ -20,7 +20,7 @@ namespace inventory_dot_core.Areas.Identity
                 .AddDbContext<IdentityDBContext>(options =>
                     options.UseNpgsql(context.Configuration.GetConnectionString("inventoryDataBase")));
 
-                services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
                     options.User.AllowedUserNameCharacters = null;
                     options.User.RequireUniqueEmail = false;
