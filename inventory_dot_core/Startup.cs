@@ -20,6 +20,7 @@ using Newtonsoft.Json.Serialization;
 using SmartBreadcrumbs.Extensions;
 using inventory_dot_core.Classes;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 
@@ -44,19 +45,12 @@ namespace inventory_dot_core
             #region Manual added services
             services.AddTransient<IClock, clockClass>();
             services.AddResponseCaching();                  // Add caching  2019-06-03
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();     // Add for get user 2020-02-29
 
-            /*
-            services.AddBreadcrumbs(GetType().Assembly, options =>
-            {
-                options.TagName = "nav";
-                options.TagClasses = "";
-                options.OlClasses = "breadcrumb";
-                options.LiClasses = "breadcrumb-item";
-                options.ActiveLiClasses = "breadcrumb-item active";
-                options.SeparatorElement = "<li class=\"separator\">/</li>";
-            });
-            */
-           
+            services.AddIdentity<ApplicationUser>();
+             
+
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.

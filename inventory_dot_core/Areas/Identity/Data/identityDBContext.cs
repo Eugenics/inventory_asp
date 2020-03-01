@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inventory_dot_core.Models
 {
-    public class IdentityDBContext : IdentityDbContext<IdentityUser>
+    public class IdentityDBContext : IdentityDbContext<ApplicationUser>
     {
         public IdentityDBContext(DbContextOptions<IdentityDBContext> options)
             : base(options)
@@ -18,6 +18,9 @@ namespace inventory_dot_core.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // Ignoring UserRegions field for store in database
+            builder.Entity<ApplicationUser>().Ignore(u => u.UserRegions);
 
             //builder.HasDefaultSchema("identity");
             // Customize the ASP.NET Identity model and override the defaults if needed.

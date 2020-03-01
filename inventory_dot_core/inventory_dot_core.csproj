@@ -30,6 +30,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Model\" />
     <Folder Include="wwwroot\css\mdb\" />
   </ItemGroup>
 
