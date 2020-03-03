@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using inventory_dot_core.Classes;
 
 namespace inventory_dot_core.Models
 {
-    public class IdentityDBContext : IdentityDbContext<ApplicationUser>
+    public class IdentityDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public IdentityDBContext(DbContextOptions<IdentityDBContext> options)
             : base(options)

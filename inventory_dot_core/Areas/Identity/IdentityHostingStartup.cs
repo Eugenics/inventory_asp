@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using inventory_dot_core.Classes;
 
 [assembly: HostingStartup(typeof(inventory_dot_core.Areas.Identity.IdentityHostingStartup))]
 namespace inventory_dot_core.Areas.Identity
@@ -20,7 +21,7 @@ namespace inventory_dot_core.Areas.Identity
                 .AddDbContext<IdentityDBContext>(options =>
                     options.UseNpgsql(context.Configuration.GetConnectionString("inventoryDataBase")));
 
-                services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
                     options.User.AllowedUserNameCharacters = null;
                     options.User.RequireUniqueEmail = false;

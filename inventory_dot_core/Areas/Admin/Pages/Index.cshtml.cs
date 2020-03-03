@@ -5,19 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using inventory_dot_core.Classes;
 
 namespace inventory_dot_core.Areas.Admin.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
-        public IndexModel(UserManager<IdentityUser> userManager)
+        public IndexModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
 

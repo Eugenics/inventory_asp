@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using inventory_dot_core.Models;
+using inventory_dot_core.Classes;
 
 namespace inventory_dot_core.Areas.Identity.Pages.Account
 {

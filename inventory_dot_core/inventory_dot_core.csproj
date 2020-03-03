@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\Model\**" />
+    <Content Remove="Areas\Admin\Model\**" />
+    <EmbeddedResource Remove="Areas\Admin\Model\**" />
+    <None Remove="Areas\Admin\Model\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\js\bootstrap\bootstrap-select.min.js" />
   </ItemGroup>
 
@@ -30,7 +37,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Model\" />
     <Folder Include="wwwroot\css\mdb\" />
   </ItemGroup>
 

@@ -11,9 +11,8 @@ using SmartBreadcrumbs.Attributes;
 using inventory_dot_core.Classes.Paging;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI;
 using System.Security.Claims;
+using inventory_dot_core.Classes;
 
 // ReSharper disable All
 
@@ -24,22 +23,16 @@ namespace inventory_dot_core.Controllers
     {
         private readonly InventoryContext _context;
 
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;        
 
         private IList<string> userRoles;
         // Alowed regions for current user
         private List<string> regions;
 
-        public HousesController(InventoryContext context,
-                                UserManager<IdentityUser> userManager,
-                                RoleManager<IdentityRole> roleManager)
+        public HousesController(InventoryContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            userRoles = new List<string>();
-            regions = new List<string>();
+            _userManager = userManager;            
         }
 
         /// <summary>
@@ -52,9 +45,7 @@ namespace inventory_dot_core.Controllers
         public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "HousesId")
         {
             var housesesQueryable = _context.Houses.Include(h => h.HousesRegion).AsQueryable();
-            int pageSize = 15;
-
-            getRegions();
+            int pageSize = 15;            
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -62,6 +53,13 @@ namespace inventory_dot_core.Controllers
                 housesesQueryable = housesesQueryable.Where(h => EF.Functions.Like(h.HousesName.ToUpper(), "%" + filter + "%")
                 || EF.Functions.Like(h.HousesRegion.RegionName.ToUpper(), "%" + filter + "%"));
             }
+
+            // Filter regions in dataset according user rights
+            var _userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var _user = _userManager.Users.Where(x => x.Id == _userId).FirstOrDefault();
+
+            regions = _user.Regions.Split(',').ToList();
+            if (regions == null) regions = new List<string>();
 
             housesesQueryable = housesesQueryable.Where(h => regions.Contains(h.HousesRegion.ToString()));
 
@@ -200,32 +198,6 @@ namespace inventory_dot_core.Controllers
         private bool HousesExists(int id)
         {
             return _context.Houses.Any(e => e.HousesId == id);
-        }
-
-        private void getRegions()
-        {
-            var _userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var _user = _userManager.Users.Where(x => x.Id == _userId).FirstOrDefault();
-            userRoles = _userManager.GetRolesAsync(_user).Result;
-
-            foreach (string role in userRoles)
-            {
-
-                if (role == "all_users")
-                {
-                    regions = new List<string> { "22", "24", "38", "42", "54", "55", "70" };
-                    break;
-                }
-
-                if (role == "54_users") regions.Add("54");
-                else if (role == "22_users") regions.Add("22");
-                else if (role == "24_users") regions.Add("24");
-                else if (role == "38_users") regions.Add("38");
-                else if (role == "42_users") regions.Add("42");
-                else if (role == "54_users") regions.Add("54");
-                else if (role == "55_users") regions.Add("55");
-                else if (role == "70_users") regions.Add("70");
-            }
-        }
+        }       
     }
 }
