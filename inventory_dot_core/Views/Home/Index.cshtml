@@ -2,32 +2,35 @@
     ViewData["Title"] = "Home Page";
 }
 
-@{ var total = 7; }
-@{ var myMessage = "Hello World"; }
 @{ var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");}
 
+@if (!User.Identity.IsAuthenticated)
+{
 <div class="text-center">
-    <h1 class="display-4">Добро пожаловать!</h1>
+    <h1 class="display-4">Пожалуйста авторизуйтесь!</h1>
 </div>
+}
 
+@if (User.Identity.IsAuthenticated)
+{
 <div class="d-flex justify-content-center">
     <div class="card">
-        <div class="card-content">
-            <div class="card-content">
-                <a class="btn btn-outline-info btn-lg"
+        <div class="card-body">
+            
+                <a class="btn btn-outline-dark btn-lg"
                    asp-area=""
                    asp-controller="Employees"
                    asp-action="Create"
                    asp-route-page="1"
                    asp-route-filter="EmployeeId"
                    asp-route-sortExpression="WhardId"><i class="fas fa-desktop fa-lg"></i> | Новый сотрудник</a>                
-            </div>
+            
         </div>
     </div>
     <div class="card">
-        <div class="card-content">
-            <div class="card-content">
-                <a class="btn btn-outline-info btn-lg"
+        <div class="card-body">
+            
+                <a class="btn btn-outline-dark btn-lg"
                    asp-controller="RelHardwareEmployees"
                    asp-action="Index"
                    asp-route-employee_id="1"
@@ -37,28 +40,28 @@
                    asp-route-page="1"
                    asp-route-filter=""
                    asp-route-sortExpression=""><i class="fas fa-desktop fa-lg"></i> | Новое рабочее место</a>
-            </div>
+            
         </div>
     </div>    
     <div class="card">
-        <div class="card-content">
-            <div class="card-content">
-                <a class="btn btn-outline-info btn-lg"
-                   asp-area=""
-                   asp-controller="WealthHardwares"
-                   asp-action="Create"
-                   asp-route-page="1"
-                   asp-route-filter=""
-                   asp-route-sortExpression="WhardId">
-                    <i class="fas fa-mouse fa-lg"></i> | Новое оборудование
-                </a>
-            </div>            
+        <div class="card-body">
+            
+            <a class="btn btn-outline-dark btn-lg"
+               asp-area=""
+               asp-controller="WealthHardwares"
+               asp-action="Create"
+               asp-route-page="1"
+               asp-route-filter=""
+               asp-route-sortExpression="WhardId">
+                <i class="fas fa-mouse fa-lg"></i> | Новое оборудование
+            </a>
+                        
         </div>
     </div>
-    <div class="card">
-        <div class="card-content">
-            <div class="card-content">
-                <a class="btn btn-outline-info btn-lg"
+    <div class="card text-center">
+        
+            <div class="card-body">
+                <a class="btn btn-outline-dark btn-lg"
                    asp-area=""
                    asp-controller="WealthSoftWares"
                    asp-action="Create"
@@ -68,6 +71,7 @@
                    <i class="fas fa-mouse fa-dice-d20"></i> | Новый софт
                 </a>
             </div>            
-        </div>
+        
     </div>
 </div>
+}
