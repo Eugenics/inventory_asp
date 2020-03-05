@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inventory_dot_core.Controllers
 {
+    [Authorize(Policy = "RefEditorsRole")]
     public class ChartsController : Controller
     {
         private readonly InventoryContext _context;

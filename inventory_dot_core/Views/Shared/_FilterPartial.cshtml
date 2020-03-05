@@ -1,7 +1,8 @@
 ﻿<nav class="navbar navbar-light">
+    <h1>@ViewData["Title"].ToString()</h1>
     <form class="form-inline form-sm" method="get">
         <input name="filter" class="form-control mr-sm-2" placeholder="Поиск" aria-label="Search" value="@Model.RouteValue["Filter"]">
-        <button class="btn btn-mdb-color btn-sm" type="submit"><i class="fas fa-search fa-2x"></i> </button>
+        <button class="btn btn-outline-info btn-circle" type="submit"><i class="fas fa-search fa-2x"></i> </button>
     </form>
 </nav>
 

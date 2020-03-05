@@ -22,12 +22,7 @@ namespace inventory_dot_core.Controllers
     public class HousesController : Controller
     {
         private readonly InventoryContext _context;
-
-        private readonly UserManager<ApplicationUser> _userManager;        
-
-        private IList<string> userRoles;
-        // Alowed regions for current user
-        private List<string> regions;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public HousesController(InventoryContext context,UserManager<ApplicationUser> userManager)
         {
@@ -55,13 +50,16 @@ namespace inventory_dot_core.Controllers
             }
 
             // Filter regions in dataset according user rights
-            var _userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var _user = _userManager.Users.Where(x => x.Id == _userId).FirstOrDefault();
+            RegionFilter rFilter = new RegionFilter();
 
-            regions = _user.Regions.Split(',').ToList();
-            if (regions == null) regions = new List<string>();
+            housesesQueryable = rFilter.SetRegionFilter(
+                housesesQueryable,
+                _userManager,
+                HttpContext,
+                "HousesRegionId"
+                );
 
-            housesesQueryable = housesesQueryable.Where(h => regions.Contains(h.HousesRegion.ToString()));
+            //housesesQueryable = housesesQueryable.Where(h => regions.Contains(h.HousesRegion.ToString()));
 
             var model = await PagingList.CreateAsync(housesesQueryable, pageSize, page, sortExpression, "HousesId");
 

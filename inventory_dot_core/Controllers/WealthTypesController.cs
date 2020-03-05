@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inventory_dot_core.Views
 {
-    [Authorize(Policy = "RefEditorsRole")]
+    [Authorize(Policy = "AdministratorRole")]
     public class WealthTypesController : Controller
     {
         private readonly InventoryContext _context;

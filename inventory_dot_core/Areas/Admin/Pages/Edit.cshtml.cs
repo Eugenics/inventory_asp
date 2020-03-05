@@ -143,7 +143,12 @@ namespace inventory_dot_core.Areas.Admin.Pages
                     {
                         user.Regions = string.Join(',', _regions.ToArray());
                         await _userManager.UpdateAsync(user);
-                    }                    
+                    }
+                    else
+                    {
+                        user.Regions = "";
+                        await _userManager.UpdateAsync(user);
+                    }
                 }
 
                 return RedirectToPage("/Index");

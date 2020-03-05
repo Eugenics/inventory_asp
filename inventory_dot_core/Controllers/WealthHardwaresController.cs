@@ -9,6 +9,8 @@ using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Routing;
 using inventory_dot_core.Classes;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace inventory_dot_core.Controllers
 {
@@ -17,15 +19,17 @@ namespace inventory_dot_core.Controllers
     {
         private readonly InventoryContext _context;
         private readonly ControlesItems _ControlesItems;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public WealthHardwaresController(InventoryContext context)
+        public WealthHardwaresController(InventoryContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _ControlesItems = new ControlesItems(_context);
+            _userManager = userManager;
         }
 
         // GET: WealthHardwares
@@ -60,6 +64,20 @@ namespace inventory_dot_core.Controllers
                 .AsQueryable();
 
             int pageSize = 15;
+
+            // Filter regions in dataset according user rights
+            RegionFilter rFilter = new RegionFilter();
+
+            inventoryContext = rFilter.SetRegionFilter(
+                inventoryContext,
+                _userManager,
+                HttpContext,
+                "WhardRegionId"
+                );
+            
+            //inventoryContext = inventoryContext.Where(i => _regions.Contains(i.WhardRegion.ToString()));
+
+
 
             if (!string.IsNullOrWhiteSpace(filter))
             {

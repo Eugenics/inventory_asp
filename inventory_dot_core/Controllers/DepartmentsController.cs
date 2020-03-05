@@ -9,6 +9,7 @@ using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Routing;
 using inventory_dot_core.Classes;
+using Microsoft.AspNetCore.Identity;
 
 namespace inventory_dot_core.Controllers
 {
@@ -17,11 +18,13 @@ namespace inventory_dot_core.Controllers
     {
         private readonly InventoryContext _context;
         private ControlesItems _ControleItems;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DepartmentsController(InventoryContext context)
+        public DepartmentsController(InventoryContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _ControleItems = new Classes.ControlesItems(_context);
+            _userManager = userManager;
         }
 
         // GET: Departments
@@ -35,7 +38,7 @@ namespace inventory_dot_core.Controllers
                 .Include(d => d.DepartmentRegion)
                 .AsQueryable();
 
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -45,6 +48,16 @@ namespace inventory_dot_core.Controllers
                     || EF.Functions.Like(e.DepartmentRegion.RegionName.ToUpper(), "%" + filter + "%")
                 );
             }
+
+            // Filter regions in dataset according user rights
+            RegionFilter rFilter = new RegionFilter();
+            departmentsQueryable = rFilter.SetRegionFilter(
+                departmentsQueryable,
+                _userManager,
+                HttpContext,
+                "DepartmentRegionId"
+                );
+
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
                 (
                    departmentsQueryable, pageSize, page, sortExpression, "DepartmentId"

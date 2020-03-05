@@ -5,53 +5,57 @@
     ViewData["Title"] = "Категории МЦ";
 }
 
-<h1>Категории МЦ</h1>
+
+<div class="h1">@ViewData["Title"]</div>
+<hr />
 
 <p>
     <partial name="_CreateButton" />
 </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.WcatId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wcatname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wcatnotes)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.WcatId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wcatname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wcatnotes)
-            </td>
-            <td>
-                <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
-                   asp-route-id="@item.WcatId"
-                   asp-route-page="@Model.PageIndex"
-                   asp-route-filter="@ViewBag.Filter"
-                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
-                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
-                   asp-route-id="@item.WcatId"
-                   asp-route-page="@Model.PageIndex"
-                   asp-route-filter="@ViewBag.Filter"
-                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div class="d-flex justify-content-center">
+    <table class="table table-striped w-auto">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.WcatId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Wcatname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Wcatnotes)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WcatId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Wcatname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Wcatnotes)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" class="btn btn-outline-info btn-circle btn-sm"
+                           asp-route-id="@item.WcatId"
+                           asp-route-page="@Model.PageIndex"
+                           asp-route-filter="@ViewBag.Filter"
+                           asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                        <a asp-action="Delete" class="btn btn-outline-info btn-circle btn-sm"
+                           asp-route-id="@item.WcatId"
+                           asp-route-page="@Model.PageIndex"
+                           asp-route-filter="@ViewBag.Filter"
+                           asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

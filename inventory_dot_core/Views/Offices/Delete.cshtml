@@ -40,7 +40,7 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="OfficeId" />
-        <input type="submit" value="Удалить" class="btn btn-outline-danger" formmethod="post"
+        <input type="submit" value="Удалить" class="btn btn-outline-danger btn-sm" formmethod="post"
                asp-route-filter="@ViewBag.Filter"
                asp-route-sortExpression="@ViewBag.SortExpression"
                asp-route-page="@ViewBag.Page" /> | <partial name="_BackButton" />

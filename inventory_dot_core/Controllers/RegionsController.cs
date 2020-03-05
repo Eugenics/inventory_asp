@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace inventory_dot_core.Controllers
 {
-    [Authorize(Policy = "RefEditorsRole")]
+    [Authorize(Policy = "AdministratorRole")]
     public class RegionsController : Controller
     {
         private readonly InventoryContext _context;
@@ -24,21 +24,10 @@ namespace inventory_dot_core.Controllers
         }
 
         // GET: Regions
-        [Breadcrumb("Регионы")]
-        //public IActionResult Index(int page = 1)
-        //{
-
-        //    var regionsQueryable = _context.Region.AsNoTracking().OrderBy(p => p.RegionId);
-        //    int pageSize = 5;
-        //    var model = PagingList.Create(regionsQueryable, pageSize, page);
-
-        //    return View(model);
-        //}
-
         public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "RegionId")
         {
             var regionsQueryable = _context.Region.AsQueryable();
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {

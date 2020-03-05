@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
+using inventory_dot_core.Classes;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace inventory_dot_core.Controllers
 {
@@ -16,11 +19,13 @@ namespace inventory_dot_core.Controllers
     {
         private readonly InventoryContext _context;
         private Classes.ControlesItems _ControleItems;
+        private UserManager<ApplicationUser> _userManager;
 
-        public OfficesController(InventoryContext context)
+        public OfficesController(InventoryContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _ControleItems = new Classes.ControlesItems(_context);
+            _userManager = userManager;
         }
 
         // GET: Offices
@@ -33,7 +38,7 @@ namespace inventory_dot_core.Controllers
                 .Include(o => o.OfficeHouses)
                 .Include(r => r.OfficeHouses.HousesRegion)
                 .AsQueryable();
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -43,6 +48,15 @@ namespace inventory_dot_core.Controllers
                     || EF.Functions.Like(e.OfficeHouses.HousesRegion.RegionName.ToUpper(), "%" + filter + "%")
                 );
             }
+
+            // Filter regions in dataset according user rights
+            var _userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var _user = _userManager.Users.Where(x => x.Id == _userId).FirstOrDefault();
+
+            var _regions = _user.Regions.Split(',').ToList();
+            if (_regions == null) _regions = new List<string>();
+            officesQueryable = officesQueryable.Where(o => _regions.Contains(o.OfficeHouses.HousesRegionId.ToString()));
+            
 
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync(officesQueryable, pageSize, page, sortExpression, "EmployeeId");
 

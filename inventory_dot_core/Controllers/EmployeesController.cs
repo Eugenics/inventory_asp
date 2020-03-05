@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Authorization;
-//using inventory_dot_core.Classes.Paging;
+using inventory_dot_core.Classes;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Identity;
 
 namespace inventory_dot_core.Views
 {
@@ -16,21 +17,15 @@ namespace inventory_dot_core.Views
     public class EmployeesController : Controller
     {
         private readonly InventoryContext _context;
-
         private Classes.ControlesItems _ControleItems;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EmployeesController(InventoryContext context)
+        public EmployeesController(InventoryContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _ControleItems = new Classes.ControlesItems(_context);
-        }
-
-        // GET: Employees
-        //public async Task<IActionResult> Index()
-        //{
-        //    var inventoryContext = _context.Employees.Include(e => e.EmployeeOffice).Include(e => e.EmployeePosition).Include(e => e.EmployeeRegion);
-        //    return View(await inventoryContext.ToListAsync());
-        //}
+            _userManager = userManager;
+        }        
 
         public async Task<IActionResult> Index(string filter = "", int page = 1, string sortExpression = "EmployeeId")
         {
@@ -42,7 +37,7 @@ namespace inventory_dot_core.Views
                 .Include(p => p.EmployeePosition)
                 .Include(r => r.EmployeeRegion)
                 .AsQueryable();
-            int pageSize = 10;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -53,6 +48,15 @@ namespace inventory_dot_core.Views
                     || EF.Functions.Like(e.EmployeePosition.PositionName.ToUpper(), "%" + filter + "%")
                 );
             }
+
+            // Filter regions in dataset according user rights
+            RegionFilter rFilter = new RegionFilter();
+            employeesQueryable = rFilter.SetRegionFilter(
+                employeesQueryable,
+                _userManager,
+                HttpContext,
+                "EmployeeRegionId"
+                );
 
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync(employeesQueryable, pageSize, page, sortExpression, "EmployeeId");
 

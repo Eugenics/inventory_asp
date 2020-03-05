@@ -9,6 +9,8 @@ using inventory_dot_core.Models;
 using Microsoft.AspNetCore.Authorization;
 using inventory_dot_core.Classes;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace inventory_dot_core.Controllers
 {
@@ -17,11 +19,13 @@ namespace inventory_dot_core.Controllers
     {
         private readonly InventoryContext _context;
         private ControlesItems _ControleItems;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PositionsController(InventoryContext context)
+        public PositionsController(InventoryContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _ControleItems = new ControlesItems(_context);
+            _userManager = userManager;
         }
 
         // GET: Positions
@@ -36,7 +40,7 @@ namespace inventory_dot_core.Controllers
                 .Include(r => r.PositionDepartment.DepartmentRegion)
                 .AsQueryable();
 
-            int pageSize = 5;
+            int pageSize = 15;
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -46,6 +50,15 @@ namespace inventory_dot_core.Controllers
                     || EF.Functions.Like(e.PositionDepartment.DepartmentRegion.RegionName.ToUpper(), "%" + filter + "%")
                 );
             }
+
+            // Filter regions in dataset according user rights
+            var _userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var _user = _userManager.Users.Where(x => x.Id == _userId).FirstOrDefault();
+
+            var _regions = _user.Regions.Split(',').ToList();
+            if (_regions == null) _regions = new List<string>();
+            positionsQry = positionsQry.Where(p => _regions.Contains(p.PositionDepartment.DepartmentRegionId.ToString()));
+
             var model = await inventory_dot_core.Classes.Paging.PagingList.CreateAsync
                 (
                 positionsQry, pageSize, page, sortExpression, "PositionId"

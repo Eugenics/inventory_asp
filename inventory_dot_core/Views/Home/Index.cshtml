@@ -6,11 +6,68 @@
 @{ var myMessage = "Hello World"; }
 @{ var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");}
 
-    <div class="text-center">
-        <h1 class="display-4">Добро пожаловать!</h1>
-        <!--
-    <p>The value of your account is: @total </p>
-    <p>The value of myMessage is: @myMessage</p>
-    <p>Environment is: @env</p>
-    -->
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать!</h1>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-content">
+                <a class="btn btn-outline-info btn-lg"
+                   asp-area=""
+                   asp-controller="Employees"
+                   asp-action="Create"
+                   asp-route-page="1"
+                   asp-route-filter="EmployeeId"
+                   asp-route-sortExpression="WhardId"><i class="fas fa-desktop fa-lg"></i> | Новый сотрудник</a>                
+            </div>
+        </div>
     </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="card-content">
+                <a class="btn btn-outline-info btn-lg"
+                   asp-controller="RelHardwareEmployees"
+                   asp-action="Index"
+                   asp-route-employee_id="1"
+                   asp-route-emp_page="1"
+                   asp-route-emp_filter=""
+                   asp-route-emp_sortExpression=""
+                   asp-route-page="1"
+                   asp-route-filter=""
+                   asp-route-sortExpression=""><i class="fas fa-desktop fa-lg"></i> | Новое рабочее место</a>
+            </div>
+        </div>
+    </div>    
+    <div class="card">
+        <div class="card-content">
+            <div class="card-content">
+                <a class="btn btn-outline-info btn-lg"
+                   asp-area=""
+                   asp-controller="WealthHardwares"
+                   asp-action="Create"
+                   asp-route-page="1"
+                   asp-route-filter=""
+                   asp-route-sortExpression="WhardId">
+                    <i class="fas fa-mouse fa-lg"></i> | Новое оборудование
+                </a>
+            </div>            
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="card-content">
+                <a class="btn btn-outline-info btn-lg"
+                   asp-area=""
+                   asp-controller="WealthSoftWares"
+                   asp-action="Create"
+                   asp-route-page="1"
+                   asp-route-filter=""
+                   asp-route-sortExpression="">
+                   <i class="fas fa-mouse fa-dice-d20"></i> | Новый софт
+                </a>
+            </div>            
+        </div>
+    </div>
+</div>

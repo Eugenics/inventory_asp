@@ -11,67 +11,68 @@
 <partial name="_FilterPartial" />
 
 
-<h1>Помещения</h1>
 
 <p>
     <partial name="_CreateButton" />
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.SortableHeaderFor(model => model.OfficeName, "OfficeName")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OfficeNotes)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.OfficeHouses, "OfficeHouses,OfficeId")
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.OfficeHouses.HousesRegion, "HousesRegion,OfficeId")
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.OfficeIsStore, "OfficeIsStore,OfficeId")
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfficeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfficeNotes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfficeHouses.HousesName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfficeHouses.HousesRegion.RegionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfficeIsStore)
-            </td>
-            <td>
-                <a asp-action="Edit" class="btn btn-mdb-color btn-sm"
-                   asp-route-id="@item.OfficeId"
-                   asp-route-page="@Model.PageIndex"
-                   asp-route-filter="@ViewBag.Filter"
-                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
-                <a asp-action="Delete" class="btn btn-mdb-color btn-sm"
-                   asp-route-id="@item.OfficeId"
-                   asp-route-page="@Model.PageIndex"
-                   asp-route-filter="@ViewBag.Filter"
-                   asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div class="d-flex justify-content-center">
+    <table class="table table-striped w-auto">
+        <thead>
+            <tr>
+                <th>
+                    @Html.SortableHeaderFor(model => model.OfficeName, "OfficeName")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OfficeNotes)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.OfficeHouses, "OfficeHouses,OfficeId")
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.OfficeHouses.HousesRegion, "HousesRegion,OfficeId")
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.OfficeIsStore, "OfficeIsStore,OfficeId")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficeNotes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficeHouses.HousesName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficeHouses.HousesRegion.RegionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficeIsStore)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" class="btn btn-outline-info btn-circle btn-sm"
+                           asp-route-id="@item.OfficeId"
+                           asp-route-page="@Model.PageIndex"
+                           asp-route-filter="@ViewBag.Filter"
+                           asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-pencil-alt fa-lg"></i></a> |
+                        <a asp-action="Delete" class="btn btn-outline-info btn-circle btn-sm"
+                           asp-route-id="@item.OfficeId"
+                           asp-route-page="@Model.PageIndex"
+                           asp-route-filter="@ViewBag.Filter"
+                           asp-route-sortExpression="@ViewBag.SortExpression"><i class="fas fa-trash-alt fa-lg"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <nav>
     <partial name="_PagerPartial" />

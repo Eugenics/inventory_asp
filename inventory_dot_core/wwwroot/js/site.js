@@ -2,3 +2,13 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+
+$(document).ready(function () {
+
+	$('.card').queue(function (next) {
+		$(this).removeClass('hover');
+		$('a.hover').removeClass('hover');
+		next();
+	});
+});
